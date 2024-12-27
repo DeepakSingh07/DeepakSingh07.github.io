@@ -1,0 +1,397 @@
+<!DOCTYPE html> <html><head>
+		<title>ZCL_SD_GET_TIMELINE</title>
+		<base href="..\..\../">
+		<meta id="root-path" root-path="..\..\../">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=5.0">
+		<meta charset="UTF-8">
+		<meta name="description" content="ACN Stuff - ZCL_SD_GET_TIMELINE">
+		<meta property="og:title" content="ZCL_SD_GET_TIMELINE">
+		<meta property="og:description" content="ACN Stuff - ZCL_SD_GET_TIMELINE">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="borealis/shipment-delivery/timeline/zcl_sd_get_timeline.html">
+		<meta property="og:image" content="undefined">
+		<meta property="og:site_name" content="ACN Stuff">
+		<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="lib/rss.xml"><script async="" id="webpage-script" src="lib/scripts/webpage.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script type="module" async="" id="graph-view-script" src="lib/scripts/graph-view.js"></script><script async="" id="graph-wasm-script" src="lib/scripts/graph-wasm.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="graph-render-worker-script" src="lib/scripts/graph-render-worker.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="tinycolor-script" src="lib/scripts/tinycolor.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="pixi-script" src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.4.0/pixi.min.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="minisearch-script" src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><link rel="icon" href="lib/media/favicon.png"><script async="" id="graph-data-script" src="lib/scripts/graph-data.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><style>body{--line-width:40em;--line-width-adaptive:40em;--file-line-width:40em;--sidebar-width:min(20em, 80vw);--collapse-arrow-size:11px;--tree-horizontal-spacing:0.6em;--tree-vertical-spacing:0.6em;--sidebar-margin:12px}.sidebar{height:100%;min-width:calc(var(--sidebar-width) + var(--divider-width-hover));max-width:calc(var(--sidebar-width) + var(--divider-width-hover));font-size:14px;z-index:10;position:relative;overflow:hidden;transition:min-width ease-in-out,max-width ease-in-out;transition-duration:.2s;contain:size}.sidebar-left{left:0}.sidebar-right{right:0}.sidebar.is-collapsed{min-width:0;max-width:0}body.floating-sidebars .sidebar{position:absolute}.sidebar-content{height:100%;min-width:calc(var(--sidebar-width) - var(--divider-width-hover));top:0;padding:var(--sidebar-margin);padding-top:4em;line-height:var(--line-height-tight);background-color:var(--background-secondary);transition:background-color,border-right,border-left,box-shadow;transition-duration:var(--color-fade-speed);transition-timing-function:ease-in-out;position:absolute;display:flex;flex-direction:column}.sidebar:not(.is-collapsed) .sidebar-content{min-width:calc(max(100%,var(--sidebar-width)) - 3px);max-width:calc(max(100%,var(--sidebar-width)) - 3px)}.sidebar-left .sidebar-content{left:0;border-top-right-radius:var(--radius-l);border-bottom-right-radius:var(--radius-l)}.sidebar-right .sidebar-content{right:0;border-top-left-radius:var(--radius-l);border-bottom-left-radius:var(--radius-l)}.sidebar:has(.sidebar-content:empty):has(.topbar-content:empty){display:none}.sidebar-topbar{height:2em;width:var(--sidebar-width);top:var(--sidebar-margin);padding-inline:var(--sidebar-margin);z-index:1;position:fixed;display:flex;align-items:center;transition:width ease-in-out;transition-duration:inherit}.sidebar.is-collapsed .sidebar-topbar{width:calc(2.3em + var(--sidebar-margin) * 2)}.sidebar .sidebar-topbar.is-collapsed{width:0}.sidebar-left .sidebar-topbar{left:0}.sidebar-right .sidebar-topbar{right:0}.topbar-content{overflow:hidden;overflow:clip;width:100%;height:100%;display:flex;align-items:center;transition:inherit}.sidebar.is-collapsed .topbar-content{width:0;transition:inherit}.clickable-icon.sidebar-collapse-icon{background-color:transparent;color:var(--icon-color-focused);padding:0!important;margin:0!important;height:100%!important;width:2.3em!important;margin-inline:0.14em!important;position:absolute}.sidebar-left .clickable-icon.sidebar-collapse-icon{transform:rotateY(180deg);right:var(--sidebar-margin)}.sidebar-right .clickable-icon.sidebar-collapse-icon{transform:rotateY(180deg);left:var(--sidebar-margin)}.clickable-icon.sidebar-collapse-icon svg.svg-icon{width:100%;height:100%}.sidebar-section-header{margin:0 0 1em 0;text-transform:uppercase;letter-spacing:.06em;font-weight:600}body{transition:background-color var(--color-fade-speed) ease-in-out}.webpage-container{display:flex;flex-direction:row;height:100%;width:100%;align-items:stretch;justify-content:center}.document-container{opacity:1;flex-basis:100%;max-width:100%;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;transition:opacity .2s ease-in-out;contain:inline-size}.hide{opacity:0;transition:opacity .2s ease-in-out}.document-container>.markdown-preview-view{margin:var(--sidebar-margin);margin-bottom:0;width:100%;width:-webkit-fill-available;width:-moz-available;width:fill-available;background-color:var(--background-primary);transition:background-color var(--color-fade-speed) ease-in-out;border-top-right-radius:var(--window-radius,var(--radius-m));border-top-left-radius:var(--window-radius,var(--radius-m));overflow-x:hidden!important;overflow-y:auto!important;display:flex!important;flex-direction:column!important;align-items:center!important;contain:inline-size}.document-container>.markdown-preview-view>.markdown-preview-sizer{padding-bottom:80vh!important;width:100%!important;max-width:var(--line-width)!important;flex-basis:var(--line-width)!important;transition:background-color var(--color-fade-speed) ease-in-out;contain:inline-size}.markdown-rendered img:not([width]),.view-content img:not([width]){max-width:100%;outline:0}.document-container>.view-content.embed{display:flex;padding:1em;height:100%;width:100%;align-items:center;justify-content:center}.document-container>.view-content.embed>*{max-width:100%;max-height:100%;object-fit:contain}:has(> :is(.math,table)){overflow-x:auto!important}.document-container>.view-content{overflow-x:auto;contain:content;padding:0;margin:0;height:100%}.scroll-highlight{position:absolute;width:100%;height:100%;pointer-events:none;z-index:1000;background-color:hsla(var(--color-accent-hsl),.25);opacity:0;padding:1em;inset:50%;translate:-50% -50%;border-radius:var(--radius-s)}</style><script defer="">async function loadIncludes(){if("file:"!=location.protocol){let e=document.querySelectorAll("include");for(let t=0;t<e.length;t++){let o=e[t],l=o.getAttribute("src");try{const e=await fetch(l);if(!e.ok){console.log("Could not include file: "+l),o?.remove();continue}let t=await e.text(),n=document.createRange().createContextualFragment(t),i=Array.from(n.children);for(let e of i)e.classList.add("hide"),e.style.transition="opacity 0.5s ease-in-out",setTimeout((()=>{e.classList.remove("hide")}),10);o.before(n),o.remove(),console.log("Included file: "+l)}catch(e){o?.remove(),console.log("Could not include file: "+l,e);continue}}}else{if(document.querySelectorAll("include").length>0){var e=document.createElement("div");e.id="error",e.textContent="Web server exports must be hosted on an http / web server to be viewed correctly.",e.style.position="fixed",e.style.top="50%",e.style.left="50%",e.style.transform="translate(-50%, -50%)",e.style.fontSize="1.5em",e.style.fontWeight="bold",e.style.textAlign="center",document.body.appendChild(e),document.querySelector(".document-container")?.classList.remove("hide")}}}document.addEventListener("DOMContentLoaded",(()=>{loadIncludes()}));let isFileProtocol="file:"==location.protocol;function waitLoadScripts(e,t){let o=e.map((e=>document.getElementById(e+"-script"))),l=0;!function e(){let n=o[l];l++,n&&"true"!=n.getAttribute("loaded")||l<o.length&&e(),l<o.length?n.addEventListener("load",e):t()}()}</script><link rel="stylesheet" href="lib/styles/obsidian.css"><link rel="stylesheet" href="lib/styles/theme.css"><link rel="preload" href="lib/styles/global-variable-styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="lib/styles/global-variable-styles.css"></noscript><link rel="preload" href="lib/styles/main-styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="lib/styles/main-styles.css"></noscript></head><body class="publish css-settings-manager theme-dark show-inline-title show-ribbon"><script defer="">let theme=localStorage.getItem("theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"==theme?(document.body.classList.add("theme-dark"),document.body.classList.remove("theme-light")):(document.body.classList.add("theme-light"),document.body.classList.remove("theme-dark")),window.innerWidth<480?document.body.classList.add("is-phone"):window.innerWidth<768?document.body.classList.add("is-tablet"):window.innerWidth<1024?document.body.classList.add("is-small-screen"):document.body.classList.add("is-large-screen")</script><div class="webpage-container workspace"><div class="sidebar-left sidebar"><div class="sidebar-handle"></div><div class="sidebar-topbar"><div class="topbar-content"><label class="theme-toggle-container" for="theme_toggle"><input class="theme-toggle-input" type="checkbox" id="theme_toggle"><div class="toggle-background"></div></label></div><div class="clickable-icon sidebar-collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M21 3H3C1.89543 3 1 3.89543 1 5V19C1 20.1046 1.89543 21 3 21H21C22.1046 21 23 20.1046 23 19V5C23 3.89543 22.1046 3 21 3Z"></path><path d="M10 4V20"></path><path d="M4 7H7"></path><path d="M4 10H7"></path><path d="M4 13H7"></path></svg></div></div><div class="sidebar-content"><div class="search-input-container"><input enterkeyhint="search" type="search" spellcheck="false" placeholder="Search..."><div class="search-input-clear-button" aria-label="Clear search"></div></div><include src="lib/html/file-tree.html"></include></div><script defer="">let ls = document.querySelector(".sidebar-left"); ls.classList.add("is-collapsed"); if (window.innerWidth > 768) ls.classList.remove("is-collapsed"); ls.style.setProperty("--sidebar-width", localStorage.getItem("sidebar-left-width"));</script></div><div class="document-container markdown-reading-view hide"><div class="markdown-preview-view markdown-rendered allow-fold-headings allow-fold-lists is-readable-line-width"><style id="MJX-CHTML-styles"></style><div class="markdown-preview-sizer markdown-preview-section"><h1 class="page-title heading inline-title" id="ZCL_SD_GET_TIMELINE">ZCL_SD_GET_TIMELINE</h1><div class="el-pre"><pre class="language-abap" tabindex="0"><code data-line="0" class="language-abap is-loaded"><span class="token keyword">CLASS</span> zcl_sd_get_timeline <span class="token keyword">DEFINITION</span>
+  <span class="token keyword">PUBLIC</span>
+  <span class="token keyword">FINAL</span>
+  <span class="token keyword">CREATE</span> <span class="token keyword">PUBLIC</span> <span class="token punctuation">.</span>
+
+  <span class="token keyword">PUBLIC</span> <span class="token keyword">SECTION</span><span class="token punctuation">.</span>
+    <span class="token keyword">INTERFACES</span> if_rap_query_provider<span class="token punctuation">.</span>
+    <span class="token keyword">DATA</span><span class="token punctuation">:</span>
+      lc_obj      <span class="token keyword">TYPE</span> <span class="token keyword">REF</span> <span class="token keyword">TO</span> zcl_sd_shipment_wrapper<span class="token punctuation">,</span>
+      ls_timeline <span class="token keyword">TYPE</span> zce_sd_get_timeline<span class="token punctuation">,</span>
+      lt_timeline <span class="token keyword">TYPE</span> <span class="token keyword">TABLE</span> <span class="token keyword">OF</span> zce_sd_get_timeline<span class="token punctuation">.</span>
+  <span class="token keyword">PROTECTED</span> <span class="token keyword">SECTION</span><span class="token punctuation">.</span>
+  <span class="token keyword">PRIVATE</span> <span class="token keyword">SECTION</span><span class="token punctuation">.</span>
+<span class="token keyword">ENDCLASS</span><span class="token punctuation">.</span>
+
+
+
+<span class="token keyword">CLASS</span> zcl_sd_get_timeline <span class="token keyword">IMPLEMENTATION</span><span class="token punctuation">.</span>
+
+
+  <span class="token keyword">METHOD</span> if_rap_query_provider<span class="token token-operator punctuation">~</span>select<span class="token punctuation">.</span>
+
+    <span class="token keyword">CONSTANTS</span><span class="token punctuation">:</span>
+        lc_sales_order <span class="token keyword">TYPE</span> string <span class="token keyword">VALUE</span> <span class="token string">'Sales Order'</span><span class="token punctuation">.</span>
+
+    <span class="token keyword">TYPES</span><span class="token punctuation">:</span> <span class="token keyword">BEGIN</span> <span class="token keyword">OF</span> lty_s_doc_flow_relation<span class="token punctuation">,</span>
+             source_key <span class="token keyword">TYPE</span> zbobf_conf_key<span class="token punctuation">,</span>
+             target_key <span class="token keyword">TYPE</span> zbobf_conf_key<span class="token punctuation">,</span>
+             relshp     <span class="token keyword">TYPE</span> zscmtms_doc_flow_relshp<span class="token punctuation">,</span>
+           <span class="token keyword">END</span> <span class="token keyword">OF</span> lty_s_doc_flow_relation<span class="token punctuation">,</span>
+
+           lty_ts_doc_flow_relation <span class="token keyword">TYPE</span> <span class="token keyword">SORTED</span> <span class="token keyword">TABLE</span> <span class="token keyword">OF</span> lty_s_doc_flow_relation
+                                      <span class="token keyword">WITH</span> <span class="token keyword">NON-UNIQUE</span> <span class="token keyword">KEY</span> primary_key <span class="token keyword">COMPONENTS</span> source_key target_key
+                                      <span class="token keyword">WITH</span> <span class="token keyword">NON-UNIQUE</span> <span class="token keyword">SORTED</span> <span class="token keyword">KEY</span> target_key <span class="token keyword">COMPONENTS</span> target_key<span class="token punctuation">.</span>
+
+    <span class="token keyword">DATA</span><span class="token punctuation">:</span> lv_vkorg                <span class="token keyword">TYPE</span> z_vkorg<span class="token punctuation">,</span>                     <span class="token eol-comment comment">"Sales organization</span>
+          lv_kunnr                <span class="token keyword">TYPE</span> z_kunnr<span class="token punctuation">,</span>                     <span class="token eol-comment comment">"SoldTo ID</span>
+          lv_noofdaysinpast       <span class="token keyword">TYPE</span> zzall<span class="token token-operator punctuation">-</span>value<span class="token punctuation">,</span>                 <span class="token eol-comment comment">"No. of days in Past</span>
+          lv_shipmentNumber       <span class="token keyword">TYPE</span> z_tms_doc_nr<span class="token punctuation">,</span>                 <span class="token eol-comment comment">"ShipmentID</span>
+
+          lo_tms_docflow          <span class="token keyword">TYPE</span> <span class="token keyword">REF</span> <span class="token keyword">TO</span> zcl_tms_docflow_data<span class="token punctuation">,</span>
+
+          lv_key                  <span class="token keyword">TYPE</span> zbobf_conf_key<span class="token punctuation">,</span>
+
+          lt_fu_key               <span class="token keyword">TYPE</span> zbobf_t_frw_key<span class="token punctuation">,</span>
+          lt_root_table_relation  <span class="token keyword">TYPE</span> lty_ts_doc_flow_relation<span class="token punctuation">,</span>
+          lt_root_table           <span class="token keyword">TYPE</span> zscmtms_t_doc_flow<span class="token punctuation">,</span>
+          lt_root_table_relation1 <span class="token keyword">TYPE</span> <span class="token keyword">TABLE</span> <span class="token keyword">OF</span> lty_s_doc_flow_relation<span class="token punctuation">.</span>
+
+    <span class="token eol-comment comment">" -----------------------------------------------------</span>
+
+    <span class="token keyword">TRY</span><span class="token punctuation">.</span>
+
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lO_paging<span class="token punctuation">)</span> <span class="token operator">=</span> io_request<span class="token token-operator punctuation">-&gt;</span>get_paging<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>    <span class="token eol-comment comment">"Get Paging Information from Request</span>
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_rows<span class="token punctuation">)</span> <span class="token operator">=</span> lO_paging<span class="token token-operator punctuation">-&gt;</span>get_page_size<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>    <span class="token eol-comment comment">"Get Max Rows</span>
+
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_top<span class="token punctuation">)</span>    <span class="token operator">=</span> io_request<span class="token token-operator punctuation">-&gt;</span>get_paging<span class="token punctuation">(</span> <span class="token punctuation">)</span>-&gt;get_page_size<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_skip<span class="token punctuation">)</span>   <span class="token operator">=</span> io_request<span class="token token-operator punctuation">-&gt;</span>get_paging<span class="token punctuation">(</span> <span class="token punctuation">)</span>-&gt;get_offset<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">"Get ORder by string to get top and skip records</span>
+
+        <span class="token keyword">DATA</span> lv_orderby_string <span class="token keyword">TYPE</span> string<span class="token punctuation">.</span>
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lt_sort<span class="token punctuation">)</span> <span class="token operator">=</span> io_request<span class="token token-operator punctuation">-&gt;</span>get_sort_elements<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">" $order by was called</span>
+
+        <span class="token keyword">IF</span> lt_sort <span class="token keyword">IS</span> <span class="token keyword">NOT</span> <span class="token keyword">INITIAL</span><span class="token punctuation">.</span>
+          <span class="token keyword">CLEAR</span> lv_orderby_string<span class="token punctuation">.</span>
+          <span class="token keyword">LOOP</span> <span class="token keyword">AT</span> lt_sort <span class="token keyword">INTO</span> <span class="token keyword">DATA</span><span class="token punctuation">(</span>ls_sort<span class="token punctuation">)</span><span class="token punctuation">.</span>
+            <span class="token keyword">IF</span> ls_sort<span class="token token-operator punctuation">-</span>descending <span class="token operator">=</span> abap_true<span class="token punctuation">.</span>
+              <span class="token keyword">CONCATENATE</span> lv_orderby_string ls_sort<span class="token token-operator punctuation">-</span>element_name <span class="token string">'DESCENDING'</span> <span class="token keyword">INTO</span> lv_orderby_string <span class="token keyword">SEPARATED</span> <span class="token keyword">BY</span> <span class="token keyword">space</span><span class="token punctuation">.</span>
+            <span class="token keyword">ELSE</span><span class="token punctuation">.</span>
+              <span class="token keyword">CONCATENATE</span> lv_orderby_string ls_sort<span class="token token-operator punctuation">-</span>element_name <span class="token string">'ASCENDING'</span> <span class="token keyword">INTO</span> lv_orderby_string <span class="token keyword">SEPARATED</span> <span class="token keyword">BY</span> <span class="token keyword">space</span><span class="token punctuation">.</span>
+            <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+          <span class="token keyword">ENDLOOP</span><span class="token punctuation">.</span>
+        <span class="token keyword">ELSE</span><span class="token punctuation">.</span>
+
+          <span class="token eol-comment comment">"If no sorting criteria provided, use Default</span>
+          lv_orderby_string <span class="token operator">=</span> <span class="token string">'SALESORGANIZATION, SOLDTOID, NOOFDAYSINPAST, SHIPMENTID'</span><span class="token punctuation">.</span>
+        <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+
+
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>filter_condition<span class="token punctuation">)</span> <span class="token operator">=</span> io_request<span class="token token-operator punctuation">-&gt;</span>get_filter<span class="token punctuation">(</span> <span class="token punctuation">)</span>-&gt;get_as_ranges<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token keyword">LOOP</span> <span class="token keyword">AT</span> filter_condition <span class="token keyword">ASSIGNING</span> <span class="token keyword">FIELD-SYMBOL</span><span class="token punctuation">(</span>&lt;lf_cond&gt;<span class="token punctuation">)</span><span class="token punctuation">.</span>
+          <span class="token keyword">CASE</span> &lt;lf_cond&gt;-name<span class="token punctuation">.</span>
+
+            <span class="token keyword">WHEN</span> <span class="token string">'SALESORGANIZATION'</span><span class="token punctuation">.</span>
+              lv_vkorg <span class="token operator">=</span> &lt;lf_cond&gt;-range[ <span class="token number">1</span> ]-low<span class="token punctuation">.</span>
+
+            <span class="token keyword">WHEN</span> <span class="token string">'SOLDTOID'</span><span class="token punctuation">.</span>
+              lv_kunnr <span class="token operator">=</span> &lt;lf_cond&gt;-range[ <span class="token number">1</span> ]-low<span class="token punctuation">.</span>
+
+            <span class="token keyword">WHEN</span> <span class="token string">'NOOFDAYSINPAST'</span><span class="token punctuation">.</span>
+              lv_noofdaysinpast <span class="token operator">=</span> &lt;lf_cond&gt;-range[ <span class="token number">1</span> ]-low<span class="token punctuation">.</span>
+
+            <span class="token keyword">WHEN</span> <span class="token string">'SHIPMENTID'</span><span class="token punctuation">.</span>
+              lv_shipmentNumber <span class="token operator">=</span> &lt;lf_cond&gt;-range[ <span class="token number">1</span> ]-low<span class="token punctuation">.</span>
+
+              <span class="token keyword">CREATE</span> <span class="token keyword">OBJECT</span> lc_obj<span class="token punctuation">.</span>
+
+              lc_obj<span class="token token-operator punctuation">-&gt;</span>zif_shipment_wrap_conversion<span class="token token-operator punctuation">~</span>fm_input<span class="token punctuation">(</span>
+              <span class="token keyword">EXPORTING</span>
+                lv_var1 <span class="token operator">=</span> lv_shipmentNumber
+              <span class="token keyword">IMPORTING</span>
+                lv_var2 <span class="token operator">=</span> lv_shipmentNumber
+            <span class="token punctuation">)</span><span class="token punctuation">.</span>
+          <span class="token keyword">ENDCASE</span><span class="token punctuation">.</span>
+        <span class="token keyword">ENDLOOP</span><span class="token punctuation">.</span>
+
+      <span class="token keyword">CATCH</span> cx_rap_query_filter_no_range <span class="token keyword">INTO</span> <span class="token keyword">DATA</span><span class="token punctuation">(</span>lo_range_ex<span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_error<span class="token punctuation">)</span> <span class="token operator">=</span> lo_range_ex<span class="token token-operator punctuation">-&gt;</span>get_text<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+    <span class="token keyword">ENDTRY</span><span class="token punctuation">.</span>
+
+    <span class="token eol-comment comment">" ----------------------------------------------</span>
+
+
+
+    <span class="token keyword">IF</span> lv_shipmentNumber <span class="token keyword">IS</span> <span class="token keyword">INITIAL</span><span class="token punctuation">.</span>
+
+      <span class="token keyword">APPEND</span> <span class="token keyword">INITIAL</span> <span class="token keyword">LINE</span> <span class="token keyword">TO</span> lt_timeline <span class="token keyword">ASSIGNING</span> <span class="token keyword">FIELD-SYMBOL</span><span class="token punctuation">(</span>&lt;lf_timeline&gt;<span class="token punctuation">)</span><span class="token punctuation">.</span>
+      &lt;lf_timeline&gt;-Message_Type <span class="token operator">=</span> TEXT-<span class="token number">001</span><span class="token punctuation">.</span> <span class="token eol-comment comment">"</span><span class="token string">'E'</span><span class="token punctuation">.</span>
+      &lt;lf_timeline&gt;-Message <span class="token operator">=</span> TEXT-<span class="token number">003</span><span class="token punctuation">.</span> <span class="token eol-comment comment">"</span><span class="token string">'Shipment Number is Mandatory Input to get Timeline Details.'</span><span class="token punctuation">.</span>
+
+    <span class="token keyword">ELSEIF</span> lv_vkorg <span class="token keyword">IS</span> <span class="token keyword">INITIAL</span> <span class="token keyword">OR</span> lv_kunnr <span class="token keyword">IS</span> <span class="token keyword">INITIAL</span><span class="token punctuation">.</span>
+
+      <span class="token keyword">APPEND</span> <span class="token keyword">INITIAL</span> <span class="token keyword">LINE</span> <span class="token keyword">TO</span> lt_timeline <span class="token keyword">ASSIGNING</span> &lt;lf_timeline&gt;<span class="token punctuation">.</span>
+      &lt;lf_timeline&gt;-Message_Type <span class="token operator">=</span> TEXT-<span class="token number">001</span><span class="token punctuation">.</span> <span class="token eol-comment comment">"</span><span class="token string">'E'</span><span class="token punctuation">.</span>
+      &lt;lf_timeline&gt;-Message <span class="token operator">=</span> TEXT-<span class="token number">002</span><span class="token punctuation">.</span> <span class="token eol-comment comment">"</span><span class="token string">'Sales Organization and SoldToID are Mandatory Fields.'</span><span class="token punctuation">.</span>
+
+    <span class="token keyword">ELSE</span><span class="token punctuation">.</span>
+<span class="token comment">*      APPEND INITIAL LINE TO lt_timeline ASSIGNING &lt;lf_timeline&gt;.</span>
+      <span class="token keyword">IF</span> lv_noofdaysinpast <span class="token keyword">IS</span> <span class="token keyword">INITIAL</span><span class="token punctuation">.</span>
+
+        <span class="token keyword">SELECT</span> <span class="token keyword">value</span> <span class="token keyword">FROM</span> zzall
+        <span class="token keyword">WHERE</span>   zzid1 <span class="token operator">=</span> <span class="token string">'MYB'</span> <span class="token keyword">AND</span>
+                zzid2 <span class="token operator">=</span> <span class="token string">'SHIPMENTS'</span> <span class="token keyword">AND</span>
+                zzid3 <span class="token operator">=</span> <span class="token string">'DAYS_PAST'</span>
+            <span class="token keyword">INTO</span> @lv_noofdaysinpast<span class="token punctuation">.</span>
+        <span class="token keyword">ENDSELECT</span><span class="token punctuation">.</span>
+
+      <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+
+      <span class="token keyword">IF</span>  ls_timeline<span class="token token-operator punctuation">-</span>Message <span class="token keyword">IS</span> <span class="token keyword">INITIAL</span><span class="token punctuation">.</span>
+
+        <span class="token keyword">SELECT</span> db_key <span class="token keyword">FROM</span> zi_transportationorder
+            <span class="token keyword">WHERE</span> tor_id <span class="token operator">=</span> @lv_shipmentNumber
+            <span class="token keyword">INTO</span> @lv_key<span class="token punctuation">.</span>
+        <span class="token keyword">ENDSELECT</span><span class="token punctuation">.</span>
+
+        lt_fu_key   <span class="token operator">=</span> <span class="token keyword">VALUE</span> #<span class="token punctuation">(</span> <span class="token punctuation">(</span> <span class="token keyword">key</span> <span class="token operator">=</span> lv_key <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token keyword">CREATE</span> <span class="token keyword">OBJECT</span> lc_obj<span class="token punctuation">.</span>
+
+        lc_obj<span class="token token-operator punctuation">-&gt;</span>zif_shipment_wrap_conversion<span class="token token-operator punctuation">~</span>fm_alpha_output<span class="token punctuation">(</span>
+          <span class="token keyword">EXPORTING</span>
+            lv_var1 <span class="token operator">=</span> lv_shipmentNumber
+          <span class="token keyword">IMPORTING</span>
+            lv_var2 <span class="token operator">=</span> lv_shipmentNumber
+        <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">" ---- Getting Event Types</span>
+        <span class="token keyword">SELECT</span> <span class="token operator">*</span>
+            <span class="token keyword">FROM</span> zsd_myb_ship_tl
+            <span class="token keyword">WHERE</span> zzactive <span class="token operator">=</span> @abap_true
+            <span class="token keyword">INTO</span> <span class="token keyword">TABLE</span> @DATA<span class="token punctuation">(</span>lt_ship_tl<span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token keyword">IF</span> sy<span class="token token-operator punctuation">-</span>subrc <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">.</span>
+          <span class="token keyword">SORT</span> lt_ship_tl <span class="token keyword">BY</span> ZzeventType<span class="token punctuation">.</span>
+        <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">" --- Getting Order Number</span>
+        lc_obj<span class="token token-operator punctuation">-&gt;</span>zif_shipment_wrap_conversion<span class="token token-operator punctuation">~</span>get_doc_flow<span class="token punctuation">(</span>
+          <span class="token keyword">EXPORTING</span>
+            lt_key  <span class="token operator">=</span> lt_fu_key
+          <span class="token keyword">CHANGING</span>
+            lt_root <span class="token operator">=</span> lt_root_table
+        <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token keyword">LOOP</span> <span class="token keyword">AT</span> lt_root_table <span class="token keyword">INTO</span> <span class="token keyword">DATA</span><span class="token punctuation">(</span>ls_root_table<span class="token punctuation">)</span><span class="token punctuation">.</span>
+          <span class="token keyword">IF</span> ls_root_table<span class="token token-operator punctuation">-</span>bo_type_descr <span class="token operator">=</span> lc_sales_order<span class="token punctuation">.</span>
+            <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_ordernr<span class="token punctuation">)</span> <span class="token operator">=</span> ls_root_table<span class="token token-operator punctuation">-</span>bo_id+<span class="token number">25</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">.</span>
+          <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+        <span class="token keyword">ENDLOOP</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">" --- Getting Order Item</span>
+        <span class="token keyword">SELECT</span> SalesDocumentItem <span class="token keyword">FROM</span> i_salesdocumentitem
+            <span class="token keyword">WHERE</span> SalesDocument <span class="token operator">=</span> @lv_ordernr
+            <span class="token keyword">INTO</span> @DATA<span class="token punctuation">(</span>lv_orderitem<span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token keyword">ENDSELECT</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">" -----------</span>
+        <span class="token keyword">SELECT</span>  SalesDocument<span class="token punctuation">,</span>
+                SalesDocumentItem<span class="token punctuation">,</span>
+                CreationDate<span class="token punctuation">,</span>
+                CreationTime<span class="token punctuation">,</span>
+                RequestedDeliveryDate
+                <span class="token keyword">FROM</span> i_salesdocumentitem <span class="token keyword">AS</span> vbap
+                <span class="token keyword">WHERE</span>   SalesDocument       <span class="token operator">=</span> @lv_ordernr <span class="token keyword">AND</span>
+                        SalesDocumentItem   <span class="token operator">=</span> @lv_orderitem <span class="token keyword">AND</span>
+                        SalesOrganization   <span class="token operator">=</span> @lv_vkorg <span class="token keyword">AND</span>
+                        SoldToParty         <span class="token operator">=</span> @lv_kunnr
+                <span class="token keyword">INTO</span> @DATA<span class="token punctuation">(</span>ls_vbap<span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token keyword">ENDSELECT</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">" --- for TL001</span>
+        lt_timeline <span class="token operator">=</span> <span class="token keyword">VALUE</span> #<span class="token punctuation">(</span>  <span class="token keyword">BASE</span> lt_timeline
+
+                                <span class="token keyword">FOR</span> lwa_ship_tl <span class="token keyword">IN</span> lt_ship_tl
+                                <span class="token keyword">WHERE</span> <span class="token punctuation">(</span> ZzeventType <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">TL001</span><span class="token token-operator punctuation">|</span> <span class="token punctuation">)</span>
+
+                                <span class="token punctuation">(</span>   shipmentId            <span class="token operator">=</span> lv_shipmentnumber
+                                    SalesOrganization   <span class="token operator">=</span> lv_vkorg
+                                    NoOfDaysInPast      <span class="token operator">=</span> lv_noofdaysinpast
+                                    SoldToID <span class="token operator">=</span> lv_kunnr
+
+                                    eventType         <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">TL001</span><span class="token token-operator punctuation">|</span>
+                                    eventDate           <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string"></span><span class="token token-operator punctuation">{</span>  ls_vbap<span class="token token-operator punctuation">-</span>CreationDate+<span class="token number">6</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">.</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                                              ls_vbap<span class="token token-operator punctuation">-</span>CreationDate+<span class="token number">4</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">.</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                                              ls_vbap<span class="token token-operator punctuation">-</span>CreationDate+<span class="token number">0</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">.</span><span class="token token-operator punctuation">|</span><span class="token string-template string"> }</span><span class="token token-operator punctuation">|</span>
+                                    eventTime           <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string"></span><span class="token token-operator punctuation">{</span>  ls_vbap<span class="token token-operator punctuation">-</span>CreationTime+<span class="token number">0</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">:</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                                              ls_vbap<span class="token token-operator punctuation">-</span>CreationTime+<span class="token number">2</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">:</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                                              ls_vbap<span class="token token-operator punctuation">-</span>CreationTime+<span class="token number">4</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token token-operator punctuation">}</span><span class="token string-template string"></span><span class="token token-operator punctuation">|</span>
+                                    variable2              <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocument
+                                    variable3              <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocumentItem
+                                 <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">" --- for TL002</span>
+        <span class="token keyword">DATA</span> lr_objectid       <span class="token keyword">TYPE</span> <span class="token keyword">RANGE</span> <span class="token keyword">OF</span> z_cdobjectv<span class="token punctuation">.</span>
+        <span class="token keyword">DATA</span> lt_cdhdr_cdpos <span class="token keyword">TYPE</span> <span class="token keyword">STANDARD</span> <span class="token keyword">TABLE</span> <span class="token keyword">OF</span> zsd_cdhdr_cds<span class="token punctuation">.</span>
+
+        <span class="token keyword">SELECT</span> <span class="token operator">*</span>
+           <span class="token keyword">FROM</span> zsd_cdhdr_cds
+           <span class="token keyword">WHERE</span> ChangeDocObject <span class="token keyword">EQ</span> @lv_ordernr
+           <span class="token keyword">AND</span> ChangeDocObjectClass <span class="token keyword">EQ</span> <span class="token string">'VERKBELEG'</span>
+           <span class="token keyword">AND</span> ChangeDocChangeType <span class="token keyword">EQ</span> <span class="token string">'U'</span>
+           <span class="token keyword">AND</span> DatabaseTable <span class="token keyword">EQ</span> <span class="token string">'VBAP'</span>
+           <span class="token keyword">AND</span> ChangeDocDatabaseTableField <span class="token keyword">EQ</span> <span class="token string">'ZZ1_STATUS_SDI'</span>
+           <span class="token keyword">INTO</span> <span class="token keyword">TABLE</span> @lt_cdhdr_cdpos<span class="token punctuation">.</span>
+
+        lt_timeline <span class="token operator">=</span>  <span class="token keyword">VALUE</span> #<span class="token punctuation">(</span> <span class="token keyword">BASE</span> lt_timeline
+                       <span class="token keyword">FOR</span> lwa_ship_tl <span class="token keyword">IN</span> lt_ship_tl
+                       <span class="token keyword">WHERE</span> <span class="token punctuation">(</span> ZzeventType <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">TL002</span><span class="token token-operator punctuation">|</span> <span class="token punctuation">)</span>
+
+                       <span class="token keyword">FOR</span> lwa_cdhdr_cdpos <span class="token keyword">IN</span> lt_cdhdr_cdpos
+                       <span class="token keyword">WHERE</span> <span class="token punctuation">(</span> ChangeDocObject <span class="token operator">=</span> lv_ordernr <span class="token keyword">AND</span>
+                               ChangeDocObjectClass <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">VERKBELEG</span><span class="token token-operator punctuation">|</span> <span class="token keyword">AND</span>
+                               DatabaseTable <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">VBAP</span><span class="token token-operator punctuation">|</span> <span class="token keyword">AND</span>
+                               ChangeDocDatabaseTableField <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">ZZ1_STATUS_SDI</span><span class="token token-operator punctuation">|</span>
+                       <span class="token punctuation">)</span>
+
+                       <span class="token punctuation">(</span>   eventType <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">TL002</span><span class="token token-operator punctuation">|</span>
+                           shipmentId            <span class="token operator">=</span> lv_shipmentnumber
+                           SalesOrganization   <span class="token operator">=</span> lv_vkorg
+                           NoOfDaysInPast      <span class="token operator">=</span> lv_noofdaysinpast
+                           SoldToID <span class="token operator">=</span> lv_kunnr
+                           eventDate <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string"></span><span class="token token-operator punctuation">{</span>   lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationDate+<span class="token number">6</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">.</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                            lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationDate+<span class="token number">4</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">.</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                            lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationDate+<span class="token number">0</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">.</span><span class="token token-operator punctuation">|</span><span class="token string-template string"> }</span><span class="token token-operator punctuation">|</span>
+                           eventTime <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string"></span><span class="token token-operator punctuation">{</span>   lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationTime+<span class="token number">0</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">:</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                            lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationTime+<span class="token number">2</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">:</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                            lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationTime+<span class="token number">4</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token token-operator punctuation">}</span><span class="token string-template string"></span><span class="token token-operator punctuation">|</span>
+                           variable1 <span class="token operator">=</span> lv_shipmentnumber
+                           variable2 <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocument
+                           variable3 <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocumentItem
+                           variable4 <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>RequestedDeliveryDate
+
+                       <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">" --- for TL003</span>
+        <span class="token keyword">SELECT</span> plan_trans_time
+        <span class="token keyword">FROM</span> ZI_TransportationOrderStop
+        <span class="token keyword">WHERE</span>   parent_key <span class="token operator">=</span> @lv_key <span class="token keyword">AND</span>
+                stop_cat <span class="token operator">=</span> <span class="token string">'O'</span>
+                <span class="token keyword">INTO</span> @DATA<span class="token punctuation">(</span>lv_datetime<span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token keyword">ENDSELECT</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">"20231013134852 - sample output of plan_trans_time</span>
+        <span class="token keyword">DATA</span> lv_strdatetime <span class="token keyword">TYPE</span> string<span class="token punctuation">.</span>
+        lv_strdatetime <span class="token operator">=</span> lv_datetime<span class="token punctuation">.</span>
+
+        <span class="token keyword">CONCATENATE</span> lv_strdatetime+<span class="token number">6</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">'.'</span>
+                    lv_strdatetime+<span class="token number">4</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">'.'</span>
+                    lv_strdatetime+<span class="token number">0</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+                    <span class="token keyword">INTO</span> <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_date<span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token keyword">CONCATENATE</span> lv_strdatetime+<span class="token number">8</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">':'</span>
+                    lv_strdatetime+<span class="token number">10</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">':'</span>
+                    lv_strdatetime+<span class="token number">12</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+                    <span class="token keyword">INTO</span> <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_time<span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        lt_timeline <span class="token operator">=</span> <span class="token keyword">VALUE</span> #<span class="token punctuation">(</span> <span class="token keyword">BASE</span> lt_timeline
+                      <span class="token keyword">FOR</span> lwa_ship_tl <span class="token keyword">IN</span> lt_ship_tl
+                      <span class="token keyword">WHERE</span> <span class="token punctuation">(</span> ZzeventType <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">TL003</span><span class="token token-operator punctuation">|</span> <span class="token punctuation">)</span>
+
+                      <span class="token punctuation">(</span>   eventType <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">TL003</span><span class="token token-operator punctuation">|</span>
+                          shipmentId            <span class="token operator">=</span> lv_shipmentnumber
+                          SalesOrganization   <span class="token operator">=</span> lv_vkorg
+                          NoOfDaysInPast      <span class="token operator">=</span> lv_noofdaysinpast
+                          SoldToID <span class="token operator">=</span> lv_kunnr
+                          eventDate <span class="token operator">=</span> lv_date
+                          eventTime <span class="token operator">=</span> lv_time
+                          variable1 <span class="token operator">=</span> lv_shipmentnumber
+                      <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+
+        <span class="token eol-comment comment">" --- for TL004</span>
+        <span class="token keyword">SELECT</span> plan_trans_time
+        <span class="token keyword">FROM</span> ZI_TransportationOrderStop
+        <span class="token keyword">WHERE</span>   parent_key <span class="token operator">=</span> @lv_key <span class="token keyword">AND</span>
+                stop_cat <span class="token operator">=</span> <span class="token string">'I'</span>
+                <span class="token keyword">INTO</span> @lv_datetime<span class="token punctuation">.</span>
+        <span class="token keyword">ENDSELECT</span><span class="token punctuation">.</span>
+
+        lv_strdatetime <span class="token operator">=</span> lv_datetime<span class="token punctuation">.</span>
+
+        <span class="token keyword">CONCATENATE</span> lv_strdatetime+<span class="token number">6</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">'.'</span>
+                    lv_strdatetime+<span class="token number">4</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">'.'</span>
+                    lv_strdatetime+<span class="token number">0</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+                    <span class="token keyword">INTO</span> lv_date<span class="token punctuation">.</span>
+
+        <span class="token keyword">CONCATENATE</span> lv_strdatetime+<span class="token number">8</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">':'</span>
+                    lv_strdatetime+<span class="token number">10</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">':'</span>
+                    lv_strdatetime+<span class="token number">12</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+                    <span class="token keyword">INTO</span> lv_time<span class="token punctuation">.</span>
+
+        lt_timeline <span class="token operator">=</span> <span class="token keyword">VALUE</span> #<span class="token punctuation">(</span> <span class="token keyword">BASE</span> lt_timeline
+                      <span class="token keyword">FOR</span> lwa_ship_tl <span class="token keyword">IN</span> lt_ship_tl
+                      <span class="token keyword">WHERE</span> <span class="token punctuation">(</span> ZzeventType <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">TL004</span><span class="token token-operator punctuation">|</span> <span class="token punctuation">)</span>
+
+                      <span class="token punctuation">(</span>   eventType <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">TL004</span><span class="token token-operator punctuation">|</span>
+                          shipmentId            <span class="token operator">=</span> lv_shipmentnumber
+                          SalesOrganization   <span class="token operator">=</span> lv_vkorg
+                          NoOfDaysInPast      <span class="token operator">=</span> lv_noofdaysinpast
+                          SoldToID <span class="token operator">=</span> lv_kunnr
+                          eventDate <span class="token operator">=</span> lv_date
+                          eventTime <span class="token operator">=</span> lv_time
+                          variable1 <span class="token operator">=</span> lv_shipmentnumber
+                      <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">" --- for TL005</span>
+        lt_timeline <span class="token operator">=</span> <span class="token keyword">VALUE</span> #<span class="token punctuation">(</span> <span class="token keyword">BASE</span> lt_timeline
+                      <span class="token keyword">FOR</span> lwa_ship_tl <span class="token keyword">IN</span> lt_ship_tl
+                      <span class="token keyword">WHERE</span> <span class="token punctuation">(</span> zzeventType <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">TL005</span><span class="token token-operator punctuation">|</span> <span class="token punctuation">)</span>
+
+                      <span class="token keyword">FOR</span> lwa_cdhdr_cdpos <span class="token keyword">IN</span> lt_cdhdr_cdpos
+                      <span class="token keyword">WHERE</span> <span class="token punctuation">(</span> ChangeDocObject <span class="token operator">=</span> lv_ordernr <span class="token keyword">AND</span>
+                              ChangeDocObjectClass <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">VERKBELEG</span><span class="token token-operator punctuation">|</span> <span class="token keyword">AND</span>
+                              DatabaseTable <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">VBEP</span><span class="token token-operator punctuation">|</span> <span class="token keyword">AND</span>
+                              ChangeDocDatabaseTableField <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">EDATU</span><span class="token token-operator punctuation">|</span>
+                      <span class="token punctuation">)</span>
+
+                      <span class="token punctuation">(</span>   eventType <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">TL005</span><span class="token token-operator punctuation">|</span>
+                      shipmentId            <span class="token operator">=</span> lv_shipmentnumber
+                                    SalesOrganization   <span class="token operator">=</span> lv_vkorg
+                                    NoOfDaysInPast      <span class="token operator">=</span> lv_noofdaysinpast
+                                    SoldToID <span class="token operator">=</span> lv_kunnr
+                          eventDate <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string"></span><span class="token token-operator punctuation">{</span>  lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationDate+<span class="token number">6</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">.</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                          lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationDate+<span class="token number">4</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">.</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                          lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationDate+<span class="token number">0</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">.</span><span class="token token-operator punctuation">|</span><span class="token string-template string"> }</span><span class="token token-operator punctuation">|</span>
+                          eventTime <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string"></span><span class="token token-operator punctuation">{</span>  lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationTime+<span class="token number">0</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">:</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                          lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationTime+<span class="token number">2</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>  <span class="token string-operator keyword">&amp;&amp;</span> <span class="token token-operator punctuation">|</span><span class="token string-template string">:</span><span class="token token-operator punctuation">|</span> <span class="token string-operator keyword">&amp;&amp;</span>
+                                          lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>CreationTime+<span class="token number">4</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token token-operator punctuation">}</span><span class="token string-template string"></span><span class="token token-operator punctuation">|</span>
+                          variable1 <span class="token operator">=</span> lv_shipmentnumber
+                          variable2 <span class="token operator">=</span> lv_ordernr
+                          variable3 <span class="token operator">=</span> lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>ChangeDocTableKey+<span class="token number">13</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span>
+                          variable4 <span class="token operator">=</span> lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>ChangeDocPreviousFieldValue
+                          variable5 <span class="token operator">=</span> lwa_cdhdr_cdpos<span class="token token-operator punctuation">-</span>ChangeDocNewFieldValue
+                      <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+      <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+    <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+
+    io_response<span class="token token-operator punctuation">-&gt;</span>set_total_number_of_records<span class="token punctuation">(</span> iv_total_number_of_records <span class="token operator">=</span> <span class="token keyword">lines</span><span class="token punctuation">(</span> lt_timeline <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+    io_response<span class="token token-operator punctuation">-&gt;</span>set_data<span class="token punctuation">(</span> it_data <span class="token operator">=</span> lt_timeline <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+  <span class="token keyword">ENDMETHOD</span><span class="token punctuation">.</span>
+<span class="token keyword">ENDCLASS</span><span class="token punctuation">.</span>
+</code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></pre></div><div class="mod-footer mod-ui"></div></div></div></div><div class="sidebar-right sidebar"><div class="sidebar-handle"></div><div class="sidebar-topbar"><div class="topbar-content"></div><div class="clickable-icon sidebar-collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M21 3H3C1.89543 3 1 3.89543 1 5V19C1 20.1046 1.89543 21 3 21H21C22.1046 21 23 20.1046 23 19V5C23 3.89543 22.1046 3 21 3Z"></path><path d="M10 4V20"></path><path d="M4 7H7"></path><path d="M4 10H7"></path><path d="M4 13H7"></path></svg></div></div><div class="sidebar-content"><div class="graph-view-wrapper"><div class="sidebar-section-header">Interactive Graph</div><div class="graph-view-placeholder">
+		<div class="graph-view-container">
+			<div class="graph-icon graph-expand" role="button" aria-label="Expand" data-tooltip-position="top"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></div>
+			<canvas id="graph-canvas" class="hide" width="512px" height="512px"></canvas>
+		</div>
+		</div></div><div class="tree-container mod-root nav-folder tree-item outline-tree" data-depth="0"><div class="tree-header"><span class="sidebar-section-header">Table Of Contents</span><button class="clickable-icon collapse-tree-button" aria-label="Collapse All"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg></button></div><div class="tree-scroll-area tree-item-children nav-folder-children"><div class="tree-item mod-tree-folder nav-folder mod-collapsible is-collapsed" style="display: none;"></div><div class="tree-item" data-depth="1"><a class="tree-link" href="borealis\shipment-delivery\timeline\zcl_sd_get_timeline.html#ZCL_SD_GET_TIMELINE"><div class="tree-item-contents heading-link" heading-name="ZCL_SD_GET_TIMELINE"><span class="tree-item-title">ZCL_SD_GET_TIMELINE</span></div></a><div class="tree-item-children nav-folder-children"></div></div></div></div></div><script defer="">let rs = document.querySelector(".sidebar-right"); rs.classList.add("is-collapsed"); if (window.innerWidth > 768) rs.classList.remove("is-collapsed"); rs.style.setProperty("--sidebar-width", localStorage.getItem("sidebar-right-width"));</script></div></div></body></html>

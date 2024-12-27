@@ -1,0 +1,366 @@
+<!DOCTYPE html> <html><head>
+		<title>ZCL_SD_GET_ORDERDETAILS</title>
+		<base href="..\..\../">
+		<meta id="root-path" root-path="..\..\../">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=5.0">
+		<meta charset="UTF-8">
+		<meta name="description" content="ACN Stuff - ZCL_SD_GET_ORDERDETAILS">
+		<meta property="og:title" content="ZCL_SD_GET_ORDERDETAILS">
+		<meta property="og:description" content="ACN Stuff - ZCL_SD_GET_ORDERDETAILS">
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="borealis/sale-order-item/order-item/zcl_sd_get_orderdetails.html">
+		<meta property="og:image" content="undefined">
+		<meta property="og:site_name" content="ACN Stuff">
+		<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="lib/rss.xml"><script async="" id="webpage-script" src="lib/scripts/webpage.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script type="module" async="" id="graph-view-script" src="lib/scripts/graph-view.js"></script><script async="" id="graph-wasm-script" src="lib/scripts/graph-wasm.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="graph-render-worker-script" src="lib/scripts/graph-render-worker.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="tinycolor-script" src="lib/scripts/tinycolor.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="pixi-script" src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/7.4.0/pixi.min.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><script async="" id="minisearch-script" src="https://cdn.jsdelivr.net/npm/minisearch@6.3.0/dist/umd/index.min.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><link rel="icon" href="lib/media/favicon.png"><script async="" id="graph-data-script" src="lib/scripts/graph-data.js" onload="this.onload=null;this.setAttribute(&quot;loaded&quot;, &quot;true&quot;)"></script><style>body{--line-width:40em;--line-width-adaptive:40em;--file-line-width:40em;--sidebar-width:min(20em, 80vw);--collapse-arrow-size:11px;--tree-horizontal-spacing:0.6em;--tree-vertical-spacing:0.6em;--sidebar-margin:12px}.sidebar{height:100%;min-width:calc(var(--sidebar-width) + var(--divider-width-hover));max-width:calc(var(--sidebar-width) + var(--divider-width-hover));font-size:14px;z-index:10;position:relative;overflow:hidden;transition:min-width ease-in-out,max-width ease-in-out;transition-duration:.2s;contain:size}.sidebar-left{left:0}.sidebar-right{right:0}.sidebar.is-collapsed{min-width:0;max-width:0}body.floating-sidebars .sidebar{position:absolute}.sidebar-content{height:100%;min-width:calc(var(--sidebar-width) - var(--divider-width-hover));top:0;padding:var(--sidebar-margin);padding-top:4em;line-height:var(--line-height-tight);background-color:var(--background-secondary);transition:background-color,border-right,border-left,box-shadow;transition-duration:var(--color-fade-speed);transition-timing-function:ease-in-out;position:absolute;display:flex;flex-direction:column}.sidebar:not(.is-collapsed) .sidebar-content{min-width:calc(max(100%,var(--sidebar-width)) - 3px);max-width:calc(max(100%,var(--sidebar-width)) - 3px)}.sidebar-left .sidebar-content{left:0;border-top-right-radius:var(--radius-l);border-bottom-right-radius:var(--radius-l)}.sidebar-right .sidebar-content{right:0;border-top-left-radius:var(--radius-l);border-bottom-left-radius:var(--radius-l)}.sidebar:has(.sidebar-content:empty):has(.topbar-content:empty){display:none}.sidebar-topbar{height:2em;width:var(--sidebar-width);top:var(--sidebar-margin);padding-inline:var(--sidebar-margin);z-index:1;position:fixed;display:flex;align-items:center;transition:width ease-in-out;transition-duration:inherit}.sidebar.is-collapsed .sidebar-topbar{width:calc(2.3em + var(--sidebar-margin) * 2)}.sidebar .sidebar-topbar.is-collapsed{width:0}.sidebar-left .sidebar-topbar{left:0}.sidebar-right .sidebar-topbar{right:0}.topbar-content{overflow:hidden;overflow:clip;width:100%;height:100%;display:flex;align-items:center;transition:inherit}.sidebar.is-collapsed .topbar-content{width:0;transition:inherit}.clickable-icon.sidebar-collapse-icon{background-color:transparent;color:var(--icon-color-focused);padding:0!important;margin:0!important;height:100%!important;width:2.3em!important;margin-inline:0.14em!important;position:absolute}.sidebar-left .clickable-icon.sidebar-collapse-icon{transform:rotateY(180deg);right:var(--sidebar-margin)}.sidebar-right .clickable-icon.sidebar-collapse-icon{transform:rotateY(180deg);left:var(--sidebar-margin)}.clickable-icon.sidebar-collapse-icon svg.svg-icon{width:100%;height:100%}.sidebar-section-header{margin:0 0 1em 0;text-transform:uppercase;letter-spacing:.06em;font-weight:600}body{transition:background-color var(--color-fade-speed) ease-in-out}.webpage-container{display:flex;flex-direction:row;height:100%;width:100%;align-items:stretch;justify-content:center}.document-container{opacity:1;flex-basis:100%;max-width:100%;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;transition:opacity .2s ease-in-out;contain:inline-size}.hide{opacity:0;transition:opacity .2s ease-in-out}.document-container>.markdown-preview-view{margin:var(--sidebar-margin);margin-bottom:0;width:100%;width:-webkit-fill-available;width:-moz-available;width:fill-available;background-color:var(--background-primary);transition:background-color var(--color-fade-speed) ease-in-out;border-top-right-radius:var(--window-radius,var(--radius-m));border-top-left-radius:var(--window-radius,var(--radius-m));overflow-x:hidden!important;overflow-y:auto!important;display:flex!important;flex-direction:column!important;align-items:center!important;contain:inline-size}.document-container>.markdown-preview-view>.markdown-preview-sizer{padding-bottom:80vh!important;width:100%!important;max-width:var(--line-width)!important;flex-basis:var(--line-width)!important;transition:background-color var(--color-fade-speed) ease-in-out;contain:inline-size}.markdown-rendered img:not([width]),.view-content img:not([width]){max-width:100%;outline:0}.document-container>.view-content.embed{display:flex;padding:1em;height:100%;width:100%;align-items:center;justify-content:center}.document-container>.view-content.embed>*{max-width:100%;max-height:100%;object-fit:contain}:has(> :is(.math,table)){overflow-x:auto!important}.document-container>.view-content{overflow-x:auto;contain:content;padding:0;margin:0;height:100%}.scroll-highlight{position:absolute;width:100%;height:100%;pointer-events:none;z-index:1000;background-color:hsla(var(--color-accent-hsl),.25);opacity:0;padding:1em;inset:50%;translate:-50% -50%;border-radius:var(--radius-s)}</style><script defer="">async function loadIncludes(){if("file:"!=location.protocol){let e=document.querySelectorAll("include");for(let t=0;t<e.length;t++){let o=e[t],l=o.getAttribute("src");try{const e=await fetch(l);if(!e.ok){console.log("Could not include file: "+l),o?.remove();continue}let t=await e.text(),n=document.createRange().createContextualFragment(t),i=Array.from(n.children);for(let e of i)e.classList.add("hide"),e.style.transition="opacity 0.5s ease-in-out",setTimeout((()=>{e.classList.remove("hide")}),10);o.before(n),o.remove(),console.log("Included file: "+l)}catch(e){o?.remove(),console.log("Could not include file: "+l,e);continue}}}else{if(document.querySelectorAll("include").length>0){var e=document.createElement("div");e.id="error",e.textContent="Web server exports must be hosted on an http / web server to be viewed correctly.",e.style.position="fixed",e.style.top="50%",e.style.left="50%",e.style.transform="translate(-50%, -50%)",e.style.fontSize="1.5em",e.style.fontWeight="bold",e.style.textAlign="center",document.body.appendChild(e),document.querySelector(".document-container")?.classList.remove("hide")}}}document.addEventListener("DOMContentLoaded",(()=>{loadIncludes()}));let isFileProtocol="file:"==location.protocol;function waitLoadScripts(e,t){let o=e.map((e=>document.getElementById(e+"-script"))),l=0;!function e(){let n=o[l];l++,n&&"true"!=n.getAttribute("loaded")||l<o.length&&e(),l<o.length?n.addEventListener("load",e):t()}()}</script><link rel="stylesheet" href="lib/styles/obsidian.css"><link rel="stylesheet" href="lib/styles/theme.css"><link rel="preload" href="lib/styles/global-variable-styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="lib/styles/global-variable-styles.css"></noscript><link rel="preload" href="lib/styles/main-styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="lib/styles/main-styles.css"></noscript></head><body class="publish css-settings-manager theme-dark show-inline-title show-ribbon"><script defer="">let theme=localStorage.getItem("theme")||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");"dark"==theme?(document.body.classList.add("theme-dark"),document.body.classList.remove("theme-light")):(document.body.classList.add("theme-light"),document.body.classList.remove("theme-dark")),window.innerWidth<480?document.body.classList.add("is-phone"):window.innerWidth<768?document.body.classList.add("is-tablet"):window.innerWidth<1024?document.body.classList.add("is-small-screen"):document.body.classList.add("is-large-screen")</script><div class="webpage-container workspace"><div class="sidebar-left sidebar"><div class="sidebar-handle"></div><div class="sidebar-topbar"><div class="topbar-content"><label class="theme-toggle-container" for="theme_toggle"><input class="theme-toggle-input" type="checkbox" id="theme_toggle"><div class="toggle-background"></div></label></div><div class="clickable-icon sidebar-collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M21 3H3C1.89543 3 1 3.89543 1 5V19C1 20.1046 1.89543 21 3 21H21C22.1046 21 23 20.1046 23 19V5C23 3.89543 22.1046 3 21 3Z"></path><path d="M10 4V20"></path><path d="M4 7H7"></path><path d="M4 10H7"></path><path d="M4 13H7"></path></svg></div></div><div class="sidebar-content"><div class="search-input-container"><input enterkeyhint="search" type="search" spellcheck="false" placeholder="Search..."><div class="search-input-clear-button" aria-label="Clear search"></div></div><include src="lib/html/file-tree.html"></include></div><script defer="">let ls = document.querySelector(".sidebar-left"); ls.classList.add("is-collapsed"); if (window.innerWidth > 768) ls.classList.remove("is-collapsed"); ls.style.setProperty("--sidebar-width", localStorage.getItem("sidebar-left-width"));</script></div><div class="document-container markdown-reading-view hide"><div class="markdown-preview-view markdown-rendered allow-fold-headings allow-fold-lists is-readable-line-width"><style id="MJX-CHTML-styles"></style><div class="markdown-preview-sizer markdown-preview-section"><h1 class="page-title heading inline-title" id="ZCL_SD_GET_ORDERDETAILS">ZCL_SD_GET_ORDERDETAILS</h1><div class="el-pre"><pre class="language-abap" tabindex="0"><code data-line="0" class="language-abap is-loaded">
+<span class="token comment">**--------------------------------------------------------------------------*</span>
+<span class="token comment">**                LEONARDO - MODIFICATION LOG                               *</span>
+<span class="token comment">**--------------------------------------------------------------------------*</span>
+<span class="token comment">** Development Name     : ZCL_SD_GET_ORDERDETAILS                           *</span>
+<span class="token comment">** Description          : Class Implementation to get Order Item Details    *</span>
+<span class="token comment">** Developed by         : DEEPAK10                                          *</span>
+<span class="token comment">** Developed on         : 24/04/2024                                        *</span>
+<span class="token comment">** Developer Package    : ZCHEM_ZSD_200                                     *</span>
+<span class="token comment">**--------------------------------------------------------------------------*</span>
+<span class="token comment">**                    C H A N G E  H I S T O R Y                            *</span>
+<span class="token comment">**--------------------------------------------------------------------------*</span>
+<span class="token comment">** &lt;Date&gt;    &lt;Developer name&gt;   &lt;Charm ID&gt;      &lt;Defect/CR/Initial Dev&gt;     *</span>
+<span class="token comment">**--------------------------------------------------------------------------*</span>
+
+<span class="token keyword">CLASS</span> zcl_sd_get_orderdetails <span class="token keyword">DEFINITION</span>
+  <span class="token keyword">PUBLIC</span>
+  <span class="token keyword">FINAL</span>
+  <span class="token keyword">CREATE</span> <span class="token keyword">PUBLIC</span> <span class="token punctuation">.</span>
+
+  <span class="token keyword">PUBLIC</span> <span class="token keyword">SECTION</span><span class="token punctuation">.</span>
+    <span class="token keyword">INTERFACES</span> if_rap_query_provider <span class="token punctuation">.</span>
+
+    <span class="token keyword">DATA</span><span class="token punctuation">:</span>
+      lc_obj <span class="token keyword">type</span> <span class="token keyword">ref</span> <span class="token keyword">to</span> zcl_sd_orderdetails_wrapper<span class="token punctuation">,</span>
+      lt_order_details <span class="token keyword">TYPE</span> <span class="token keyword">TABLE</span> <span class="token keyword">OF</span> zce_sd_get_order_item<span class="token punctuation">,</span>     <span class="token eol-comment comment">"Internal Table for storing Order Details</span>
+      ls_order_details <span class="token keyword">TYPE</span> zce_sd_get_order_item<span class="token punctuation">.</span>      <span class="token eol-comment comment">"Structure for Individual Order Details</span>
+  <span class="token keyword">PROTECTED</span> <span class="token keyword">SECTION</span><span class="token punctuation">.</span>
+  <span class="token keyword">PRIVATE</span> <span class="token keyword">SECTION</span><span class="token punctuation">.</span>
+<span class="token keyword">ENDCLASS</span><span class="token punctuation">.</span>
+
+
+<span class="token keyword">CLASS</span> zcl_sd_get_orderdetails <span class="token keyword">IMPLEMENTATION</span><span class="token punctuation">.</span>
+
+  <span class="token keyword">METHOD</span> if_rap_query_provider<span class="token token-operator punctuation">~</span>select<span class="token punctuation">.</span>
+
+    <span class="token keyword">DATA</span><span class="token punctuation">:</span> lv_vkorg <span class="token keyword">TYPE</span> Z_VKORG<span class="token punctuation">,</span>      <span class="token eol-comment comment">"Sales Organization</span>
+          lv_kunnr <span class="token keyword">TYPE</span> Z_KUNNR<span class="token punctuation">,</span>      <span class="token eol-comment comment">"Sold-to Party</span>
+          lv_vbeln <span class="token keyword">TYPE</span> Z_VBELN_VA<span class="token punctuation">,</span>   <span class="token eol-comment comment">"Sales Document</span>
+          lv_posnr <span class="token keyword">TYPE</span> Z_POSNR_VA<span class="token punctuation">.</span>   <span class="token eol-comment comment">"Sales Document Item</span>
+
+    <span class="token keyword">DATA</span><span class="token punctuation">:</span> lv_nflag <span class="token keyword">TYPE</span> flag <span class="token keyword">VALUE</span> <span class="token string">'N'</span><span class="token punctuation">.</span>     <span class="token eol-comment comment">"Flag for indicating absence of data</span>
+
+    <span class="token keyword">TRY</span><span class="token punctuation">.</span>
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lO_paging<span class="token punctuation">)</span> <span class="token operator">=</span> io_request<span class="token token-operator punctuation">-&gt;</span>get_paging<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>    <span class="token eol-comment comment">"Get Paging Information from Request</span>
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_rows<span class="token punctuation">)</span> <span class="token operator">=</span> lO_paging<span class="token token-operator punctuation">-&gt;</span>get_page_size<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>    <span class="token eol-comment comment">"Get Max Rows</span>
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_max_rows<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token keyword">COND</span> #<span class="token punctuation">(</span> <span class="token keyword">WHEN</span> lv_rows <span class="token keyword">EQ</span> if_rap_query_paging<span class="token token-operator punctuation">=&gt;</span>page_size_unlimited <span class="token keyword">THEN</span> <span class="token number">0</span> <span class="token keyword">ELSE</span> lv_rows <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_top<span class="token punctuation">)</span>  <span class="token operator">=</span> io_request<span class="token token-operator punctuation">-&gt;</span>get_paging<span class="token punctuation">(</span> <span class="token punctuation">)</span>-&gt;get_page_size<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_skip<span class="token punctuation">)</span> <span class="token operator">=</span> io_request<span class="token token-operator punctuation">-&gt;</span>get_paging<span class="token punctuation">(</span> <span class="token punctuation">)</span>-&gt;get_offset<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">"Get Order by string to get top and skip records</span>
+
+        <span class="token keyword">DATA</span> lv_orderby_string <span class="token keyword">TYPE</span> string<span class="token punctuation">.</span>
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lt_sort<span class="token punctuation">)</span> <span class="token operator">=</span> io_request<span class="token token-operator punctuation">-&gt;</span>get_sort_elements<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token eol-comment comment">" $order by was called</span>
+
+        <span class="token keyword">IF</span> lt_sort <span class="token keyword">IS</span> <span class="token keyword">NOT</span> <span class="token keyword">INITIAL</span><span class="token punctuation">.</span>
+          <span class="token keyword">CLEAR</span> lv_orderby_string<span class="token punctuation">.</span>
+          <span class="token keyword">LOOP</span> <span class="token keyword">AT</span> lt_sort <span class="token keyword">INTO</span> <span class="token keyword">DATA</span><span class="token punctuation">(</span>ls_sort<span class="token punctuation">)</span><span class="token punctuation">.</span>
+            <span class="token keyword">IF</span> ls_sort<span class="token token-operator punctuation">-</span>descending <span class="token operator">=</span> abap_true<span class="token punctuation">.</span>
+              <span class="token keyword">CONCATENATE</span> lv_orderby_string ls_sort<span class="token token-operator punctuation">-</span>element_name <span class="token string">'DESCENDING'</span> <span class="token keyword">INTO</span> lv_orderby_string <span class="token keyword">SEPARATED</span> <span class="token keyword">BY</span> <span class="token keyword">space</span><span class="token punctuation">.</span>
+            <span class="token keyword">ELSE</span><span class="token punctuation">.</span>
+              <span class="token keyword">CONCATENATE</span> lv_orderby_string ls_sort<span class="token token-operator punctuation">-</span>element_name <span class="token string">'ASCENDING'</span> <span class="token keyword">INTO</span> lv_orderby_string <span class="token keyword">SEPARATED</span> <span class="token keyword">BY</span> <span class="token keyword">space</span><span class="token punctuation">.</span>
+            <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+          <span class="token keyword">ENDLOOP</span><span class="token punctuation">.</span>
+        <span class="token keyword">ELSE</span><span class="token punctuation">.</span>
+
+          <span class="token eol-comment comment">"If no sorting criteria provided, use Default</span>
+          lv_orderby_string <span class="token operator">=</span> <span class="token string">'SALESORGANIZATION, SOLDTOPARTY, SALESDOCUMENT, SALESDOCUMENTITEM'</span><span class="token punctuation">.</span>
+        <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+
+
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>filter_condition<span class="token punctuation">)</span> <span class="token operator">=</span> io_request<span class="token token-operator punctuation">-&gt;</span>get_filter<span class="token punctuation">(</span> <span class="token punctuation">)</span>-&gt;get_as_ranges<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+        <span class="token keyword">LOOP</span> <span class="token keyword">AT</span> filter_condition <span class="token keyword">ASSIGNING</span> <span class="token keyword">FIELD-SYMBOL</span><span class="token punctuation">(</span>&lt;lf_cond&gt;<span class="token punctuation">)</span><span class="token punctuation">.</span>
+          <span class="token keyword">CASE</span> &lt;lf_cond&gt;-name<span class="token punctuation">.</span>
+            <span class="token keyword">WHEN</span> <span class="token string">'SALESORGANIZATION'</span><span class="token punctuation">.</span>
+              lv_vkorg <span class="token operator">=</span> &lt;lf_cond&gt;-range[ <span class="token number">1</span> ]-low<span class="token punctuation">.</span>
+
+            <span class="token keyword">WHEN</span> <span class="token string">'SOLDTOPARTY'</span><span class="token punctuation">.</span>
+              lv_kunnr <span class="token operator">=</span> &lt;lf_cond&gt;-range[ <span class="token number">1</span> ]-low<span class="token punctuation">.</span>
+              lv_kunnr <span class="token operator">=</span> <span class="token token-operator punctuation">|</span><span class="token string-template string"></span><span class="token token-operator punctuation">{</span> lv_kunnr <span class="token keyword">ALPHA</span> <span class="token operator">=</span> <span class="token keyword">IN</span> <span class="token token-operator punctuation">}</span><span class="token string-template string"></span><span class="token token-operator punctuation">|</span><span class="token punctuation">.</span>
+
+            <span class="token keyword">WHEN</span> <span class="token string">'SALESDOCUMENT'</span><span class="token punctuation">.</span>
+              <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_variable1<span class="token punctuation">)</span> <span class="token operator">=</span>  &lt;lf_cond&gt;-range[ <span class="token number">1</span> ]-low<span class="token punctuation">.</span>
+
+              <span class="token keyword">create</span> <span class="token keyword">object</span> lc_obj<span class="token punctuation">.</span>
+
+              lc_obj<span class="token token-operator punctuation">-&gt;</span>zif_wrap_conversion<span class="token token-operator punctuation">~</span>fm_input<span class="token punctuation">(</span>
+                <span class="token keyword">EXPORTING</span>
+                  lv_var1 <span class="token operator">=</span> lv_variable1
+                <span class="token keyword">IMPORTING</span>
+                  lv_var2 <span class="token operator">=</span> lv_vbeln
+              <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+<span class="token comment">*              CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'</span>
+<span class="token comment">*                EXPORTING</span>
+<span class="token comment">*                  input  = lv_variable1</span>
+<span class="token comment">*                IMPORTING</span>
+<span class="token comment">*                  output = lv_vbeln.</span>
+
+
+            <span class="token keyword">WHEN</span> <span class="token string">'SALESDOCUMENTITEM'</span><span class="token punctuation">.</span>
+              <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_variable2<span class="token punctuation">)</span> <span class="token operator">=</span>  &lt;lf_cond&gt;-range[ <span class="token number">1</span> ]-low<span class="token punctuation">.</span>
+
+
+                <span class="token keyword">create</span> <span class="token keyword">object</span> lc_obj<span class="token punctuation">.</span>
+
+                  lc_obj<span class="token token-operator punctuation">-&gt;</span>zif_wrap_conversion<span class="token token-operator punctuation">~</span>fm_input<span class="token punctuation">(</span>
+                    <span class="token keyword">EXPORTING</span>
+                      lv_var1 <span class="token operator">=</span> lv_variable2
+                    <span class="token keyword">IMPORTING</span>
+                      lv_var2 <span class="token operator">=</span> lv_posnr
+                  <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+<span class="token comment">*              CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'</span>
+<span class="token comment">*                EXPORTING</span>
+<span class="token comment">*                  input  = lv_variable2</span>
+<span class="token comment">*                IMPORTING</span>
+<span class="token comment">*                  output = lv_posnr.</span>
+
+          <span class="token keyword">ENDCASE</span><span class="token punctuation">.</span>
+
+        <span class="token keyword">ENDLOOP</span><span class="token punctuation">.</span>
+
+      <span class="token keyword">CATCH</span> cx_rap_query_filter_no_range <span class="token keyword">INTO</span> <span class="token keyword">DATA</span><span class="token punctuation">(</span>lo_range_ex<span class="token punctuation">)</span><span class="token punctuation">.</span>
+        <span class="token keyword">DATA</span><span class="token punctuation">(</span>lv_error<span class="token punctuation">)</span> <span class="token operator">=</span> lo_range_ex<span class="token token-operator punctuation">-&gt;</span>get_text<span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+    <span class="token keyword">ENDTRY</span><span class="token punctuation">.</span>
+
+<span class="token comment">*    BREAK-POINT ID ZSD_ORDERITEM.       "Breakpoint for debugging</span>
+
+    <span class="token eol-comment comment">"Fetching Relevant Fields from VBAP</span>
+    <span class="token keyword">SELECT</span>
+           vbap<span class="token token-operator punctuation">~</span>SalesDocument<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>SalesDocumentItem<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>SalesDocument <span class="token keyword">AS</span> orderid<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>SalesDocumentItem <span class="token keyword">AS</span> OrderLineItemNumber<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>SoldToParty <span class="token keyword">AS</span> soldto<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>ShipToParty <span class="token keyword">AS</span> shipto<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>BillToParty <span class="token keyword">AS</span> billto<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>PayerParty <span class="token keyword">AS</span> payer<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>PurchaseOrderByCustomer<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>SalesDocumentType<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>zz1_requesteddate_sdi <span class="token keyword">AS</span> requestedDate<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>PurchaseOrderByCustomer <span class="token keyword">AS</span> poNumber<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>Material<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>Plant<span class="token punctuation">,</span>
+           specid<span class="token token-operator punctuation">~</span>trade <span class="token keyword">AS</span> Trade<span class="token punctuation">,</span>
+           specid<span class="token token-operator punctuation">~</span>subid <span class="token keyword">AS</span> SpecificationID<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>BaseUnit<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>NetAmount<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>TransactionCurrency<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>NetPriceAmount<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>NetPriceQuantity<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>NetPriceQuantityUnit<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>OriginallyRequestedMaterial<span class="token punctuation">,</span>
+           vbak<span class="token token-operator punctuation">~</span>IncotermsClassification <span class="token keyword">AS</span> incoterms1<span class="token punctuation">,</span>
+           vbak<span class="token token-operator punctuation">~</span>IncotermsTransferLocation <span class="token keyword">AS</span> incoterms2<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>NetPriceAmount <span class="token keyword">AS</span> Rate<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>NetPriceQuantity <span class="token keyword">AS</span> rateUnit<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>NetPriceQuantityUnit <span class="token keyword">AS</span> unitOfMeasure<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>ZZ1_ZZBNCERTNR_SDI <span class="token keyword">AS</span> CertificateNumber<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>zz1_zzces_certmat_sdi <span class="token keyword">AS</span> CertificateType<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>ZZ1_DATBI_SDI <span class="token keyword">AS</span> CertificateDate<span class="token punctuation">,</span>
+
+           vbap<span class="token token-operator punctuation">~</span>zz1_status_sdi <span class="token keyword">AS</span> Status<span class="token punctuation">,</span>
+           vbap<span class="token token-operator punctuation">~</span>ZZ1_TRANSITDURATION_SDI<span class="token punctuation">,</span>
+           zvbap<span class="token token-operator punctuation">~</span>BnBc_Quantity<span class="token punctuation">,</span>
+           zvbap<span class="token token-operator punctuation">~</span>CES_Flag
+
+           <span class="token keyword">FROM</span> i_salesdocumentitem   <span class="token keyword">AS</span> vbap
+           <span class="token keyword">LEFT</span> <span class="token keyword">OUTER</span> <span class="token keyword">JOIN</span> i_salesdocument <span class="token keyword">AS</span> vbak <span class="token keyword">ON</span> vbak<span class="token token-operator punctuation">~</span>salesdocument <span class="token operator">=</span> vbap<span class="token token-operator punctuation">~</span>SalesDocument
+           <span class="token keyword">LEFT</span> <span class="token keyword">OUTER</span> <span class="token keyword">JOIN</span> zsd_specid <span class="token keyword">AS</span> specid <span class="token keyword">ON</span> specid<span class="token token-operator punctuation">~</span>matnr <span class="token operator">=</span> vbap<span class="token token-operator punctuation">~</span>Material
+           <span class="token keyword">LEFT</span> <span class="token keyword">OUTER</span> <span class="token keyword">JOIN</span> zsd_zz1vbap <span class="token keyword">AS</span> zvbap <span class="token keyword">ON</span> zvbap<span class="token token-operator punctuation">~</span>vbeln <span class="token operator">=</span> vbap<span class="token token-operator punctuation">~</span>SalesDocument
+           <span class="token keyword">WHERE</span> vbap<span class="token token-operator punctuation">~</span>SalesDocument <span class="token keyword">EQ</span> @lv_vbeln
+               <span class="token keyword">AND</span> vbap<span class="token token-operator punctuation">~</span>salesdocumentitem <span class="token keyword">EQ</span> @lv_posnr
+               <span class="token keyword">AND</span> vbap<span class="token token-operator punctuation">~</span>SalesOrganization <span class="token keyword">EQ</span> @lv_vkorg
+               <span class="token keyword">AND</span> vbap<span class="token token-operator punctuation">~</span>SoldToParty <span class="token keyword">EQ</span> @lv_kunnr
+               <span class="token keyword">INTO</span> @DATA<span class="token punctuation">(</span>lS_vbap<span class="token punctuation">)</span>
+               <span class="token keyword">UP</span> <span class="token keyword">TO</span> <span class="token number">1</span> <span class="token keyword">ROWS</span><span class="token punctuation">.</span>
+    <span class="token keyword">ENDSELECT</span><span class="token punctuation">.</span>
+
+    <span class="token keyword">APPEND</span> <span class="token keyword">INITIAL</span> <span class="token keyword">LINE</span> <span class="token keyword">TO</span> lt_order_details <span class="token keyword">ASSIGNING</span> <span class="token keyword">FIELD-SYMBOL</span><span class="token punctuation">(</span>&lt;lf_order_details&gt;<span class="token punctuation">)</span><span class="token punctuation">.</span>
+    &lt;lf_order_details&gt;-SalesOrganization  <span class="token operator">=</span> lv_vkorg<span class="token punctuation">.</span>
+    &lt;lf_order_details&gt;-SoldToParty        <span class="token operator">=</span> lv_kunnr<span class="token punctuation">.</span>
+    &lt;lf_order_details&gt;-SalesDocument      <span class="token operator">=</span> lv_vbeln<span class="token punctuation">.</span>
+    &lt;lf_order_details&gt;-salesdocumentitem  <span class="token operator">=</span> lv_posnr<span class="token punctuation">.</span>
+
+    <span class="token keyword">CONCATENATE</span> ls_vbap<span class="token token-operator punctuation">-</span>CertificateDate+<span class="token number">6</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">'.'</span>
+                ls_vbap<span class="token token-operator punctuation">-</span>CertificateDate+<span class="token number">4</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">'.'</span>
+                ls_vbap<span class="token token-operator punctuation">-</span>CertificateDate+<span class="token number">0</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+           <span class="token keyword">INTO</span> &lt;lf_order_details&gt;-CertificateDate<span class="token punctuation">.</span>
+
+    &lt;lf_order_details&gt;-CertificateNumber  <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>certificatenumber<span class="token punctuation">.</span>
+    &lt;lf_order_details&gt;-BnBc_Quantity      <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>BnBc_Quantity<span class="token punctuation">.</span>
+    &lt;lf_order_details&gt;-CES_Flag           <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>CES_Flag<span class="token punctuation">.</span>
+    &lt;lf_order_details&gt;-Status             <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>status<span class="token punctuation">.</span>
+
+    <span class="token keyword">DATA</span><span class="token punctuation">(</span>VAR1<span class="token punctuation">)</span> <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>ZZ1_TransitDuration_SDI<span class="token punctuation">.</span>
+
+    <span class="token keyword">IF</span> sy<span class="token token-operator punctuation">-</span>subrc <span class="token keyword">NE</span> <span class="token number">0</span><span class="token punctuation">.</span>
+
+      &lt;lf_order_details&gt;-has_data <span class="token operator">=</span> lv_nflag<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-type <span class="token operator">=</span> <span class="token string">'E'</span><span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-id <span class="token operator">=</span> <span class="token string">'WUSL'</span><span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-msgno <span class="token operator">=</span> <span class="token string">'002'</span><span class="token punctuation">.</span>
+
+    <span class="token keyword">ELSE</span><span class="token punctuation">.</span>
+
+      <span class="token eol-comment comment">"Fetching Relevant Fields from TVAKT</span>
+      <span class="token keyword">SELECT</span>    <span class="token keyword">Language</span><span class="token punctuation">,</span>
+                SalesDocumentType<span class="token punctuation">,</span>
+                SalesDocumentTypeName
+          <span class="token keyword">FROM</span> i_salesdocumenttypetext  <span class="token keyword">AS</span> tvakt
+
+          <span class="token keyword">WHERE</span> SalesDocumentType <span class="token keyword">EQ</span> @ls_vbap<span class="token token-operator punctuation">-</span>SalesDocumentType <span class="token keyword">AND</span>
+                <span class="token keyword">Language</span> <span class="token keyword">EQ</span> @sy<span class="token token-operator punctuation">-</span>langu
+          <span class="token keyword">INTO</span> @DATA<span class="token punctuation">(</span>lS_tvakt<span class="token punctuation">)</span>
+           <span class="token keyword">UP</span> <span class="token keyword">TO</span> <span class="token number">1</span> <span class="token keyword">ROWS</span><span class="token punctuation">.</span>
+      <span class="token keyword">ENDSELECT</span><span class="token punctuation">.</span>
+
+      <span class="token eol-comment comment">"Fetching Relevant Fields from VBEP</span>
+      <span class="token keyword">SELECT</span> SalesDocument<span class="token punctuation">,</span>
+             SalesDocumentItem<span class="token punctuation">,</span>
+             scheduleline<span class="token punctuation">,</span>
+             DeliveryDate<span class="token punctuation">,</span>
+             ConfdOrderQtyByMatlAvailCheck<span class="token punctuation">,</span>
+             ScheduleLineOrderQuantity<span class="token punctuation">,</span>
+             OrderQuantityUnit
+          <span class="token keyword">FROM</span> i_salesdocumentscheduleline
+          <span class="token keyword">WHERE</span> SalesDocument <span class="token keyword">EQ</span> @lS_vbap<span class="token token-operator punctuation">-</span>SalesDocument
+          <span class="token keyword">AND</span> SalesDocumentItem <span class="token keyword">EQ</span> @lS_vbap<span class="token token-operator punctuation">-</span>SalesDocumentItem
+          <span class="token keyword">INTO</span> <span class="token keyword">TABLE</span> @DATA<span class="token punctuation">(</span>lt_vbep<span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+      <span class="token eol-comment comment">"Fetching Relevant Fields from MARM</span>
+      <span class="token keyword">SELECT</span> Product<span class="token punctuation">,</span>
+             AlternativeUnit<span class="token punctuation">,</span>
+             QuantityNumerator
+          <span class="token keyword">FROM</span> i_productunitsofmeasure
+          <span class="token keyword">WHERE</span> Product <span class="token keyword">EQ</span> @lS_vbap<span class="token token-operator punctuation">-</span>Material
+          <span class="token keyword">AND</span> AlternativeUnit <span class="token keyword">NE</span> @lS_vbap<span class="token token-operator punctuation">-</span>BaseUnit
+          <span class="token keyword">INTO</span> <span class="token keyword">TABLE</span> @DATA<span class="token punctuation">(</span>lt_marm<span class="token punctuation">)</span>
+          <span class="token keyword">UP</span> <span class="token keyword">TO</span> <span class="token number">2</span> <span class="token keyword">ROWS</span><span class="token punctuation">.</span>
+<span class="token comment">*          ORDER BY PRIMARY KEY.</span>
+<span class="token comment">*      ENDSELECT.</span>
+
+      <span class="token keyword">IF</span> sy<span class="token token-operator punctuation">-</span>subrc <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">.</span>
+        <span class="token keyword">READ</span> <span class="token keyword">TABLE</span> lt_marm <span class="token keyword">INTO</span> <span class="token keyword">DATA</span><span class="token punctuation">(</span>ls_marm<span class="token punctuation">)</span> <span class="token keyword">INDEX</span> <span class="token number">1</span><span class="token punctuation">.</span>
+            <span class="token keyword">IF</span> sy<span class="token token-operator punctuation">-</span>subrc <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">.</span>
+                <span class="token keyword">DATA</span><span class="token punctuation">(</span>Alt1OrderQuantity<span class="token punctuation">)</span> <span class="token operator">=</span> ls_marm<span class="token token-operator punctuation">-</span>QuantityNumerator<span class="token punctuation">.</span>
+                <span class="token keyword">DATA</span><span class="token punctuation">(</span>Alt1OrderQuantityUnit<span class="token punctuation">)</span> <span class="token operator">=</span> ls_marm<span class="token token-operator punctuation">-</span>AlternativeUnit<span class="token punctuation">.</span>
+            <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+        <span class="token keyword">READ</span> <span class="token keyword">TABLE</span> lt_marm <span class="token keyword">INTO</span> ls_marm <span class="token keyword">INDEX</span> <span class="token number">2</span><span class="token punctuation">.</span>
+            <span class="token keyword">IF</span> sy<span class="token token-operator punctuation">-</span>subrc <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">.</span>
+                <span class="token keyword">DATA</span><span class="token punctuation">(</span>Alt2OrderQuantity<span class="token punctuation">)</span> <span class="token operator">=</span> ls_marm<span class="token token-operator punctuation">-</span>QuantityNumerator<span class="token punctuation">.</span>
+                <span class="token keyword">DATA</span><span class="token punctuation">(</span>Alt2OrderQuantityUnit<span class="token punctuation">)</span> <span class="token operator">=</span> ls_marm<span class="token token-operator punctuation">-</span>AlternativeUnit<span class="token punctuation">.</span>
+            <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+      <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+
+
+      <span class="token eol-comment comment">"Fetching Relevant Fields from MARA</span>
+      <span class="token keyword">SELECT</span> Product<span class="token punctuation">,</span>
+             ProductOldID<span class="token punctuation">,</span>
+             BasicMaterial
+          <span class="token keyword">FROM</span> i_product
+          <span class="token keyword">WHERE</span> Product <span class="token keyword">EQ</span> @lS_vbap<span class="token token-operator punctuation">-</span>OriginallyRequestedMaterial
+          <span class="token keyword">INTO</span> @DATA<span class="token punctuation">(</span>lS_mara<span class="token punctuation">)</span>
+          <span class="token keyword">UP</span> <span class="token keyword">TO</span> <span class="token number">1</span> <span class="token keyword">ROWS</span><span class="token punctuation">.</span>
+      <span class="token keyword">ENDSELECT</span><span class="token punctuation">.</span>
+
+    <span class="token eol-comment comment">"Putting all the Fetched Data from tables to Final Table's pointer "lf_order_details"</span>
+      &lt;lf_order_details&gt;-SalesOrganization      <span class="token operator">=</span> lv_vkorg<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-SoldToParty            <span class="token operator">=</span> lv_kunnr<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-SalesDocument          <span class="token operator">=</span> lv_vbeln<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-SalesDocumentItem      <span class="token operator">=</span> lv_posnr<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-orderid                <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>orderid<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-OrderLineItemNumber    <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>orderlineitemnumber<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-SoldTo                 <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>soldto<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-BillTo                 <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>billto<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-Payer                  <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>payer<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-ShipTo                 <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>shipto<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-Trade                  <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>trade<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-OldMaterial            <span class="token operator">=</span> ls_mara<span class="token token-operator punctuation">-</span>ProductOldID<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-BasicMaterial          <span class="token operator">=</span> ls_mara<span class="token token-operator punctuation">-</span>BasicMaterial<span class="token punctuation">.</span>
+
+      <span class="token keyword">CONCATENATE</span>       ls_vbap<span class="token token-operator punctuation">-</span>requesteddate+<span class="token number">6</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">'.'</span>
+                        ls_vbap<span class="token token-operator punctuation">-</span>requesteddate+<span class="token number">4</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">'.'</span>
+                        ls_vbap<span class="token token-operator punctuation">-</span>requesteddate+<span class="token number">0</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+                   <span class="token keyword">INTO</span> &lt;lf_order_details&gt;-requesteddate<span class="token punctuation">.</span>
+
+      &lt;lf_order_details&gt;-PoNumber               <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>ponumber<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-SpeciicationId         <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>specificationid<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-OrderQuantity          <span class="token operator">=</span> lt_vbep[  SalesDocument       <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocument
+                                                            SalesDocumentItem   <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocumentItem ]-ScheduleLineOrderQuantity<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-OrderQuantityUnit      <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>BaseUnit<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-ConfirmedQuantity      <span class="token operator">=</span> lt_vbep[  SalesDocument       <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocument
+                                                            SalesDocumentItem   <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocumentItem ]-ConfdOrderQtyByMatlAvailCheck<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-ConfirmedQuantityUnit  <span class="token operator">=</span> lt_vbep[  SalesDocument <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocument
+                                                            SalesDocumentItem <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocumentItem ]-OrderQuantityUnit<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-incoterms1             <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>incoterms1<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-incoterms2             <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>incoterms2<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-OrderType              <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocumentType<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-OrderTypeText          <span class="token operator">=</span> lS_tvakt<span class="token token-operator punctuation">-</span>SalesDocumentTypeName<span class="token punctuation">.</span>
+
+      <span class="token keyword">READ</span> <span class="token keyword">TABLE</span> lt_vbep <span class="token keyword">ASSIGNING</span> <span class="token keyword">FIELD-SYMBOL</span><span class="token punctuation">(</span>&lt;lf_vbep&gt;<span class="token punctuation">)</span>
+                                    <span class="token keyword">WITH</span> <span class="token keyword">KEY</span> SalesDocument      <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocument
+                                             SalesDocumentItem  <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>SalesDocumentItem<span class="token punctuation">.</span>
+
+      <span class="token keyword">IF</span> &lt;lf_vbep&gt; <span class="token keyword">IS</span> <span class="token keyword">ASSIGNED</span><span class="token punctuation">.</span>
+        <span class="token keyword">CONCATENATE</span> &lt;lf_vbep&gt;-DeliveryDate+<span class="token number">6</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">'.'</span>
+                    &lt;lf_vbep&gt;-DeliveryDate+<span class="token number">4</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">'.'</span>
+                    &lt;lf_vbep&gt;-DeliveryDate+<span class="token number">0</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+                    <span class="token keyword">INTO</span> &lt;lf_order_details&gt;-ConfirmedDate<span class="token punctuation">.</span>
+      <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+
+      &lt;lf_order_details&gt;-MaterialNumber         <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>Material<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-Plant                  <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>Plant<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-Alt1OrderQuantity      <span class="token operator">=</span> Alt1OrderQuantity<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-Alt1OrderQuantityUnit  <span class="token operator">=</span> Alt1OrderQuantityUnit<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-Alt2OrderQuantity      <span class="token operator">=</span> Alt2OrderQuantity<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-Alt2OrderQuantityUnit  <span class="token operator">=</span> Alt2OrderQuantityUnit<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-Amount                 <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>NetAmount<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-CurrencyKey            <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>TransactionCurrency<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-Rate                   <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>rate<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-RateUnit               <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>rateunit<span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-UnitOfMeasure          <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>unitofmeasure<span class="token punctuation">.</span>
+
+      <span class="token keyword">IF</span> ls_vbap<span class="token token-operator punctuation">-</span>Material <span class="token keyword">EQ</span> ls_vbap<span class="token token-operator punctuation">-</span>OriginallyRequestedMaterial<span class="token punctuation">.</span>
+        &lt;lf_order_details&gt;-Sustainable <span class="token operator">=</span> <span class="token string">' '</span><span class="token punctuation">.</span>
+      <span class="token keyword">ELSE</span><span class="token punctuation">.</span>
+        &lt;lf_order_details&gt;-Sustainable <span class="token operator">=</span> <span class="token string">'X'</span><span class="token punctuation">.</span>
+      <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+      &lt;lf_order_details&gt;-CertificateType <span class="token operator">=</span> ls_vbap<span class="token token-operator punctuation">-</span>certificatetype<span class="token punctuation">.</span>
+
+
+    <span class="token keyword">ENDIF</span><span class="token punctuation">.</span>
+
+    io_response<span class="token token-operator punctuation">-&gt;</span>set_total_number_of_records<span class="token punctuation">(</span> iv_total_number_of_records <span class="token operator">=</span> <span class="token keyword">lines</span><span class="token punctuation">(</span> lt_order_details  <span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+    io_response<span class="token token-operator punctuation">-&gt;</span>set_data<span class="token punctuation">(</span> it_data <span class="token operator">=</span> lt_order_details  <span class="token punctuation">)</span><span class="token punctuation">.</span>
+
+  <span class="token keyword">ENDMETHOD</span><span class="token punctuation">.</span>
+
+<span class="token keyword">ENDCLASS</span><span class="token punctuation">.</span>
+</code><button class="copy-code-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon lucide-copy"><rect x="8" y="8" width="14" height="14" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button></pre></div><div class="mod-footer mod-ui"></div></div></div></div><div class="sidebar-right sidebar"><div class="sidebar-handle"></div><div class="sidebar-topbar"><div class="topbar-content"></div><div class="clickable-icon sidebar-collapse-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M21 3H3C1.89543 3 1 3.89543 1 5V19C1 20.1046 1.89543 21 3 21H21C22.1046 21 23 20.1046 23 19V5C23 3.89543 22.1046 3 21 3Z"></path><path d="M10 4V20"></path><path d="M4 7H7"></path><path d="M4 10H7"></path><path d="M4 13H7"></path></svg></div></div><div class="sidebar-content"><div class="graph-view-wrapper"><div class="sidebar-section-header">Interactive Graph</div><div class="graph-view-placeholder">
+		<div class="graph-view-container">
+			<div class="graph-icon graph-expand" role="button" aria-label="Expand" data-tooltip-position="top"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></div>
+			<canvas id="graph-canvas" class="hide" width="512px" height="512px"></canvas>
+		</div>
+		</div></div><div class="tree-container mod-root nav-folder tree-item outline-tree" data-depth="0"><div class="tree-header"><span class="sidebar-section-header">Table Of Contents</span><button class="clickable-icon collapse-tree-button" aria-label="Collapse All"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg></button></div><div class="tree-scroll-area tree-item-children nav-folder-children"><div class="tree-item mod-tree-folder nav-folder mod-collapsible is-collapsed" style="display: none;"></div><div class="tree-item" data-depth="1"><a class="tree-link" href="borealis\sale-order-item\order-item\zcl_sd_get_orderdetails.html#ZCL_SD_GET_ORDERDETAILS"><div class="tree-item-contents heading-link" heading-name="ZCL_SD_GET_ORDERDETAILS"><span class="tree-item-title">ZCL_SD_GET_ORDERDETAILS</span></div></a><div class="tree-item-children nav-folder-children"></div></div></div></div></div><script defer="">let rs = document.querySelector(".sidebar-right"); rs.classList.add("is-collapsed"); if (window.innerWidth > 768) rs.classList.remove("is-collapsed"); rs.style.setProperty("--sidebar-width", localStorage.getItem("sidebar-right-width"));</script></div></div></body></html>
