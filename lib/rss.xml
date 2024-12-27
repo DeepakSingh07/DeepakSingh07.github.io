@@ -1,0 +1,4351 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[ACN Stuff]]></title><description><![CDATA[Obsidian digital garden]]></description><link>http://github.com/dylang/node-rss</link><image><url>lib\media\favicon.png</url><title>ACN Stuff</title><link></link></image><generator>Webpage HTML Export plugin for Obsidian</generator><lastBuildDate>Fri, 27 Dec 2024 16:27:33 GMT</lastBuildDate><atom:link href="lib\rss.xml" rel="self" type="application/rss+xml"/><pubDate>Fri, 27 Dec 2024 16:27:29 GMT</pubDate><ttl>60</ttl><dc:creator></dc:creator><item><title><![CDATA[ZCE_SD_GENERALDATA]]></title><description><![CDATA[ 
+ <br>@EndUserText.label: 'Custom Entity for General Data'
+@ObjectModel.query.implementedBy: 'ABAP:ZCL_SD_GET_GENERAL_DATA'
+define root custom entity ZCE_SD_GENERALDATA
+{
+key CUSTOMER        : abap.char(10);
+ZZ1_CountryText_cus : abap.char(15);
+ZZ1_KATR1_cus       : abap.char(2);
+ZZ1_KATR2_cus       : abap.char(2);
+ZZ1_KATR3_cus       : abap.char(2);
+ZZ1_KATR4_cus       : abap.char(2);
+ZZ1_KATR5_cus       : abap.char(2);
+ZZ1_KATR6_cus       : abap.char(3);
+ZZ1_KATR7_cus       : abap.char(3);
+ZZ1_KATR8_cus       : abap.char(3);
+ZZ1_KATR9_cus       : abap.char(3);
+ZZ1_KATR10_cus      : abap.char(3);
+ZZ1_KATR1TEXT_cus   : abap.char(20);
+ZZ1_KATR2TEXT_cus   : abap.char(20);
+ZZ1_KATR3TEXT_cus   : abap.char(20);
+ZZ1_KATR4TEXT_cus   : abap.char(20);
+ZZ1_KATR5TEXT_cus   : abap.char(20);
+ZZ1_KATR6TEXT_cus   : abap.char(20);
+ZZ1_KATR7TEXT_cus   : abap.char(20);
+ZZ1_KATR8TEXT_cus   : abap.char(20);
+ZZ1_KATR9TEXT_cus   : abap.char(20);
+Legacy_Customer     : abap.char(20);
+salesarea           : composition [1..*] of ZCE_SD_SALESAREA;
+}
+]]></description><link>borealis\customer-master\general-data\zce_sd_generaldata.html</link><guid isPermaLink="false">Borealis/Customer Master/General Data/ZCE_SD_GENERALDATA.md</guid><pubDate>Fri, 27 Dec 2024 16:13:46 GMT</pubDate></item><item><title><![CDATA[ZCL_SD_GET_GENERAL_DATA]]></title><description><![CDATA[ 
+ <br>CLASS zcl_sd_get_general_data DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+
+    INTERFACES if_rap_query_provider .
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+
+CLASS zcl_sd_get_general_data IMPLEMENTATION.
+
+
+  METHOD if_rap_query_provider~select.
+    TYPES: ltty_r_customer TYPE RANGE OF i_customer-customer.
+    DATA lr_customer  TYPE RANGE OF i_customer-customer.
+
+    DATA(lO_paging) = io_request-&gt;get_paging( ).
+    DATA(lv_rows) = lO_paging-&gt;get_page_size( ). "get max rows
+    DATA(lv_max_rows) = COND #( WHEN lv_rows EQ if_rap_query_paging=&gt;page_size_unlimited THEN 0 ELSE lv_rows ).
+
+
+    DATA(lv_entity_id) =  io_request-&gt;get_entity_id( ).
+    TRY.
+        DATA(filter_condition) = io_request-&gt;get_filter( )-&gt;get_as_ranges( ).
+        LOOP AT filter_condition ASSIGNING FIELD-SYMBOL(&lt;lf_cond&gt;).
+          CASE &lt;lf_cond&gt;-name.
+            WHEN 'CUSTOMER'.
+              lr_customer = VALUE ltty_r_customer( BASE lr_customer
+                                                    FOR lwa_condline IN &lt;lf_cond&gt;-range
+                                                    ( sign = 'I'
+                                                       option = 'EQ'
+                                                       low = |{   lwa_condline-low ALPHA = IN }|   ) ).
+
+          ENDCASE.
+
+        ENDLOOP.
+      CATCH cx_rap_query_filter_no_range INTO DATA(lo_range_ex).
+        DATA(lv_error) = lo_range_ex-&gt;get_text( ).
+
+    ENDTRY.
+
+    SELECT kna1~Customer AS Customer,
+           t005t~CountryShortName AS ZZ1_CountryText_cus,
+           kna1~FreeDefinedAttribute01 AS ZZ1_KATR1_cus,
+           kna1~FreeDefinedAttribute02 AS ZZ1_KATR2_cus,
+           kna1~FreeDefinedAttribute03 AS ZZ1_KATR3_cus,
+           kna1~FreeDefinedAttribute04 AS ZZ1_KATR4_cus,
+           kna1~FreeDefinedAttribute05 AS ZZ1_KATR5_cus,
+           kna1~FreeDefinedAttribute06 AS ZZ1_KATR6_cus,
+           kna1~FreeDefinedAttribute07 AS ZZ1_KATR7_cus,
+           kna1~FreeDefinedAttribute08 AS ZZ1_KATR8_cus,
+           kna1~FreeDefinedAttribute09 AS ZZ1_KATR9_cus,
+           kna1~FreeDefinedAttribute10 AS ZZ1_KATR10_cus,
+           tvk1t~vtext AS ZZ1_KATR1TEXT_cus,
+           tvk2t~vtext AS ZZ1_KATR2TEXT_cus,
+           tvk3t~vtext AS ZZ1_KATR3TEXT_cus,
+           tvk4t~vtext AS ZZ1_KATR4TEXT_cus,
+           tvk5t~vtext AS ZZ1_KATR5TEXT_cus,
+           tvk6t~vtext AS ZZ1_KATR6TEXT_cus,
+           tvk7t~vtext AS ZZ1_KATR7TEXT_cus,
+           tvk8t~vtext AS ZZ1_KATR8TEXT_cus,
+           tvk9t~vtext AS ZZ1_KATR9TEXT_cus,
+           but000~BusinessPartnerIDByExtSystem as Legacy_Customer
+
+
+    FROM I_Customer AS kna1
+
+        LEFT OUTER JOIN  I_CountryText AS t005t ON ( t005t~Country = kna1~Country AND
+                                            t005t~Language = @sy-langu )
+
+        LEFT OUTER JOIN ZSD_T1VK1TCDS as tvk1t ON ( tvk1t~katr1 = kna1~FreeDefinedAttribute01 AND
+                          tvk1t~spras = @sy-langu )
+
+        LEFT OUTER JOIN ZSD_T1VK2TCDS as tvk2t ON ( tvk2t~katr2 = kna1~FreeDefinedAttribute02 AND
+                          tvk2t~spras = @sy-langu )
+
+        LEFT OUTER JOIN ZSD_T1VK3TCDS as tvk3t ON ( tvk3t~katr3 = kna1~FreeDefinedAttribute03 AND
+                            tvk3t~spras = @sy-langu )
+
+        LEFT OUTER JOIN ZSD_T1VK4TCDS as tvk4t ON ( tvk4t~katr4 = kna1~FreeDefinedAttribute04 AND
+                            tvk4t~spras = @sy-langu )
+
+        LEFT OUTER JOIN ZSD_T1VK5TCDS as tvk5t ON ( tvk5t~katr5 = kna1~FreeDefinedAttribute05 AND
+                            tvk5t~spras = @sy-langu )
+
+        LEFT OUTER JOIN ZSD_T1VK6TCDS as tvk6t ON ( tvk6t~katr6 = kna1~FreeDefinedAttribute06 AND
+                            tvk6t~spras = @sy-langu )
+
+        LEFT OUTER JOIN ZSD_T1VK7TCDS as tvk7t ON ( tvk7t~katr7 = kna1~FreeDefinedAttribute07 AND
+                            tvk7t~spras = @sy-langu )
+
+        LEFT OUTER JOIN ZSD_T1VK8TCDS as tvk8t ON ( tvk8t~katr8 = kna1~FreeDefinedAttribute08 AND
+                            tvk8t~spras = @sy-langu )
+
+        LEFT OUTER JOIN ZSD_T1VK9TCDS as tvk9t ON ( tvk9t~katr9 = kna1~FreeDefinedAttribute09 AND
+                            tvk9t~spras = @sy-langu )
+
+        LEFT OUTER JOIN I_BusinessPartner as but000 on ( but000~BusinessPartner = kna1~Customer )
+
+    WHERE customer IN @lr_customer
+    INTO TABLE @DATA(lt_final)
+    UP TO @lv_max_rows ROWS.
+
+    io_response-&gt;set_total_number_of_records( iv_total_number_of_records = lines( lt_final  ) ).
+
+    io_response-&gt;set_data( it_data = lt_final  ).
+
+  ENDMETHOD.
+ENDCLASS.
+]]></description><link>borealis\customer-master\general-data\zcl_sd_get_general_data.html</link><guid isPermaLink="false">Borealis/Customer Master/General Data/ZCL_SD_GET_GENERAL_DATA.md</guid><pubDate>Sat, 24 Aug 2024 08:23:12 GMT</pubDate></item><item><title><![CDATA[ZCE_SD_SALESAREA]]></title><description><![CDATA[ 
+ <br>@EndUserText.label: 'Custom Entity for Sales Area'
+@ObjectModel.query.implementedBy: 'ABAP:ZCL_SD_GET_SALES_AREA'
+define custom entity ZCE_SD_SALESAREA
+{ 
+key CUSTOMER                    : abap.char(10);
+key SALESORGANIZATION           : abap.char(4);
+key DISTRIBUTIONCHANNEL         : abap.char(2);
+    DIVISION                    : abap.char(2);
+    ZZ1_SalesGroupText_csa      : abap.char(25);
+    ZZ1_CustPymntTermText_csa   : abap.char(20);
+    ZZ1_HKUNNR                  : abap.char(10);
+    ZZ1_HierSalesDistrict       : abap.char(6);
+    ZZ1_HierSalesDistrictText   :  abap.char(20);
+    ZZ1_SalesOfficeText_csa     : abap.char(25);
+    ZZ1_SalesDistrictText_csa   : abap.char(20);
+    ZZ1_TYPE_CSA                : abap.char(10);
+    
+    generaldata : association to parent ZCE_SD_GENERALDATA on 
+    $projection.CUSTOMER = generaldata.CUSTOMER ;
+}
+]]></description><link>borealis\customer-master\sales-area-data\zce_sd_salesarea.html</link><guid isPermaLink="false">Borealis/Customer Master/Sales Area Data/ZCE_SD_SALESAREA.md</guid><pubDate>Sun, 15 Dec 2024 16:41:22 GMT</pubDate></item><item><title><![CDATA[ZCL_SD_GET_SALES_AREA]]></title><description><![CDATA[ 
+ <br>CLASS zcl_sd_get_sales_area DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+
+    INTERFACES if_rap_query_provider .
+*    data:lt_salesareadata type TABLE of ZCE_SD_SALESAREA,
+*         lwa_salesareadata type ZCE_SD_SALESAREA.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+CLASS zcl_sd_get_sales_area IMPLEMENTATION.
+
+  METHOD if_rap_query_provider~select.
+    TYPES: ltty_r_customer TYPE RANGE OF i_customer-customer.
+    DATA lr_customer  TYPE RANGE OF i_customer-customer.
+    TYPES: LTTY_R_SORG TYPE RANGE OF Z_VKORG.
+    DATA LR_SORG TYPE RANGE OF Z_VKORG.
+
+  data(lo_paging) = io_request-&gt;get_paging( ).
+
+    DATA(lv_page_size) = lo_paging-&gt;get_page_size(  ).
+    DATA(lv_max_rows) = COND #( WHEN lv_page_size = if_rap_query_paging=&gt;page_size_unlimited THEN 0
+    ELSE lv_page_size ).
+
+  DATA(LV_ENTITY_ID) =  io_request-&gt;get_entity_id( ).
+
+     TRY.
+        DATA(filter_condition) = io_request-&gt;get_filter( )-&gt;get_as_ranges( ).
+        LOOP AT filter_condition ASSIGNING FIELD-SYMBOL(&lt;lf_cond&gt;).
+          CASE &lt;lf_cond&gt;-name.
+            WHEN 'CUSTOMER'.
+              lr_customer = VALUE ltty_r_customer( BASE lr_customer
+                                                    FOR lwa_CUSTOMER IN &lt;lf_cond&gt;-range
+                                                    ( sign = 'I'
+                                                       option = 'EQ'
+                                                       low = |{  lwa_CUSTOMER-low ALPHA = IN }| ) ).
+            WHEN 'SALESORGANIZATION' .
+              LR_SORG = VALUE ltty_r_sorg( BASE LR_SORG
+                                                    FOR lwa_SORG IN &lt;lf_cond&gt;-range
+                                                    ( sign = 'I'
+                                                       option = 'EQ'
+                                                       low = lwa_SORG-low ) ).
+          ENDCASE.
+
+        ENDLOOP.
+      CATCH cx_rap_query_filter_no_range INTO DATA(lo_range_ex).
+        DATA(lv_error) = lo_range_ex-&gt;get_text( ).
+
+    ENDTRY.
+  SELECT distinct
+         KNVV~CUSTOMER,
+         KNVV~SalesOrganization,
+         KNVV~DistributionChannel,
+         KNVV~Division,
+         KNVV~ZZ1_TYPE_CSA,
+         TVGRT~SALESGROUPNAME as ZZ1_SalesGroupText_csa,
+         TVZBT~CUSTOMERPAYMENTTERMSNAME as ZZ1_CustPymntTermText_csa,
+         KNVH~hkunnr as ZZ1_HKUNNR,
+*         KNVV~ZZ1_HKUNNR_CSA as ZZ1_HierSalesManager,
+*         HIER~SalesDistrict as TEST_SD,
+         HIER~SalesDistrict as ZZ1_HierSalesDistrict,
+         HIER~SalesDistrictName as ZZ1_HierSalesDistrictText,
+         TVKBT~SalesOfficeName as ZZ1_SalesOfficeText_csa,
+         SalesDistrict~SalesDistrictName as ZZ1_SalesDistrictText_csa
+
+         FROM I_CustomerSalesArea  AS KNVV
+
+         LEFT OUTER JOIN I_SalesGroupText as TVGRT on ( TVGRT~SalesGroup = KNVV~SalesGroup AND
+                                                   TVGRT~Language   = @SY-LANGU )
+
+         LEFT OUTER JOIN I_CustomerPaymentTermsText as TVZBT on ( TVZBT~CustomerPaymentTerms = KNVV~CustomerPaymentTerms AND
+                                                             TVZBT~Language             = @SY-LANGU )
+
+         LEFT OUTER JOIN ZSD_CustomerBySalesHierarchy as KNVH on ( KNVH~kunnr = KNVV~Customer AND
+                                                  KNVH~Vkorg = KNVV~SalesOrganization AND
+                                                  KNVH~Vtweg = KNVV~DistributionChannel AND
+                                                  KNVH~Spart = KNVV~Division )
+
+         left outer join I_CustomerSalesArea  AS hier_KNVV on ( hier_KNVV~customer = KNVH~Hkunnr )
+
+         LEFT OUTER JOIN  I_SALESDISTRICTTEXT as HIER on ( HIER~SalesDistrict               = hier_KNVV~SalesDistrict AND
+                                                           HIER~Language                    = @SY-LANGU )
+
+         LEFT OUTER JOIN I_SalesOfficeText as TVKBT on ( TVKBT~SalesOffice   = KNVV~SalesOffice AND
+                                                         TVKBT~Language      = @SY-LANGU )
+
+         LEFT OUTER JOIN I_SalesDistrictText as SalesDistrict on ( SalesDistrict~SalesDistrict    = KNVV~SalesDistrict AND
+                                                                   SalesDistrict~Language         = @SY-LANGU )
+
+
+         where KNVV~Customer IN @lr_customer AND
+               KNVV~SalesOrganization IN @LR_SORG
+         INTO TABLE @DATA(LT_FINAL)
+         up to @lv_max_rows rows
+         .
+
+  io_response-&gt;set_total_number_of_records( iv_total_number_of_records = lines( LT_FINAL  ) ).
+
+  io_response-&gt;set_data( it_data = LT_FINAL  ).
+
+  ENDMETHOD.
+ENDCLASS.
+]]></description><link>borealis\customer-master\sales-area-data\zcl_sd_get_sales_area.html</link><guid isPermaLink="false">Borealis/Customer Master/Sales Area Data/ZCL_SD_GET_SALES_AREA.md</guid><pubDate>Sat, 24 Aug 2024 08:23:58 GMT</pubDate></item><item><title><![CDATA[ZSD_CUSTOMER_MASTER]]></title><description><![CDATA[ 
+ <br>@EndUserText.label: 'Service Definition for Customer Master'
+define service ZSD_CUSTOMER_MASTER {
+  expose ZCE_SD_GENERALDATA;
+  expose ZCE_SD_SALESAREA;
+}
+]]></description><link>borealis\customer-master\zsd_customer_master.html</link><guid isPermaLink="false">Borealis/Customer Master/ZSD_CUSTOMER_MASTER.md</guid><pubDate>Sat, 24 Aug 2024 08:24:02 GMT</pubDate></item><item><title><![CDATA[ZIF_WRAP_CONVERSION]]></title><description><![CDATA[ 
+ <br>INTERFACE zif_wrap_conversion
+  PUBLIC .
+    METHODS fm_input
+    IMPORTING
+        lv_var1 TYPE clike
+    EXPORTING
+        lv_var2 TYPE clike.
+
+
+    METHODS fm_output
+    IMPORTING
+        value(input) TYPE any
+        value(language) like sy-langu
+    EXPORTING
+        value(long_text) type any
+        value(output) type any
+        value(short_text) type any
+    EXCEPTIONS
+        UNIT_NOT_FOUND.
+
+
+    METHODS fm_bapi
+    IMPORTING
+        value(username) type bapibname-bapibname
+        value(cache_results) type flag_x default 'X'
+    EXPORTING
+        value(logondata) type zbapilogond
+        value(address) type zbapiaddr3.
+*    TABLES
+*        RETURN type return.
+
+
+ENDINTERFACE.
+]]></description><link>borealis\extra-stuff\custom-interface\zif_wrap_conversion.html</link><guid isPermaLink="false">Borealis/Extra Stuff/Custom Interface/ZIF_WRAP_CONVERSION.md</guid><pubDate>Sat, 24 Aug 2024 08:24:15 GMT</pubDate></item><item><title><![CDATA[ZCL_SD_ORDERDETAILS_WRAPPER]]></title><description><![CDATA[ 
+ <br>CLASS zcl_sd_orderdetails_wrapper DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES zif_wrap_conversion.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+
+CLASS zcl_sd_orderdetails_wrapper IMPLEMENTATION.
+
+
+    METHOD zif_wrap_conversion~fm_input.
+
+    CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+      EXPORTING
+        input  = lv_var1
+      IMPORTING
+        output = lv_var2.
+
+    ENDMETHOD.
+
+
+
+    METHOD zif_wrap_conversion~fm_output.
+
+    CALL FUNCTION 'CONVERSION_EXIT_CUNIT_OUTPUT'
+      EXPORTING
+        input          = input
+        language       = language
+      IMPORTING
+        output         = output
+      EXCEPTIONS
+        unit_not_found = 1
+        others         = 2.
+
+    IF SY-SUBRC &lt;&gt; 0.
+*     MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+*       WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+    ENDIF.
+
+    ENDMETHOD.
+
+
+
+    METHOD zif_wrap_conversion~fm_bapi.
+
+        Data lt_return TYPE STANDARD TABLE OF bapiret2.
+
+        CALL FUNCTION 'BAPI_USER_GET_DETAIL'
+        EXPORTING
+            username = username
+            cache_results = cache_results
+        IMPORTING
+            logondata = logondata
+            address = address
+        TABLES
+            return = lt_return.
+
+    ENDMETHOD.
+
+
+ENDCLASS.
+]]></description><link>borealis\extra-stuff\wrapper-classes\zcl_sd_orderdetails_wrapper.html</link><guid isPermaLink="false">Borealis/Extra Stuff/Wrapper Classes/ZCL_SD_ORDERDETAILS_WRAPPER.md</guid><pubDate>Sat, 24 Aug 2024 08:24:23 GMT</pubDate></item><item><title><![CDATA[ZCL_SD_SHIPMENT_WRAPPER]]></title><description><![CDATA[ 
+ <br>CLASS zcl_sd_shipment_wrapper DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES zif_shipment_wrap_conversion.
+
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+
+CLASS zcl_sd_shipment_wrapper IMPLEMENTATION.
+
+
+  METHOD zif_shipment_wrap_conversion~fm_input.
+
+    CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+      EXPORTING
+        input  = lv_var1
+      IMPORTING
+        output = lv_var2.
+
+  ENDMETHOD.
+
+  METHOD zif_shipment_wrap_conversion~fm_alpha_output.
+
+    CALL FUNCTION 'CONVERSION_EXIT_ALPHA_OUTPUT'
+      EXPORTING
+        input  = lv_var1
+      IMPORTING
+        output = lv_var2.
+
+  ENDMETHOD.
+
+
+
+  METHOD zif_shipment_wrap_conversion~fm_output.
+
+    CALL FUNCTION 'CONVERSION_EXIT_CUNIT_OUTPUT'
+      EXPORTING
+        input          = input
+        language       = language
+      IMPORTING
+        output         = output
+      EXCEPTIONS
+        unit_not_found = 1
+        OTHERS         = 2.
+
+    IF sy-subrc &lt;&gt; 0.
+*         MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+*           WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+    ENDIF.
+
+  ENDMETHOD.
+
+  METHOD zif_shipment_wrap_conversion~fm_bapi.
+
+    DATA lt_return TYPE STANDARD TABLE OF bapiret2.
+
+    CALL FUNCTION 'BAPI_USER_GET_DETAIL'
+      EXPORTING
+        username      = username
+        cache_results = cache_results
+      IMPORTING
+        logondata     = logondata
+        address       = address
+      TABLES
+        return        = lt_return.
+
+  ENDMETHOD.
+
+  METHOD zif_shipment_wrap_conversion~get_doc_flow.
+
+    TYPES: BEGIN OF lty_s_doc_flow_relation,
+             source_key TYPE zbobf_conf_key,
+             target_key TYPE zbobf_conf_key,
+             relshp     TYPE zscmtms_doc_flow_relshp,
+           END OF lty_s_doc_flow_relation,
+
+           lty_ts_doc_flow_relation TYPE SORTED TABLE OF lty_s_doc_flow_relation
+                                      WITH NON-UNIQUE KEY primary_key COMPONENTS source_key target_key
+                                      WITH NON-UNIQUE SORTED KEY target_key COMPONENTS target_key.
+
+    DATA:
+      lt_root_table_relation  TYPE lty_ts_doc_flow_relation.
+*      lt_root_table_relation1 TYPE TABLE OF lty_s_doc_flow_relation.
+
+
+    CALL METHOD /scmtms/cl_doc_flow_factory=&gt;get_instance
+      EXPORTING
+        iv_bo_key   = /scmtms/if_tor_c=&gt;sc_bo_key
+      RECEIVING
+        ro_doc_flow = DATA(lo_doc_flow_ref).
+
+    CALL METHOD lo_doc_flow_ref-&gt;get_doc_flow
+      EXPORTING
+        iv_direction         = 'A'
+        iv_node_key          = /scmtms/if_tor_c=&gt;sc_node-root
+        it_key               = lt_key
+      CHANGING
+        ct_doc_flow          = lt_root
+        ct_doc_flow_relation = lt_root_table_relation.
+
+  ENDMETHOD.
+
+  METHOD zif_shipment_wrap_conversion~get_data_for_display.
+
+    DATA: lo_tms_docflow    TYPE REF TO cl_tms_docflow_data.
+
+    Create object lo_tms_docflow
+      EXPORTING
+        iv_doc_type     = '00'
+        iv_doc_nr       = lv_doc_nr.
+
+    CALL METHOD lo_tms_docflow-&gt;get_data_for_display
+    EXPORTING
+        iv_display_type = zif_tms_docflow_c=&gt;view_tm
+    IMPORTING
+        et_docflow      = lt_flow.
+
+  ENDMETHOD.
+
+  METHOD zif_shipment_wrap_conversion~get_plan_trans_time.
+
+    CALL METHOD /scmtms/cl_tor_helper_read=&gt;get_tor_data
+      EXPORTING
+        it_root_key                    = it_root_key
+      IMPORTING
+        et_stop_first                  = et_stop_first
+        et_stop_last                   = et_stop_last
+      .
+
+  ENDMETHOD.
+
+ENDCLASS.
+]]></description><link>borealis\extra-stuff\wrapper-classes\zcl_sd_shipment_wrapper.html</link><guid isPermaLink="false">Borealis/Extra Stuff/Wrapper Classes/ZCL_SD_SHIPMENT_WRAPPER.md</guid><pubDate>Sat, 24 Aug 2024 08:24:26 GMT</pubDate></item><item><title><![CDATA[ZCE_SD_GET_DELIVERY_DETAILS]]></title><description><![CDATA[ 
+ <br>@EndUserText.label: 'Delivery Details Interface'
+@ObjectModel.query.implementedBy: 'ABAP:ZCL_SD_GET_DELIVERYDETAILS'
+
+//--------------------------------------------------------------------------*
+//                LEONARDO - MODIFICATION LOG                               *
+//--------------------------------------------------------------------------*
+// Development Name     : ZCE_SD_GET_DELIVERY_DETAILS                       *
+// Description          : Custom Entity for Delivery Details                *
+// Developed by         : DEEPAK10                                          *
+// Developed on         : 26/04/2024                                        *
+// Developer Package    : ZCHEM_ZSD_200                                     *
+//--------------------------------------------------------------------------*
+//                    C H A N G E  H I S T O R Y                            *
+//--------------------------------------------------------------------------*
+// &lt;Date&gt;    &lt;Developer name&gt;   &lt;Charm ID&gt;      &lt;Defect/CR/Initial Dev&gt;     *
+//--------------------------------------------------------------------------*
+
+define custom entity ZCE_SD_GET_DELIVERY_DETAILS
+// with parameters parameter_name : parameter_type
+{
+
+    key SalesDocument     : abap.char(10);
+    key SalesDocumentItem : abap.char(6);
+    key SalesOrganization : abap.char(4);
+    key SoldToParty       : abap.char(10);    
+    key DeliveryNo        : abap.char(10);
+    key DeliveryItem      : abap.char(6);
+//@Semantics.quantity.unitOfMeasure: 'GEWEI'
+    ShipmentNumber        : abap.char(10);
+    EtaDeliveryDate       : abap.char(10);
+    EtaDeliveryTime       : abap.char(8);
+    ConfirmedDeliveryDate : abap.char(10);
+    ConfirmedDeliveryTime : abap.char(8);
+    ShippingType          : abap.char(4);
+    CarrierAgentId        : abap.char(10);
+    CarrierName           : abap.char(30);
+    Quantity              : abap.char(16);
+    UnitOfMeasure         : abap.char(3);
+    DeliveryStatus        : abap.char(10);
+    ComplaintId           : abap.char(12);
+    Invoice               : abap.char(10);
+    
+    orderitem             : association to parent ZCE_SD_GET_ORDER_ITEM on 
+        $projection.SalesDocument     = orderitem.SalesDocument    
+    and $projection.SalesDocumentItem = orderitem.SalesDocumentItem 
+    and $projection.SalesOrganization = orderitem.SalesOrganization  
+    and $projection.SoldToParty       = orderitem.SoldToParty        ;
+}
+]]></description><link>borealis\sale-order-item\delivery\zce_sd_get_delivery_details.html</link><guid isPermaLink="false">Borealis/Sale Order Item/Delivery/ZCE_SD_GET_DELIVERY_DETAILS.md</guid><pubDate>Sat, 24 Aug 2024 08:24:57 GMT</pubDate></item><item><title><![CDATA[ZCL_SD_GET_DELIVERYDETAILS]]></title><description><![CDATA[ 
+ <br>
+**--------------------------------------------------------------------------*
+**                LEONARDO - MODIFICATION LOG                               *
+**--------------------------------------------------------------------------*
+** Development Name     : ZCL_SD_GET_DELIVERYDETAILS                        *
+** Description          : Class Implementation to get Delivery Details      *
+** Developed by         : DEEPAK10                                          *
+** Developed on         : 24/04/2024                                        *
+** Developer Package    : ZCHEM_ZSD_200                                     *
+**--------------------------------------------------------------------------*
+**                    C H A N G E  H I S T O R Y                            *
+**--------------------------------------------------------------------------*
+** &lt;Date&gt;    &lt;Developer name&gt;   &lt;Charm ID&gt;      &lt;Defect/CR/Initial Dev&gt;     *
+**--------------------------------------------------------------------------*
+
+CLASS zcl_sd_get_deliverydetails DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES if_rap_query_provider .
+
+    DATA:
+      lt_DELIVERY_details TYPE TABLE OF zce_sd_get_delivery_details.
+    DATA ls_DELIVERY_details TYPE zce_sd_get_delivery_details.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+
+CLASS zcl_sd_get_deliverydetails IMPLEMENTATION.
+
+
+  METHOD if_rap_query_provider~select.
+
+    DATA:
+      lv_vkorg TYPE z_vkorg,      "Sales Organization
+      lv_kunnr TYPE z_kunnr,      "Sold-to Party
+      lv_vbeln TYPE z_vbeln_va,   "Sales Document
+      lv_posnr TYPE z_posnr_va.   "Sales Document Item
+
+    DATA: lr_object_id TYPE RANGE OF z_cdobjectv,
+          lv_nflag     TYPE flag VALUE 'N'.     "Flag for indicating absence of data
+
+    DATA: lo_cx_root TYPE REF TO cx_root,
+          lv_text    TYPE string.
+
+    DATA: lc_obj type ref to zcl_sd_orderdetails_wrapper,
+          lo_tms_docflow TYPE REF TO zcl_tms_docflow_data,
+          lt_flow        TYPE Z_TMS_S_DOC_FLOW_SCR,
+          lv_tms_doc_nr  TYPE z_tms_doc_nr,
+          lv_time        TYPE t,
+          lv_time1       TYPE t.
+
+    DATA(ls_paging) = io_request-&gt;get_paging( ).
+
+
+    TRY.
+        DATA(lO_paging) = io_request-&gt;get_paging( ).    "Get Paging Information from Request
+        DATA(lv_rows) = lO_paging-&gt;get_page_size( ).    "Get Max Rows
+        DATA(lv_max_rows) = COND #( WHEN lv_rows EQ if_rap_query_paging=&gt;page_size_unlimited THEN 0 ELSE lv_rows ).
+
+        DATA(lv_top)  = io_request-&gt;get_paging( )-&gt;get_page_size( ).
+        DATA(lv_skip) = io_request-&gt;get_paging( )-&gt;get_offset( ).
+
+        "Get Order by string to get top and skip records
+
+        DATA lv_orderby_string TYPE string.
+        DATA(lt_sort) = io_request-&gt;get_sort_elements( ).
+
+        " $order by was called
+
+        IF lt_sort IS NOT INITIAL.
+          CLEAR lv_orderby_string.
+          LOOP AT lt_sort INTO DATA(ls_sort).
+            IF ls_sort-descending = abap_true.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'DESCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ELSE.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'ASCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ENDIF.
+          ENDLOOP.
+        ELSE.
+          "If no sorting criteria provided, use Default
+          lv_orderby_string = 'SALESORGANIZATION, SOLDTOPARTY, SALESDOCUMENT, SALESDOCUMENTITEM'.
+        ENDIF.
+
+
+        DATA(filter_condition) = io_request-&gt;get_filter( )-&gt;get_as_ranges( ).
+
+        LOOP AT filter_condition ASSIGNING FIELD-SYMBOL(&lt;lf_cond&gt;).
+          CASE &lt;lf_cond&gt;-name.
+            WHEN 'SALESORGANIZATION'.
+              lv_vkorg = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'SOLDTOPARTY'.
+              lv_kunnr = &lt;lf_cond&gt;-range[ 1 ]-low.
+              lv_kunnr = |{ lv_kunnr ALPHA = IN }|.
+
+            WHEN 'SALESDOCUMENT'.
+              DATA(lv_variable1) =  &lt;lf_cond&gt;-range[ 1 ]-low.
+
+              create object lc_obj.
+
+              lc_obj-&gt;zif_wrap_conversion~fm_input(
+                EXPORTING
+                  lv_var1 = lv_variable1
+                IMPORTING
+                  lv_var2 = lv_vbeln
+              ).
+
+*              CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+*                EXPORTING
+*                  input  = lv_variable1
+*                IMPORTING
+*                  output = lv_vbeln.
+
+            WHEN 'SALESDOCUMENTITEM'.
+              DATA(lv_variable2) =  &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            create object lc_obj.
+
+              lc_obj-&gt;zif_wrap_conversion~fm_input(
+                EXPORTING
+                  lv_var1 = lv_variable2
+                IMPORTING
+                  lv_var2 = lv_posnr
+              ).
+
+*              CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+*                EXPORTING
+*                  input  = lv_variable2
+*                IMPORTING
+*                  output = lv_posnr.
+          ENDCASE.
+
+        ENDLOOP.
+
+      CATCH cx_rap_query_filter_no_range INTO DATA(lo_range_ex).
+        DATA(lv_error) = lo_range_ex-&gt;get_text( ).
+
+    ENDTRY.
+
+*    BREAK-POINT ID ZSD_DELIVERY.
+
+    "Fetching Relevant Fields from VBAP
+    SELECT
+            SalesDocument,
+            SalesDocumentItem,
+            Material,
+            OriginallyRequestedMaterial,
+            NetPriceQuantityunit,
+            OrderQuantity
+
+          FROM i_salesdocumentitem AS vbap
+          WHERE SalesDocument EQ @lv_vbeln
+            AND SalesDocumentItem EQ @lv_posnr
+            AND SalesOrganization EQ @lv_vkorg
+            AND SoldToParty EQ @lv_kunnr
+            INTO @DATA(ls_vbap)
+            UP TO 1 ROWS.
+    ENDSELECT.
+
+    APPEND INITIAL LINE TO lt_DELIVERY_details ASSIGNING FIELD-SYMBOL(&lt;lf_DELIVERY_details&gt;).
+    &lt;lf_DELIVERY_details&gt;-SalesOrganization = lv_vkorg.
+    &lt;lf_DELIVERY_details&gt;-SoldToParty = lv_kunnr.
+    &lt;lf_DELIVERY_details&gt;-SalesDocument = lv_vbeln.
+    &lt;lf_DELIVERY_details&gt;-SalesDocumentItem = lv_posnr.
+    &lt;lf_DELIVERY_details&gt;-Quantity = ls_vbap-OrderQuantity.
+
+    IF sy-subrc EQ 0.
+
+      "Fetching Relevant Fields from LIPS
+      SELECT  DeliveryDocument,
+              DeliveryDocumentItem,
+              ItemNetWeight,
+              ItemWeightUnit,
+              ReferenceSDDocument,
+              ReferenceSDDocumentItem,
+              SDProcessStatus
+
+      FROM i_deliverydocumentitem AS lips
+
+      WHERE ReferenceSDDocument EQ @lv_vbeln
+        AND ReferenceSDDocumentItem EQ @lv_posnr
+        INTO @DATA(ls_lips)
+        UP TO 1 ROWS.
+      ENDSELECT.
+
+      IF ls_lips IS NOT INITIAL.
+        &lt;lf_delivery_details&gt;-deliveryno = ls_lips-DeliveryDocument.
+        &lt;lf_delivery_details&gt;-deliveryitem = ls_lips-DeliveryDocumentItem.
+
+        SELECT  Notification,
+                DeliveryDocument,
+                DeliveryDocumentItem
+          FROM zi_notification AS qmel
+          WHERE DeliveryDocument EQ @ls_lips-DeliveryDocument
+            AND DeliveryDocumentItem EQ @ls_lips-DeliveryDocumentItem
+            INTO TABLE @DATA(lt_qmel).
+      ENDIF.
+
+      "Fetching Relevant Fields from VBFA
+      SELECT    PrecedingDocument,
+                PrecedingDocumentItem,
+                SubsequentDocument,
+                SubsequentDocumentItem,
+                SubsequentDocumentCategory
+        FROM zsd_vbfa_cds AS vbfa
+        WHERE PrecedingDocument EQ @lv_vbeln
+          AND PrecedingDocumentItem = @lv_posnr
+          AND SubsequentDocumentCategory EQ 'M'
+          INTO TABLE @DATA(lt_vbfa).
+
+      IF lt_vbfa IS NOT INITIAL.
+        SELECT BillingDocument,
+               CreationTime,
+               CreationDate
+          FROM i_billingdocumentbasic AS vbrk
+          FOR ALL ENTRIES IN @lt_vbfa
+          WHERE BillingDocument EQ @lt_vbfa-SubsequentDocument
+          INTO TABLE @DATA(lt_vbrk).
+      ENDIF.
+
+
+      "Fetching Relevant Fields from ZZSD_CART
+      SELECT *
+        FROM ZSD_ZZSD_CART_CDS
+        WHERE vbeln EQ @lv_vbeln
+          AND posnr EQ @lv_posnr
+          INTO TABLE @DATA(lt_cart).
+
+      APPEND VALUE #( sign = 'I' option = 'EQ' low = lv_vbeln ) TO lr_object_id.
+
+      SELECT *
+        FROM zzsd_myb_ship_tl
+        WHERE zzactive = @abap_true
+        INTO TABLE @DATA(lt_ship_tl).
+
+      IF sy-subrc = 0.
+        SORT lt_ship_tl BY zzevent_type.
+      ENDIF.
+
+*      READ TABLE lt_vbap ASSIGNING FIELD-SYMBOL(&lt;lf_vbap1&gt;) INDEX 1.
+*      IF &lt;lf_vbap1&gt; IS ASSIGNED.
+      lv_tms_doc_nr   = lv_vbeln.
+
+      CREATE OBJECT lo_tms_docflow
+        EXPORTING
+          iv_doc_type = '00' "sales order
+          iv_doc_nr   = lv_tms_doc_nr.
+      FREE lt_flow.
+
+      CALL METHOD lo_tms_docflow-&gt;get_data_for_display
+        EXPORTING
+          iv_display_type = zif_tms_docflow_c=&gt;view_tm
+        IMPORTING
+          et_docflow      = lt_flow.
+
+      READ TABLE lt_flow INTO DATA(lwa_flow)
+                         WITH KEY item_category_name  = TEXT-t01.
+      IF sy-subrc EQ 0.
+        SELECT SINGLE db_key, tor_id, tor_cat, tor_type, tspid
+          FROM zi_transportationorder
+          WHERE tor_id EQ @lwa_flow-btd_id
+          INTO @DATA(ls_torrot).
+
+        IF sy-subrc EQ 0.
+          SELECT SINGLE BusinessPartner, OrganizationBPName1, OrganizationBPName2
+            FROM I_BusinessPartner        "but000
+            WHERE BusinessPartner EQ @ls_torrot-tspid
+            INTO @DATA(ls_but000).
+          IF sy-subrc EQ 0.
+
+            CONCATENATE ls_but000-OrganizationBPName1 ls_but000-OrganizationBPName2
+              INTO &lt;lf_DELIVERY_details&gt;-carriername
+              SEPARATED BY space.
+          ENDIF.
+
+          SELECT SINGLE db_key, parent_key, plan_trans_time
+            FROM ZI_TransportationOrderStop
+            WHERE parent_key EQ @ls_torrot-db_key
+            INTO @DATA(lwa_tor_stop).
+          IF sy-subrc EQ 0.
+
+            " Convert Time-stamp
+            CONVERT TIME STAMP lwa_tor_stop-plan_trans_time TIME ZONE sy-zonlo
+              INTO DATE DATA(lv_date) TIME lv_time DAYLIGHT SAVING TIME DATA(lv_dst).
+
+            &lt;lf_DELIVERY_details&gt;-shipmentnumber     = |{ ls_torrot-tor_id   ALPHA = OUT }|.
+            CONCATENATE lv_date+6(2) '.'
+                        lv_date+4(2) '.'
+                        lv_date+0(4)
+                   INTO &lt;lf_DELIVERY_details&gt;-etadeliverydate.
+
+            CONCATENATE lv_time+0(2) ':'
+                        lv_time+2(2) ':'
+                        lv_time+4(2)
+                   INTO &lt;lf_DELIVERY_details&gt;-etadeliverytime.
+
+            &lt;lf_DELIVERY_details&gt;-shippingtype    = ls_torrot-tor_type.
+            &lt;lf_DELIVERY_details&gt;-carrieragentid  = ls_torrot-tspid.
+
+            SELECT SINGLE db_key, parent_key, actual_date, event_code
+              FROM ZI_TranspOrdExecution
+              WHERE parent_key EQ @ls_torrot-db_key
+                AND event_code EQ 'POD'
+                INTO @DATA(lwa_tor_exe).
+            IF sy-subrc EQ 0.
+
+              " Convert Time-stamp
+              CONVERT TIME STAMP lwa_tor_stop-plan_trans_time TIME ZONE sy-zonlo
+              INTO DATE DATA(lv_date1) TIME lv_time1 DAYLIGHT SAVING TIME DATA(lv_dst1).
+
+              CONCATENATE lv_date1+6(2) '.'
+                          lv_date1+4(2) '.'
+                          lv_date1+0(4)
+                   INTO &lt;lf_DELIVERY_details&gt;-confirmeddeliverydate.
+
+              CONCATENATE lv_time1+0(2) ':'
+                          lv_time1+2(2) ':'
+                          lv_time1+4(2)
+                     INTO &lt;lf_DELIVERY_details&gt;-confirmeddeliverytime.
+            ENDIF.
+          ENDIF.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+      create object lc_obj.
+
+          lc_obj-&gt;zif_wrap_conversion~fm_output(
+            EXPORTING
+              input          = LS_LIPS-ItemWeightUnit
+              language       = sy-langu
+            IMPORTING
+*              long_text      =
+              output         = &lt;lf_delivery_details&gt;-UnitOfMeasure
+*              short_text     =
+            EXCEPTIONS
+              unit_not_found = 1
+              others         = 2
+          ).
+*          IF SY-SUBRC &lt;&gt; 0.
+**           MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+**             WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+*          ENDIF.
+
+*    CALL FUNCTION 'CONVERSION_EXIT_CUNIT_OUTPUT'
+*        EXPORTING
+*            input          = LS_LIPS-ItemWeightUnit
+*            language       = sy-langu
+*        IMPORTING
+*            output         = &lt;lf_DELIVERY_details&gt;-UnitOfMeasure
+*        EXCEPTIONS
+*            unit_not_found = 1
+*            OTHERS         = 2.
+
+    &lt;lf_DELIVERY_details&gt;-deliverystatus  = ls_lips-SDProcessStatus.
+
+    READ TABLE lt_qmel ASSIGNING FIELD-SYMBOL(&lt;lf_qmel&gt;)
+                   WITH KEY DeliveryDocument = ls_lips-DeliveryDocument
+                            DeliveryDocumentItem = ls_lips-DeliveryDocumentItem.
+    IF &lt;lf_qmel&gt; IS ASSIGNED.
+      &lt;lf_DELIVERY_details&gt;-complaintid   = &lt;lf_qmel&gt;-Notification.
+    ENDIF.
+
+
+    READ TABLE lt_vbfa ASSIGNING FIELD-SYMBOL(&lt;lf_vbfa&gt;)
+                       WITH KEY PrecedingDocument = lv_vbeln
+                                PrecedingDocumentItem = lv_posnr.
+
+    IF &lt;lf_vbfa&gt; IS ASSIGNED.
+      &lt;lf_DELIVERY_details&gt;-Invoice        = &lt;lf_vbfa&gt;-SubsequentDocument.
+    ENDIF.
+
+    io_response-&gt;set_total_number_of_records( iv_total_number_of_records = lines( lt_DELIVERY_details  ) ).
+    io_response-&gt;set_data( it_data = lt_DELIVERY_details  ).
+
+  ENDMETHOD.
+ENDCLASS.
+]]></description><link>borealis\sale-order-item\delivery\zcl_sd_get_deliverydetails.html</link><guid isPermaLink="false">Borealis/Sale Order Item/Delivery/ZCL_SD_GET_DELIVERYDETAILS.md</guid><pubDate>Sat, 24 Aug 2024 08:25:02 GMT</pubDate></item><item><title><![CDATA[ZCE_SD_GET_ORDER_ITEM]]></title><description><![CDATA[ 
+ <br>@EndUserText.label: 'Order Item Details'
+@ObjectModel.query.implementedBy: 'ABAP:ZCL_SD_GET_ORDERDETAILS'
+
+//--------------------------------------------------------------------------*
+//                LEONARDO - MODIFICATION LOG                               *
+//--------------------------------------------------------------------------*
+// Development Name     : ZCE_SD_GET_ORDER_ITEM                             *
+// Description          : Custom Entity for Order Item Details              *
+// Developed by         : DEEPAK10                                          *
+// Developed on         : 25/04/2024                                        *
+// Developer Package    : ZCHEM_ZSD_200                                     *
+//--------------------------------------------------------------------------*
+//                    C H A N G E  H I S T O R Y                            *
+//--------------------------------------------------------------------------*
+// &lt;Date&gt;    &lt;Developer name&gt;   &lt;Charm ID&gt;      &lt;Defect/CR/Initial Dev&gt;     *
+//--------------------------------------------------------------------------*
+
+define root custom entity ZCE_SD_GET_ORDER_ITEM
+{
+    key SalesOrganization : abap.char(4);
+    key SoldToParty       : abap.char(10);
+    key SalesDocument     : abap.char(10);
+    key SalesDocumentItem : abap.char(6);
+    
+    OrderId               : abap.char(10);
+    OrderLineItemNumber   : abap.char(6);
+    SoldTo                : abap.char(10);
+    ShipTo                : abap.char(10);
+    BillTo                : abap.char(10);
+    Payer                 : abap.char(10);
+    Incoterms1            : abap.char(3);
+    Incoterms2            : abap.char(28);
+    PoNumber              : abap.char(35);
+    OrderType             : abap.char(4);
+    OrderTypeText         : abap.char(20);
+    RequestedDate         : abap.char(10);
+    ConfirmedDate         : abap.char(10);
+    MaterialNumber        : abap.char(40);
+    Plant                 : abap.char(4);
+    SpeciicationId        : abap.char(12);
+    Trade                 : abap.char(30);
+    //@Semantics.quantity.unitOfMeasure: 'MEINS_REQ_QTY'
+    OrderQuantity         : abap.char(16);
+    OrderQuantityUnit     : abap.char(3);
+    //@Semantics.quantity.unitOfMeasure: 'VRKME'
+    ConfirmedQuantity     : abap.char(16);
+    ConfirmedQuantityUnit : abap.char(3);
+    //@Semantics.quantity.unitOfMeasure: 'ZMEINH_ALT1'
+    Alt1OrderQuantity     : abap.char(13);
+    Alt1OrderQuantityUnit : abap.char(3);
+    //@Semantics.quantity.unitOfMeasure: 'ZMEINH_ALT2'
+    Alt2OrderQuantity     : abap.char(13);
+    Alt2OrderQuantityUnit : abap.char(3);
+    @Semantics.amount.currencyCode: 'CURRENCYKEY'
+    Amount                : abap.curr( 15, 2 );
+    @Semantics.currencyCode: true
+    CurrencyKey           : abap.cuky(5);
+    Rate                  : abap.curr( 11, 2 );
+    RateUnit              : abap.dec(5);
+    UnitOfMeasure         : abap.char(3);
+    Sustainable           : abap.char(1);
+    CertificateNumber     : abap.char(35);
+    CertificateType       : abap.char(40);
+    CertificateDate       : abap.char(20);
+    
+    BnBc_Quantity         : abap.dec( 15, 2 );
+    CES_Flag              : abap.char(2);
+    OldMaterial           : abap.char(40);
+    BasicMaterial         : abap.char(48);
+    Status                : abap.char(50);
+    
+    Has_data              : abap.char(1);
+        
+    Type                  : abap.char(1);
+    ID                    : abap.char(20);
+    Msgno                 : abap.numc(3);
+    Error_Message         : abap.char(220);
+    
+    delivery              : composition [1..*] of ZCE_SD_GET_DELIVERY_DETAILS;
+    timeline              : composition [1..1] of ZCE_SD_GET_TIMELINE_DETAILS;
+}
+]]></description><link>borealis\sale-order-item\order-item\zce_sd_get_order_item.html</link><guid isPermaLink="false">Borealis/Sale Order Item/Order Item/ZCE_SD_GET_ORDER_ITEM.md</guid><pubDate>Tue, 27 Aug 2024 08:09:27 GMT</pubDate></item><item><title><![CDATA[ZCL_SD_GET_ORDERDETAILS]]></title><description><![CDATA[ 
+ <br>
+**--------------------------------------------------------------------------*
+**                LEONARDO - MODIFICATION LOG                               *
+**--------------------------------------------------------------------------*
+** Development Name     : ZCL_SD_GET_ORDERDETAILS                           *
+** Description          : Class Implementation to get Order Item Details    *
+** Developed by         : DEEPAK10                                          *
+** Developed on         : 24/04/2024                                        *
+** Developer Package    : ZCHEM_ZSD_200                                     *
+**--------------------------------------------------------------------------*
+**                    C H A N G E  H I S T O R Y                            *
+**--------------------------------------------------------------------------*
+** &lt;Date&gt;    &lt;Developer name&gt;   &lt;Charm ID&gt;      &lt;Defect/CR/Initial Dev&gt;     *
+**--------------------------------------------------------------------------*
+
+CLASS zcl_sd_get_orderdetails DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES if_rap_query_provider .
+
+    DATA:
+      lc_obj type ref to zcl_sd_orderdetails_wrapper,
+      lt_order_details TYPE TABLE OF zce_sd_get_order_item,     "Internal Table for storing Order Details
+      ls_order_details TYPE zce_sd_get_order_item.      "Structure for Individual Order Details
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+CLASS zcl_sd_get_orderdetails IMPLEMENTATION.
+
+  METHOD if_rap_query_provider~select.
+
+    DATA: lv_vkorg TYPE Z_VKORG,      "Sales Organization
+          lv_kunnr TYPE Z_KUNNR,      "Sold-to Party
+          lv_vbeln TYPE Z_VBELN_VA,   "Sales Document
+          lv_posnr TYPE Z_POSNR_VA.   "Sales Document Item
+
+    DATA: lv_nflag TYPE flag VALUE 'N'.     "Flag for indicating absence of data
+
+    TRY.
+        DATA(lO_paging) = io_request-&gt;get_paging( ).    "Get Paging Information from Request
+        DATA(lv_rows) = lO_paging-&gt;get_page_size( ).    "Get Max Rows
+        DATA(lv_max_rows) = COND #( WHEN lv_rows EQ if_rap_query_paging=&gt;page_size_unlimited THEN 0 ELSE lv_rows ).
+
+        DATA(lv_top)  = io_request-&gt;get_paging( )-&gt;get_page_size( ).
+        DATA(lv_skip) = io_request-&gt;get_paging( )-&gt;get_offset( ).
+
+        "Get Order by string to get top and skip records
+
+        DATA lv_orderby_string TYPE string.
+        DATA(lt_sort) = io_request-&gt;get_sort_elements( ).
+
+        " $order by was called
+
+        IF lt_sort IS NOT INITIAL.
+          CLEAR lv_orderby_string.
+          LOOP AT lt_sort INTO DATA(ls_sort).
+            IF ls_sort-descending = abap_true.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'DESCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ELSE.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'ASCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ENDIF.
+          ENDLOOP.
+        ELSE.
+
+          "If no sorting criteria provided, use Default
+          lv_orderby_string = 'SALESORGANIZATION, SOLDTOPARTY, SALESDOCUMENT, SALESDOCUMENTITEM'.
+        ENDIF.
+
+
+        DATA(filter_condition) = io_request-&gt;get_filter( )-&gt;get_as_ranges( ).
+
+        LOOP AT filter_condition ASSIGNING FIELD-SYMBOL(&lt;lf_cond&gt;).
+          CASE &lt;lf_cond&gt;-name.
+            WHEN 'SALESORGANIZATION'.
+              lv_vkorg = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'SOLDTOPARTY'.
+              lv_kunnr = &lt;lf_cond&gt;-range[ 1 ]-low.
+              lv_kunnr = |{ lv_kunnr ALPHA = IN }|.
+
+            WHEN 'SALESDOCUMENT'.
+              DATA(lv_variable1) =  &lt;lf_cond&gt;-range[ 1 ]-low.
+
+              create object lc_obj.
+
+              lc_obj-&gt;zif_wrap_conversion~fm_input(
+                EXPORTING
+                  lv_var1 = lv_variable1
+                IMPORTING
+                  lv_var2 = lv_vbeln
+              ).
+
+*              CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+*                EXPORTING
+*                  input  = lv_variable1
+*                IMPORTING
+*                  output = lv_vbeln.
+
+
+            WHEN 'SALESDOCUMENTITEM'.
+              DATA(lv_variable2) =  &lt;lf_cond&gt;-range[ 1 ]-low.
+
+
+                create object lc_obj.
+
+                  lc_obj-&gt;zif_wrap_conversion~fm_input(
+                    EXPORTING
+                      lv_var1 = lv_variable2
+                    IMPORTING
+                      lv_var2 = lv_posnr
+                  ).
+
+*              CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+*                EXPORTING
+*                  input  = lv_variable2
+*                IMPORTING
+*                  output = lv_posnr.
+
+          ENDCASE.
+
+        ENDLOOP.
+
+      CATCH cx_rap_query_filter_no_range INTO DATA(lo_range_ex).
+        DATA(lv_error) = lo_range_ex-&gt;get_text( ).
+
+    ENDTRY.
+
+*    BREAK-POINT ID ZSD_ORDERITEM.       "Breakpoint for debugging
+
+    "Fetching Relevant Fields from VBAP
+    SELECT
+           vbap~SalesDocument,
+           vbap~SalesDocumentItem,
+           vbap~SalesDocument AS orderid,
+           vbap~SalesDocumentItem AS OrderLineItemNumber,
+           vbap~SoldToParty AS soldto,
+           vbap~ShipToParty AS shipto,
+           vbap~BillToParty AS billto,
+           vbap~PayerParty AS payer,
+           vbap~PurchaseOrderByCustomer,
+           vbap~SalesDocumentType,
+           vbap~zz1_requesteddate_sdi AS requestedDate,
+           vbap~PurchaseOrderByCustomer AS poNumber,
+           vbap~Material,
+           vbap~Plant,
+           specid~trade AS Trade,
+           specid~subid AS SpecificationID,
+           vbap~BaseUnit,
+           vbap~NetAmount,
+           vbap~TransactionCurrency,
+           vbap~NetPriceAmount,
+           vbap~NetPriceQuantity,
+           vbap~NetPriceQuantityUnit,
+           vbap~OriginallyRequestedMaterial,
+           vbak~IncotermsClassification AS incoterms1,
+           vbak~IncotermsTransferLocation AS incoterms2,
+           vbap~NetPriceAmount AS Rate,
+           vbap~NetPriceQuantity AS rateUnit,
+           vbap~NetPriceQuantityUnit AS unitOfMeasure,
+           vbap~ZZ1_ZZBNCERTNR_SDI AS CertificateNumber,
+           vbap~zz1_zzces_certmat_sdi AS CertificateType,
+           vbap~ZZ1_DATBI_SDI AS CertificateDate,
+
+           vbap~zz1_status_sdi AS Status,
+           vbap~ZZ1_TRANSITDURATION_SDI,
+           zvbap~BnBc_Quantity,
+           zvbap~CES_Flag
+
+           FROM i_salesdocumentitem   AS vbap
+           LEFT OUTER JOIN i_salesdocument AS vbak ON vbak~salesdocument = vbap~SalesDocument
+           LEFT OUTER JOIN zsd_specid AS specid ON specid~matnr = vbap~Material
+           LEFT OUTER JOIN zsd_zz1vbap AS zvbap ON zvbap~vbeln = vbap~SalesDocument
+           WHERE vbap~SalesDocument EQ @lv_vbeln
+               AND vbap~salesdocumentitem EQ @lv_posnr
+               AND vbap~SalesOrganization EQ @lv_vkorg
+               AND vbap~SoldToParty EQ @lv_kunnr
+               INTO @DATA(lS_vbap)
+               UP TO 1 ROWS.
+    ENDSELECT.
+
+    APPEND INITIAL LINE TO lt_order_details ASSIGNING FIELD-SYMBOL(&lt;lf_order_details&gt;).
+    &lt;lf_order_details&gt;-SalesOrganization  = lv_vkorg.
+    &lt;lf_order_details&gt;-SoldToParty        = lv_kunnr.
+    &lt;lf_order_details&gt;-SalesDocument      = lv_vbeln.
+    &lt;lf_order_details&gt;-salesdocumentitem  = lv_posnr.
+
+    CONCATENATE ls_vbap-CertificateDate+6(2) '.'
+                ls_vbap-CertificateDate+4(2) '.'
+                ls_vbap-CertificateDate+0(4)
+           INTO &lt;lf_order_details&gt;-CertificateDate.
+
+    &lt;lf_order_details&gt;-CertificateNumber  = ls_vbap-certificatenumber.
+    &lt;lf_order_details&gt;-BnBc_Quantity      = ls_vbap-BnBc_Quantity.
+    &lt;lf_order_details&gt;-CES_Flag           = ls_vbap-CES_Flag.
+    &lt;lf_order_details&gt;-Status             = ls_vbap-status.
+
+    DATA(VAR1) = ls_vbap-ZZ1_TransitDuration_SDI.
+
+    IF sy-subrc NE 0.
+
+      &lt;lf_order_details&gt;-has_data = lv_nflag.
+      &lt;lf_order_details&gt;-type = 'E'.
+      &lt;lf_order_details&gt;-id = 'WUSL'.
+      &lt;lf_order_details&gt;-msgno = '002'.
+
+    ELSE.
+
+      "Fetching Relevant Fields from TVAKT
+      SELECT    Language,
+                SalesDocumentType,
+                SalesDocumentTypeName
+          FROM i_salesdocumenttypetext  AS tvakt
+
+          WHERE SalesDocumentType EQ @ls_vbap-SalesDocumentType AND
+                Language EQ @sy-langu
+          INTO @DATA(lS_tvakt)
+           UP TO 1 ROWS.
+      ENDSELECT.
+
+      "Fetching Relevant Fields from VBEP
+      SELECT SalesDocument,
+             SalesDocumentItem,
+             scheduleline,
+             DeliveryDate,
+             ConfdOrderQtyByMatlAvailCheck,
+             ScheduleLineOrderQuantity,
+             OrderQuantityUnit
+          FROM i_salesdocumentscheduleline
+          WHERE SalesDocument EQ @lS_vbap-SalesDocument
+          AND SalesDocumentItem EQ @lS_vbap-SalesDocumentItem
+          INTO TABLE @DATA(lt_vbep).
+
+      "Fetching Relevant Fields from MARM
+      SELECT Product,
+             AlternativeUnit,
+             QuantityNumerator
+          FROM i_productunitsofmeasure
+          WHERE Product EQ @lS_vbap-Material
+          AND AlternativeUnit NE @lS_vbap-BaseUnit
+          INTO TABLE @DATA(lt_marm)
+          UP TO 2 ROWS.
+*          ORDER BY PRIMARY KEY.
+*      ENDSELECT.
+
+      IF sy-subrc = 0.
+        READ TABLE lt_marm INTO DATA(ls_marm) INDEX 1.
+            IF sy-subrc = 0.
+                DATA(Alt1OrderQuantity) = ls_marm-QuantityNumerator.
+                DATA(Alt1OrderQuantityUnit) = ls_marm-AlternativeUnit.
+            ENDIF.
+        READ TABLE lt_marm INTO ls_marm INDEX 2.
+            IF sy-subrc = 0.
+                DATA(Alt2OrderQuantity) = ls_marm-QuantityNumerator.
+                DATA(Alt2OrderQuantityUnit) = ls_marm-AlternativeUnit.
+            ENDIF.
+      ENDIF.
+
+
+      "Fetching Relevant Fields from MARA
+      SELECT Product,
+             ProductOldID,
+             BasicMaterial
+          FROM i_product
+          WHERE Product EQ @lS_vbap-OriginallyRequestedMaterial
+          INTO @DATA(lS_mara)
+          UP TO 1 ROWS.
+      ENDSELECT.
+
+    "Putting all the Fetched Data from tables to Final Table's pointer "lf_order_details"
+      &lt;lf_order_details&gt;-SalesOrganization      = lv_vkorg.
+      &lt;lf_order_details&gt;-SoldToParty            = lv_kunnr.
+      &lt;lf_order_details&gt;-SalesDocument          = lv_vbeln.
+      &lt;lf_order_details&gt;-SalesDocumentItem      = lv_posnr.
+      &lt;lf_order_details&gt;-orderid                = ls_vbap-orderid.
+      &lt;lf_order_details&gt;-OrderLineItemNumber    = ls_vbap-orderlineitemnumber.
+      &lt;lf_order_details&gt;-SoldTo                 = ls_vbap-soldto.
+      &lt;lf_order_details&gt;-BillTo                 = ls_vbap-billto.
+      &lt;lf_order_details&gt;-Payer                  = ls_vbap-payer.
+      &lt;lf_order_details&gt;-ShipTo                 = ls_vbap-shipto.
+      &lt;lf_order_details&gt;-Trade                  = ls_vbap-trade.
+      &lt;lf_order_details&gt;-OldMaterial            = ls_mara-ProductOldID.
+      &lt;lf_order_details&gt;-BasicMaterial          = ls_mara-BasicMaterial.
+
+      CONCATENATE       ls_vbap-requesteddate+6(2) '.'
+                        ls_vbap-requesteddate+4(2) '.'
+                        ls_vbap-requesteddate+0(4)
+                   INTO &lt;lf_order_details&gt;-requesteddate.
+
+      &lt;lf_order_details&gt;-PoNumber               = ls_vbap-ponumber.
+      &lt;lf_order_details&gt;-SpeciicationId         = ls_vbap-specificationid.
+      &lt;lf_order_details&gt;-OrderQuantity          = lt_vbep[  SalesDocument       = ls_vbap-SalesDocument
+                                                            SalesDocumentItem   = ls_vbap-SalesDocumentItem ]-ScheduleLineOrderQuantity.
+      &lt;lf_order_details&gt;-OrderQuantityUnit      = ls_vbap-BaseUnit.
+      &lt;lf_order_details&gt;-ConfirmedQuantity      = lt_vbep[  SalesDocument       = ls_vbap-SalesDocument
+                                                            SalesDocumentItem   = ls_vbap-SalesDocumentItem ]-ConfdOrderQtyByMatlAvailCheck.
+      &lt;lf_order_details&gt;-ConfirmedQuantityUnit  = lt_vbep[  SalesDocument = ls_vbap-SalesDocument
+                                                            SalesDocumentItem = ls_vbap-SalesDocumentItem ]-OrderQuantityUnit.
+      &lt;lf_order_details&gt;-incoterms1             = ls_vbap-incoterms1.
+      &lt;lf_order_details&gt;-incoterms2             = ls_vbap-incoterms2.
+      &lt;lf_order_details&gt;-OrderType              = ls_vbap-SalesDocumentType.
+      &lt;lf_order_details&gt;-OrderTypeText          = lS_tvakt-SalesDocumentTypeName.
+
+      READ TABLE lt_vbep ASSIGNING FIELD-SYMBOL(&lt;lf_vbep&gt;)
+                                    WITH KEY SalesDocument      = ls_vbap-SalesDocument
+                                             SalesDocumentItem  = ls_vbap-SalesDocumentItem.
+
+      IF &lt;lf_vbep&gt; IS ASSIGNED.
+        CONCATENATE &lt;lf_vbep&gt;-DeliveryDate+6(2) '.'
+                    &lt;lf_vbep&gt;-DeliveryDate+4(2) '.'
+                    &lt;lf_vbep&gt;-DeliveryDate+0(4)
+                    INTO &lt;lf_order_details&gt;-ConfirmedDate.
+      ENDIF.
+
+      &lt;lf_order_details&gt;-MaterialNumber         = ls_vbap-Material.
+      &lt;lf_order_details&gt;-Plant                  = ls_vbap-Plant.
+      &lt;lf_order_details&gt;-Alt1OrderQuantity      = Alt1OrderQuantity.
+      &lt;lf_order_details&gt;-Alt1OrderQuantityUnit  = Alt1OrderQuantityUnit.
+      &lt;lf_order_details&gt;-Alt2OrderQuantity      = Alt2OrderQuantity.
+      &lt;lf_order_details&gt;-Alt2OrderQuantityUnit  = Alt2OrderQuantityUnit.
+      &lt;lf_order_details&gt;-Amount                 = ls_vbap-NetAmount.
+      &lt;lf_order_details&gt;-CurrencyKey            = ls_vbap-TransactionCurrency.
+      &lt;lf_order_details&gt;-Rate                   = ls_vbap-rate.
+      &lt;lf_order_details&gt;-RateUnit               = ls_vbap-rateunit.
+      &lt;lf_order_details&gt;-UnitOfMeasure          = ls_vbap-unitofmeasure.
+
+      IF ls_vbap-Material EQ ls_vbap-OriginallyRequestedMaterial.
+        &lt;lf_order_details&gt;-Sustainable = ' '.
+      ELSE.
+        &lt;lf_order_details&gt;-Sustainable = 'X'.
+      ENDIF.
+      &lt;lf_order_details&gt;-CertificateType = ls_vbap-certificatetype.
+
+
+    ENDIF.
+
+    io_response-&gt;set_total_number_of_records( iv_total_number_of_records = lines( lt_order_details  ) ).
+
+    io_response-&gt;set_data( it_data = lt_order_details  ).
+
+  ENDMETHOD.
+
+ENDCLASS.
+]]></description><link>borealis\sale-order-item\order-item\zcl_sd_get_orderdetails.html</link><guid isPermaLink="false">Borealis/Sale Order Item/Order Item/ZCL_SD_GET_ORDERDETAILS.md</guid><pubDate>Sat, 24 Aug 2024 08:25:09 GMT</pubDate></item><item><title><![CDATA[ZCE_SD_GET_TIMELINE_DETAILS]]></title><description><![CDATA[ 
+ <br>@EndUserText.label: 'Order Item Detials Interface'
+@ObjectModel.query.implementedBy: 'ABAP:ZCL_SD_GET_TIMELINEDETAILS'
+
+//--------------------------------------------------------------------------*
+//                LEONARDO - MODIFICATION LOG                               *
+//--------------------------------------------------------------------------*
+// Development Name     : ZCE_SD_GET_TIMELINE_DETAILS                       *
+// Description          : Custom Entity for Timeline Details                *
+// Developed by         : DEEPAK10                                          *
+// Developed on         : 26/04/2024                                        *
+// Developer Package    : ZCHEM_ZSD_200                                     *
+//--------------------------------------------------------------------------*
+//                    C H A N G E  H I S T O R Y                            *
+//--------------------------------------------------------------------------*
+// &lt;Date&gt;    &lt;Developer name&gt;   &lt;Charm ID&gt;      &lt;Defect/CR/Initial Dev&gt;     *
+//--------------------------------------------------------------------------*
+
+define custom entity ZCE_SD_GET_TIMELINE_DETAILS 
+{
+    key SalesOrganization : abap.char(4);
+    key SoldToParty       : abap.char(10);
+    key SalesDocument     : abap.char(10);
+    key SalesDocumentItem : abap.char(6);
+    
+    EventType             : abap.char(5);
+    EventDate             : abap.char(10);
+    EventTime             : abap.char(8);
+    Variable1             : abap.char(30);
+    Variable2             : abap.char(30);
+    Variable3             : abap.char(30);
+    Variable4             : abap.char(30);
+    Variable5             : abap.char(30);
+    Variable6             : abap.char(30);
+
+    orderitem             : association to parent ZCE_SD_GET_ORDER_ITEM on 
+        $projection.SalesDocument     = orderitem.SalesDocument    
+    and $projection.SalesDocumentItem = orderitem.SalesDocumentItem 
+    and $projection.SalesOrganization = orderitem.SalesOrganization  
+    and $projection.SoldToParty       = orderitem.SoldToParty        ;
+}   
+]]></description><link>borealis\sale-order-item\timeline\zce_sd_get_timeline_details.html</link><guid isPermaLink="false">Borealis/Sale Order Item/Timeline/ZCE_SD_GET_TIMELINE_DETAILS.md</guid><pubDate>Sat, 24 Aug 2024 08:25:10 GMT</pubDate></item><item><title><![CDATA[ZCL_SD_GET_TIMELINEDETAILS]]></title><description><![CDATA[ 
+ <br>
+**--------------------------------------------------------------------------*
+**                LEONARDO - MODIFICATION LOG                               *
+**--------------------------------------------------------------------------*
+** Development Name     : ZCL_SD_GET_TIMELINEDETAILS                        *
+** Description          : Class Implementation to get Timeline Details      *
+** Developed by         : DEEPAK10                                          *
+** Developed on         : 24/04/2024                                        *
+** Developer Package    : ZCHEM_ZSD_200                                     *
+**--------------------------------------------------------------------------*
+**                    C H A N G E  H I S T O R Y                            *
+**--------------------------------------------------------------------------*
+** &lt;Date&gt;    &lt;Developer name&gt;   &lt;Charm ID&gt;      &lt;Defect/CR/Initial Dev&gt;     *
+**--------------------------------------------------------------------------*
+
+CLASS zcl_sd_get_timelinedetails DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES if_rap_query_provider .
+
+    DATA:
+      lt_order_details TYPE TABLE OF zce_sd_get_timeline_details,
+      ls_timelines     TYPE zce_sd_get_timeline_details.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+CLASS zcl_sd_get_timelinedetails IMPLEMENTATION.
+
+  METHOD if_rap_query_provider~select.
+
+    DATA:
+      lv_vkorg TYPE z_vkorg,
+      lv_kunnr TYPE z_kunnr,
+      lv_vbeln TYPE z_vbeln_va,
+      lv_posnr TYPE z_posnr_va.
+
+    DATA: lt_order_item     TYPE STANDARD TABLE OF zzsd_order_items,
+          lt_classification TYPE STANDARD TABLE OF zzsd_prod_classification,
+          lt_timelines      TYPE STANDARD TABLE OF ZCE_SD_GET_TIMELINE_dETAILS,
+          lt_delivery_item  TYPE STANDARD TABLE OF zzsd_mult_order_deliv,
+          lt_orditm         TYPE STANDARD TABLE OF zzsd_order_item,
+          lt_data_output    TYPE STANDARD TABLE OF zzsd_mult_deliv,
+          lt_shipment       TYPE STANDARD TABLE OF zzsd_shipment,
+          lt_delivery       TYPE STANDARD TABLE OF zzsd_delivery,
+          lt_doclist        TYPE STANDARD TABLE OF zzsd_doc_list,
+          lt_timeline1      TYPE STANDARD TABLE OF zzsd_timeline,
+          lt_return         TYPE STANDARD TABLE OF bapiret2,
+          lr_objectid       TYPE RANGE OF Z_CDOBJECTV,
+          ls_logindata      TYPE zbapilogond,
+          ls_address        TYPE zbapiaddr3,
+          lv_tabkey         TYPE z_cdtabkey,
+          lv_dats           TYPE z_dats,
+          lv_nflag          TYPE flag VALUE 'N',
+          lv_yflag          TYPE flag VALUE 'Y'.
+
+    DATA: lo_cx_root TYPE REF TO cx_root,
+          lv_text    TYPE string.
+
+    DATA: lc_obj type ref to zcl_sd_orderdetails_wrapper,
+          lo_tms_docflow TYPE REF TO zcl_tms_docflow_data,
+          lt_flow        TYPE Z_TMS_S_DOC_FLOW_SCR,
+          lv_tms_doc_nr  TYPE z_tms_doc_nr,
+          lv_time        TYPE t,
+          lv_time1       TYPE t,
+          lv_time2       TYPE t.
+
+
+    DATA(ls_paging) = io_request-&gt;get_paging( ).
+
+    TRY.
+    DATA(lO_paging) = io_request-&gt;get_paging( ).
+    DATA(lv_rows) = lO_paging-&gt;get_page_size( ). "get max rows
+    DATA(lv_max_rows) = COND #( WHEN lv_rows EQ if_rap_query_paging=&gt;page_size_unlimited THEN 0 ELSE lv_rows ).
+
+    DATA(lv_top)  = io_request-&gt;get_paging( )-&gt;get_page_size( ).
+    DATA(lv_skip) = io_request-&gt;get_paging( )-&gt;get_offset( ).
+
+    "-Get Order by string to get top and skip records
+
+    DATA lv_orderby_string TYPE string.
+    DATA(lt_sort) = io_request-&gt;get_sort_elements( ).
+
+    IF lt_sort IS NOT INITIAL.
+      CLEAR lv_orderby_string.
+      LOOP AT lt_sort INTO DATA(ls_sort).
+        IF ls_sort-descending = abap_true.
+          CONCATENATE lv_orderby_string ls_sort-element_name 'DESCENDING' INTO lv_orderby_string SEPARATED BY space.
+        ELSE.
+          CONCATENATE lv_orderby_string ls_sort-element_name 'ASCENDING' INTO lv_orderby_string SEPARATED BY space.
+        ENDIF.
+      ENDLOOP.
+    ELSE.
+      " lv_orderby_string must not be empty.
+      lv_orderby_string = 'SALESORGANIZATION, SOLDTOPARTY, SALESDOCUMENT, SALESDOCUMENTITEM'.
+    ENDIF.
+
+    DATA(filter_condition) = io_request-&gt;get_filter( )-&gt;get_as_ranges( ).
+
+    LOOP AT filter_condition ASSIGNING FIELD-SYMBOL(&lt;lf_cond&gt;).
+      CASE &lt;lf_cond&gt;-name.
+        WHEN 'SALESORGANIZATION'.
+          lv_vkorg = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+        WHEN 'SOLDTOPARTY'.
+          lv_kunnr = &lt;lf_cond&gt;-range[ 1 ]-low.
+          lv_kunnr = |{ lv_kunnr ALPHA = IN }|.
+
+        WHEN 'SALESDOCUMENT'.
+          DATA(lv_variable1) =  &lt;lf_cond&gt;-range[ 1 ]-low.
+
+          create object lc_obj.
+
+          lc_obj-&gt;zif_wrap_conversion~fm_input(
+            EXPORTING
+              lv_var1 = lv_variable1
+            IMPORTING
+              lv_var2 = lv_vbeln
+          ).
+
+*          CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+*            EXPORTING
+*              input  = lv_variable1
+*            IMPORTING
+*              output = lv_vbeln.
+
+        WHEN 'SALESDOCUMENTITEM'.
+          DATA(lv_variable2) =  &lt;lf_cond&gt;-range[ 1 ]-low.
+
+          create object lc_obj.
+
+          lc_obj-&gt;zif_wrap_conversion~fm_input(
+            EXPORTING
+              lv_var1 = lv_variable2
+            IMPORTING
+              lv_var2 = lv_posnr
+          ).
+
+*          CALL FUNCTION 'CONVERSION_EXIT_ALPHA_INPUT'
+*            EXPORTING
+*              input  = lv_variable2
+*            IMPORTING
+*              output = lv_posnr.
+      ENDCASE.
+
+    ENDLOOP.
+
+*    BREAK-POINT ID ZSD_TIMELINE.
+
+    SELECT  SalesDocument,
+            SalesDocumentItem,
+            SalesOrganization,
+            Material,
+            OriginallyRequestedMaterial,
+            BaseUnit,
+            SoldToParty,
+            BillToParty,
+            PayerParty,
+            ShipToParty,
+            PurchaseOrderByCustomer,
+            SalesDocumentType,
+            Plant,
+            CreationDate,
+            CreationTime
+        FROM i_salesdocumentitem AS vbap
+        WHERE SalesDocument EQ @lv_vbeln
+            AND SalesDocumentItem EQ @lv_posnr
+            AND SalesOrganization EQ @lv_vkorg
+            AND SoldToParty EQ @lv_kunnr
+            INTO @DATA(ls_vbap).
+
+
+      SELECT    Product,
+                AlternativeUnit,
+                QuantityNumerator
+          FROM i_productunitsofmeasure AS marm
+*          FOR ALL ENTRIES IN @lt_vbap
+          WHERE Product EQ @ls_vbap-Material
+          AND AlternativeUnit NE @ls_vbap-BaseUnit
+          INTO TABLE @DATA(lt_marm).
+
+      SELECT *
+          FROM zzsd_cart
+*          FOR ALL ENTRIES IN @lt_vbap
+          WHERE vbeln EQ @ls_vbap-SalesDocument
+              AND posnr EQ @ls_vbap-SalesDocumentItem
+              INTO TABLE @DATA(lt_cart).
+
+      SELECT *
+          FROM zzsd_myb_ship_tl
+          WHERE zzactive = @abap_true
+          INTO TABLE @DATA(lt_ship_tl).
+      IF sy-subrc = 0.
+        SORT lt_ship_tl BY zzevent_type.
+      ENDIF.
+
+      lv_tms_doc_nr   = lv_vbeln.
+
+      CREATE OBJECT lo_tms_docflow
+        EXPORTING
+          iv_doc_type = '00' "sales order
+          iv_doc_nr   = lv_tms_doc_nr.
+      FREE lt_flow.
+
+      CALL METHOD lo_tms_docflow-&gt;get_data_for_display
+        EXPORTING
+          iv_display_type = zif_tms_docflow_c=&gt;view_tm
+        IMPORTING
+          et_docflow      = lt_flow.
+
+      SELECT    PrecedingDocument,
+                PrecedingDocumentItem,
+                SubsequentDocument,
+                SubsequentDocumentItem,
+                SubsequentDocumentCategory
+            FROM zsd_vbfa_cds AS vbfa
+*            FOR ALL ENTRIES IN @lt_vbap
+            WHERE PrecedingDocument EQ @lv_vbeln
+              AND PrecedingDocumentItem EQ @lv_posnr
+              AND SubsequentDocumentCategory EQ 'M'
+              INTO TABLE @DATA(lt_vbfa).
+
+      IF lt_vbfa IS NOT INITIAL.
+        SELECT BillingDocument, CreationTime, CreationDate
+          FROM i_billingdocumentbasic AS vbrk
+          FOR ALL ENTRIES IN @lt_vbfa
+*          WHERE BillingDocument EQ @lt_vbfa-PrecedingDocument
+          WHERE BillingDocument EQ @lt_vbfa-SubsequentDocument
+          INTO TABLE @DATA(lt_vbrk).
+      ENDIF.
+
+      APPEND VALUE #( sign = 'I' option = 'EQ' low = lv_vbeln ) TO lr_objectid.
+      data lt_cdhdr_cdpos type STANDARD TABLE OF zsd_cdhdr_cds.
+      SELECT    *
+
+          FROM zsd_cdhdr_cds AS cdhdr
+          WHERE ChangeDocObject IN @lr_objectid
+            AND ChangeDocObjectClass EQ 'VERKBELEG'
+*            AND ChangeDocObject   IN @lr_objectclas
+            AND ChangeDocChangeType EQ 'U'
+            INTO TABLE @lt_cdhdr_cdpos.
+
+*      IF lt_cdhdr_cdpos IS NOT INITIAL.
+      IF lines( lt_cdhdr_cdpos ) &gt; 0.
+        SORT lt_cdhdr_CDPOS BY ChangeDocObject ChangeDocChangeType.
+
+
+        SORT lt_CDHDR_cdpos BY ChangeDocTableKey DatabaseTable ChangeDocDatabaseTableField.
+
+        SELECT Language, DeliveryBlockReason, DeliveryBlockReasonText
+          FROM i_deliveryblockreasontext AS tvlst
+          FOR ALL ENTRIES IN @lt_cdhdr_cdpos
+          WHERE Language EQ @sy-langu
+            AND DeliveryBlockReason EQ @lt_cdhdr_cdpos-ChangeDocNewFieldValue+0(2)
+            INTO TABLE @DATA(lt_tvlst).
+
+        SELECT Language, SalesDocumentRjcnReason, SalesDocumentRjcnReasonName
+          FROM i_salesdocumentrjcnreasontext AS tvagt
+          FOR ALL ENTRIES IN @lt_cdhdr_cdpos
+          WHERE Language = @sy-langu
+            AND SalesDocumentRjcnReason = @lt_cdhdr_cdpos-ChangeDocNewFieldValue+0(2)
+            INTO TABLE @DATA(lt_tvagt).
+
+      ENDIF.
+
+      CONCATENATE sy-mandt lv_vbeln lv_posnr INTO lv_tabkey.
+
+*For ORD00
+    lt_timelines = value #( "for lwa_vbfa in lt_vbfa
+                            "where ( PRECEDINGDOCUMENT = LS_VBAP-SALESdOCUMENT )
+                            FOR LWA_CART IN LT_CART
+                            WHERE ( vbeln = lv_vbeln AND
+                                    posnr = lv_posnr )
+
+                            ( SalesOrganization = LV_VKORG
+                              SoldToParty       = lv_kunnr
+                              SalesDocument     = lv_vbeln
+                              salesdocumentitem = lv_posnr
+                              EventType = |ORD00|
+                              EventDate = |{ LWA_CART-erdat+6(2)  &amp;&amp; |.| &amp;&amp;
+                                             LWA_CART-erdat+4(2)  &amp;&amp; |.| &amp;&amp;
+                                             LWA_CART-erdat+0(4)  &amp;&amp; |.| }|
+                              eventtime = |{ LWA_CART-erzet+0(2)  &amp;&amp; |.| &amp;&amp;
+                                             LWA_CART-erzet+2(2)  &amp;&amp; |.| &amp;&amp;
+                                             LWA_CART-erzet+4(2)  &amp;&amp; |.| }|
+                              variable1 = LWA_CART-vbeln
+                              variable2 = LWA_CART-posnr
+                              variable3 = LWA_CART-smtp_addr
+                            ) )  .
+
+
+*For ORD01
+    lt_timelines = value #( base  lt_timelines
+
+                            FOR LWA_ship_tl IN lt_ship_tl
+                            WHERE ( zzevent_type = |ORD01| )
+
+                            ( SalesOrganization = LV_VKORG
+                              SoldToParty       = lv_kunnr
+                              SalesDocument     = lv_vbeln
+                              salesdocumentitem = lv_posnr
+                              EventType = |ORD01|
+                              EventDate = |{ ls_vbap-CreationDate+6(2)  &amp;&amp; |.| &amp;&amp;
+                                             ls_vbap-CreationDate+4(2)  &amp;&amp; |.| &amp;&amp;
+                                             ls_vbap-CreationDate+0(4)  &amp;&amp; |.| }|
+                              eventtime = |{ ls_vbap-CreationTime+0(2)  &amp;&amp; |:| &amp;&amp;
+                                             ls_vbap-CreationTime+2(2)  &amp;&amp; |:| &amp;&amp;
+                                             ls_vbap-CreationTime+4(2) }|
+                              variable1 = ls_vbap-SalesDocument
+                              variable2 = ls_vbap-SalesDocumentItem
+                            ) ).
+
+* ORD02
+            lt_timelines = value #( base  lt_timelines
+
+                            FOR LWA_ship_tl IN lt_ship_tl
+                            WHERE ( zzevent_type = |ORD02| )
+
+                            for lwa_cdhdr_cdpos in lt_cdhdr_cdpos
+                            where ( CHANGEDOCOBJECT = lv_vbeln and
+                                   CHANGEDOCOBJECTCLASS = |VERKBELEG|  and
+                                   DATABASETABLE = |VBAP| and
+                                   CHANGEDOCDATABASETABLEFIELD = |ZZ1_STATUS_SDI| and
+                                   CHANGEDOCTABLEKEY = lv_tabkey )
+                            ( SalesOrganization = LV_VKORG
+                              SoldToParty       = lv_kunnr
+                              SalesDocument     = lv_vbeln
+                              salesdocumentitem = lv_posnr
+                              EventType = |ORD02|
+                              EventDate = |{ lwa_cdhdr_cdpos-CreationDate+6(2)  &amp;&amp; |.| &amp;&amp;
+                                             lwa_cdhdr_cdpos-CreationDate+4(2)  &amp;&amp; |.| &amp;&amp;
+                                             lwa_cdhdr_cdpos-CreationDate+0(4)  &amp;&amp; |.| }|
+                              eventtime = |{ lwa_cdhdr_cdpos-CreationTime+0(2)  &amp;&amp; |:| &amp;&amp;
+                                             lwa_cdhdr_cdpos-CreationTime+2(2)  &amp;&amp; |:| &amp;&amp;
+                                             lwa_cdhdr_cdpos-CreationTime+4(2) }|
+                              variable2 = ls_vbap-SalesDocument
+                              variable3 = ls_vbap-SalesDocumentItem
+                            ) ).
+
+* ORD03
+            lt_timelines = value #( base  lt_timelines
+
+                            FOR LWA_ship_tl IN lt_ship_tl
+                            WHERE ( zzevent_type = |ORD03| )
+
+                            for lwa_cdhdr_cdpos in lt_cdhdr_cdpos
+                            where ( CHANGEDOCOBJECT = lv_vbeln and
+                                   CHANGEDOCOBJECTCLASS = |VERKBELEG|  and
+                                   DATABASETABLE = |VBEP| and
+                                   CHANGEDOCDATABASETABLEFIELD = |EDATU| and
+                                   CHANGEDOCTABLEKEY = lv_tabkey )
+
+                            ( SalesOrganization = LV_VKORG
+                              SoldToParty       = lv_kunnr
+                              SalesDocument     = lv_vbeln
+                              salesdocumentitem = lv_posnr
+                              EventType = |ORD03|
+                              EventDate = |{ lwa_cdhdr_cdpos-CreationDate+6(2)  &amp;&amp; |.| &amp;&amp;
+                                             lwa_cdhdr_cdpos-CreationDate+4(2)  &amp;&amp; |.| &amp;&amp;
+                                             lwa_cdhdr_cdpos-CreationDate+0(4)  &amp;&amp; |.| }|
+                              eventtime = |{ lwa_cdhdr_cdpos-CreationTime+0(2)  &amp;&amp; |:| &amp;&amp;
+                                             lwa_cdhdr_cdpos-CreationTime+2(2)  &amp;&amp; |:| &amp;&amp;
+                                             lwa_cdhdr_cdpos-CreationTime+4(2) }|
+                              variable1 = lv_vbeln
+                              variable2 = lv_posnr
+
+                              variable3 = | { lwa_cdhdr_cdpos-ChangeDocPreviousFieldValue+0(4) &amp;&amp; |-| &amp;&amp;
+                                              lwa_cdhdr_cdpos-ChangeDocPreviousFieldValue+4(2) &amp;&amp; |-| &amp;&amp;
+                                              lwa_cdhdr_cdpos-ChangeDocPreviousFieldValue+6(2) }|
+
+                              variable4 = | { lwa_cdhdr_cdpos-ChangeDocNewFieldValue+0(4) &amp;&amp; |-| &amp;&amp;
+                                              lwa_cdhdr_cdpos-ChangeDocNewFieldValue+4(2) &amp;&amp; |-| &amp;&amp;
+                                              lwa_cdhdr_cdpos-ChangeDocNewFieldValue+6(2)
+                              }|
+                            ) ).
+*ORD04
+
+if line_exists( lt_ship_tl[ zzevent_type = |ORD04| ] ).
+
+    loop at lt_cdhdr_cdpos assigning field-symbol(&lt;lf_cdhdr4&gt;) where ( DatabaseTable    = |VBEP| and
+                                                                       ChangeDocDatabaseTableField = |WMENG| and
+                                                                       CHANGEDOCTABLEKEY+0(19) = lv_tabkey ).
+
+        IF &lt;lf_cdhdr4&gt; is assigned.
+        APPEND INITIAL LINE TO LT_TIMELINES ASSIGNING FIELD-SYMBOL(&lt;LF_TIMELINES4&gt;).
+
+        &lt;LF_TIMELINES4&gt;-SalesOrganization = lv_vkorg.
+        &lt;LF_TIMELINES4&gt;-SoldToParty       = lv_kunnr.
+        &lt;LF_TIMELINES4&gt;-SalesDocument     = lv_vbeln.
+        &lt;LF_TIMELINES4&gt;-salesdocumentitem = lv_posnr.
+
+        &lt;LF_TIMELINES4&gt;-EventType = |ORD04|.
+        CONCATENATE &lt;LF_cdhdr4&gt;-CreationDate+6(2) '.'
+                    &lt;LF_cdhdr4&gt;-CreationDate+4(2) '.'
+                    &lt;LF_cdhdr4&gt;-CreationDate+0(4) '.'
+                into &lt;LF_TIMELINES4&gt;-EventDate.
+
+        CONCATENATE &lt;LF_cdhdr4&gt;-CreationTime+0(2) ':'
+                    &lt;LF_cdhdr4&gt;-CreationTime+2(2) ':'
+                    &lt;LF_cdhdr4&gt;-CreationTime+4(2)
+                into &lt;LF_TIMELINES4&gt;-EventTime.
+
+        &lt;lf_timelines4&gt;-variable1        = &lt;lf_cdhdr4&gt;-ChangeDocObject.
+        &lt;lf_timelines4&gt;-variable2        = &lt;lf_cdhdr4&gt;-ChangeDocTableKey+13(6).
+        &lt;lf_timelines4&gt;-variable3        = &lt;lf_cdhdr4&gt;-ChangeDocPreviousFieldValue.
+        &lt;lf_timelines4&gt;-variable4        = &lt;lf_cdhdr4&gt;-ChangeDocNewFieldValue.
+        &lt;lf_timelines4&gt;-variable5        = &lt;lf_cdhdr4&gt;-ChangeDocNewUnit.
+
+          create object lc_obj.
+
+          lc_obj-&gt;zif_wrap_conversion~fm_bapi(
+            EXPORTING
+              username      = &lt;lf_cdhdr4&gt;-CreatedByUser
+              cache_results = abap_true
+            IMPORTING
+              logondata     = ls_logindata
+              address       = ls_address
+          ).
+
+*        CALL FUNCTION 'BAPI_USER_GET_DETAIL'
+*          EXPORTING
+*            username      = &lt;lf_cdhdr4&gt;-CreatedByUser
+*            cache_results = abap_true
+*          IMPORTING
+*            logondata     = ls_logindata
+*            address       = ls_address
+*          TABLES
+*            return        = lt_return.
+
+        IF ls_logindata-ustyp = 'A'.
+          &lt;lf_timelines4&gt;-Variable6        = ls_address-fullname.
+        ENDIF.
+        endif.
+   endloop.
+endif.
+
+* ORD05
+
+    if line_exists( lt_ship_tl[ zzevent_type = |ORD05| ] ).
+        loop at lt_cdhdr_cdpos assigning field-symbol(&lt;lf_cdhdr5&gt;) where ( ChangeDocObject  = lv_vbeln and
+                                                                           DatabaseTable    = |VBAK| and
+                                                                           ChangeDocDatabaseTableField = |LIFSK| ).
+           if &lt;lf_cdhdr5&gt; is assigned.
+               APPEND INITIAL LINE TO LT_TIMELINES ASSIGNING FIELD-SYMBOL(&lt;LF_TIMELINES5&gt;).
+                &lt;LF_TIMELINES5&gt;-SalesOrganization = lv_vkorg.
+                &lt;LF_TIMELINES5&gt;-SoldToParty       = lv_kunnr.
+                &lt;LF_TIMELINES5&gt;-SalesDocument     = lv_vbeln.
+                &lt;LF_TIMELINES5&gt;-salesdocumentitem = lv_posnr.
+
+                &lt;LF_TIMELINES5&gt;-EventType = |ORD05|.
+                CONCATENATE &lt;lf_cdhdr5&gt;-CreationDate+6(2) '.'
+                            &lt;lf_cdhdr5&gt;-CreationDate+4(2) '.'
+                            &lt;lf_cdhdr5&gt;-CreationDate+0(4)
+                       INTO &lt;lf_timelines5&gt;-eventdate.
+
+                CONCATENATE &lt;lf_cdhdr5&gt;-CreationTime+0(2) ':'
+                            &lt;lf_cdhdr5&gt;-CreationTime+2(2) ':'
+                            &lt;lf_cdhdr5&gt;-CreationTime+4(2)
+                       INTO &lt;lf_timelines5&gt;-eventtime.
+
+                &lt;lf_timelines5&gt;-variable1         = &lt;lf_cdhdr5&gt;-ChangeDocObject.
+                &lt;lf_timelines5&gt;-variable2         = &lt;lf_cdhdr5&gt;-ChangeDocTableKey+13(6).
+                &lt;lf_timelines5&gt;-variable3         = &lt;lf_cdhdr5&gt;-ChangeDocNewFieldValue.
+
+                if &lt;lf_cdhdr5&gt;-ChangeDocNewFieldValue IS NOT INITIAL.
+                    Loop at lt_tvlst ASSIGNING FIELD-SYMBOL(&lt;lf_tvlst&gt;) where ( Language = sy-langu and
+                                                                                DeliveryBlockReason = &lt;lf_cdhdr5&gt;-ChangeDocNewFieldValue+0(2) ).
+                        if &lt;lf_tvlst&gt; is assigned.
+                            &lt;lf_timelines5&gt;-Variable4 = &lt;lf_tvlst&gt;-DeliveryBlockReasonText.
+                        endif.
+
+                        clear lt_return.
+
+                        create object lc_obj.
+
+                          lc_obj-&gt;zif_wrap_conversion~fm_bapi(
+                            EXPORTING
+                              username      = &lt;lf_cdhdr5&gt;-CreatedByUser
+                              cache_results = abap_true
+                            IMPORTING
+                              logondata     = ls_logindata
+                              address       = ls_address
+                          ).
+
+*                          if sy-subrc eq 0.
+*                            tables return = lt_return ??
+*                          endif.
+
+*                        CALL FUNCTION 'BAPI_USER_GET_DETAIL'
+*                            EXPORTING
+*                              username      = &lt;lf_cdhdr5&gt;-CreatedByUser
+*                              cache_results = abap_true
+*                            IMPORTING
+*                              logondata     = ls_logindata
+*                              address       = ls_address
+*                            TABLES
+*                              return        = lt_return.
+
+                          IF ls_logindata-ustyp = 'A'.
+                            &lt;lf_timelines5&gt;-variable6  = ls_address-fullname.
+                          ENDIF.
+                    endloop.
+                endif.
+            endif.
+        endloop.
+    endif.
+
+* ORD06
+
+    if line_exists( lt_ship_tl[ zzevent_type = |ORD06| ] ).
+    loop at lt_cdhdr_cdpos ASSIGNING FIELD-SYMBOL(&lt;lf_cdhdr6&gt;) where (  "ChangeDocObject = |lv_vbeln| and
+                                                                        DatabaseTable = |VBAP| and
+                                                                        ChangeDocDatabaseTableField = |ABGRU| and
+                                                                        ChangeDocTableKey = lv_tabkey ).
+        if &lt;lf_cdhdr6&gt; is assigned.
+            append INITIAL LINE TO lt_timelines ASSIGNING FIELD-SYMBOL(&lt;lf_timelines6&gt;).
+
+            &lt;LF_TIMELINES6&gt;-SalesOrganization = lv_vkorg.
+            &lt;LF_TIMELINES6&gt;-SoldToParty       = lv_kunnr.
+            &lt;LF_TIMELINES6&gt;-SalesDocument     = lv_vbeln.
+            &lt;LF_TIMELINES6&gt;-salesdocumentitem = lv_posnr.
+
+            &lt;lf_timelines6&gt;-eventtype  = 'ORD06'.
+            CONCATENATE &lt;lf_cdhdr6&gt;-CreationDate+6(2) '.'
+                        &lt;lf_cdhdr6&gt;-CreationDate+4(2) '.'
+                        &lt;lf_cdhdr6&gt;-CreationDate+0(4)
+                   INTO &lt;lf_timelines6&gt;-eventdate.
+
+            CONCATENATE &lt;lf_cdhdr6&gt;-CreationTime+0(2) ':'
+                        &lt;lf_cdhdr6&gt;-CreationTime+2(2) ':'
+                        &lt;lf_cdhdr6&gt;-CreationTime+4(2)
+                   INTO &lt;lf_timelines6&gt;-eventtime.
+
+            &lt;lf_timelines6&gt;-variable1        = &lt;lf_cdhdr6&gt;-ChangeDocObject.
+            &lt;lf_timelines6&gt;-variable2        = &lt;lf_cdhdr6&gt;-ChangeDocTableKey+13(6).
+            &lt;lf_timelines6&gt;-variable3        = &lt;lf_cdhdr6&gt;-ChangeDocNewFieldValue.
+
+            if &lt;lf_cdhdr6&gt;-ChangeDocNewFieldValue is not INITIAL.
+                loop at lt_tvagt assigning FIELD-SYMBOL(&lt;lf_tvagt&gt;) where ( Language = sy-langu and
+                                                                            SalesDocumentRjcnReason = &lt;lf_cdhdr6&gt;-ChangeDocNewFieldValue+0(2) ).
+                    if &lt;lf_tvagt&gt; is ASSIGNED.
+                        &lt;lf_timelines6&gt;-Variable4 = &lt;lf_tvagt&gt;-SalesDocumentRjcnReasonName.
+                    endif.
+
+                    clear lt_return.
+
+                    create object lc_obj.
+
+                      lc_obj-&gt;zif_wrap_conversion~fm_bapi(
+                        EXPORTING
+                          username      = &lt;lf_cdhdr6&gt;-CreatedByUser
+                          cache_results = 'X'
+                        IMPORTING
+                          logondata     = ls_logindata
+                          address       = ls_address
+                      ).
+
+*                    CALL FUNCTION 'BAPI_USER_GET_DETAIL'
+*                        EXPORTING
+*                          username      = &lt;lf_cdhdr6&gt;-CreatedByUser
+*                          cache_results = 'X'
+*                        IMPORTING
+*                          logondata     = ls_logindata
+*                          address       = ls_address
+*                        TABLES
+*                          return        = lt_return.
+
+                     IF ls_logindata-ustyp = 'A'.
+                        &lt;lf_timelines6&gt;-variable6  = ls_address-fullname.
+                     ENDIF.
+                  endloop.
+            endif.
+
+        endif.
+
+    endloop.
+    endif.
+
+* ORD07
+       if line_exists( lt_ship_tl[ zzevent_type = |ORD07| ] ).
+        LOOP AT lt_flow ASSIGNING FIELD-SYMBOL(&lt;LF_FLOW&gt;) WHERE item_category_name = TEXT-T01.
+         CONVERT TIME STAMP &lt;LF_FLOW&gt;-creation_timestamp TIME ZONE sy-zonlo
+          INTO DATE DATA(lv_date2) TIME lv_time2 DAYLIGHT SAVING TIME DATA(lv_dst2).
+          APPEND INITIAL LINE TO LT_TIMELINES ASSIGNING FIELD-SYMBOL(&lt;LF_TIMELINES7&gt;).
+
+          &lt;LF_TIMELINES7&gt;-SalesOrganization = lv_vkorg.
+          &lt;LF_TIMELINES7&gt;-SoldToParty       = lv_kunnr.
+          &lt;LF_TIMELINES7&gt;-SalesDocument     = lv_vbeln.
+          &lt;LF_TIMELINES7&gt;-salesdocumentitem = lv_posnr.
+          &lt;LF_TIMELINES7&gt;-EventType = |ORD07|         .
+          &lt;LF_TIMELINES7&gt;-EventDate = |{ lv_date2+6(2)  &amp;&amp; |.| &amp;&amp;
+                                        lv_date2+4(2)  &amp;&amp; |.| &amp;&amp;
+                                        lv_date2+0(4)  &amp;&amp; |.|
+                                        }|.
+          &lt;LF_TIMELINES7&gt;-eventtime = |{  lv_time2+0(2)  &amp;&amp; |:| &amp;&amp;
+                                         lv_time2+2(2)  &amp;&amp; |:| &amp;&amp;
+                                         lv_time2+4(2)
+                                         }|.
+          &lt;LF_TIMELINES7&gt;-variable1 = lv_vbeln.
+          &lt;LF_TIMELINES7&gt;-variable2 = lv_posnr.
+          &lt;LF_TIMELINES7&gt;-variable3 = &lt;LF_FLOW&gt;-btd_id.
+
+        ENDLOOP.
+       ENDIF.
+
+* ORD08
+            lt_timelines = value #( base  lt_timelines
+
+                            FOR LWA_ship_tl IN lt_ship_tl
+                            WHERE ( zzevent_type = |ORD08| )
+
+                            for lwa_vbfa in lt_vbfa
+                            where ( PrecedingDocument = ls_vbap-SalesDocument )
+
+                            for lwa_vbrk in lt_vbrk
+                            where ( BillingDocument = lwa_vbfa-SubsequentDocument )
+
+                            (
+
+                              SalesOrganization = lv_vkorg
+                              SoldToParty       = lv_kunnr
+                              SalesDocument     = lv_vbeln
+                              salesdocumentitem = lv_posnr
+                              EventType = |ORD08|
+
+                              EventDate = |{ lwa_vbrk-CreationDate+6(2)  &amp;&amp; |.| &amp;&amp;
+                                             lwa_vbrk-CreationDate+4(2)  &amp;&amp; |.| &amp;&amp;
+                                             lwa_vbrk-CreationDate+0(4)  &amp;&amp; |.| }|
+
+                              eventtime = |{ lwa_vbrk-CreationTime+0(2)  &amp;&amp; |:| &amp;&amp;
+                                             lwa_vbrk-CreationTime+2(2)  &amp;&amp; |:| &amp;&amp;
+                                             lwa_vbrk-CreationTime+4(2) }|
+
+                              variable1 = lv_vbeln
+                              variable2 = lv_posnr
+                              variable3 = lwa_vbrk-BillingDocument
+
+                            ) ).
+
+      IF io_request-&gt;is_data_requested( ).
+        io_response-&gt;set_total_number_of_records( lines( lt_timelines ) ).
+        io_response-&gt;set_data( lt_timelines ).
+      ENDIF.
+
+    ENDSELECT.
+
+    CATCH cx_rap_query_filter_no_range INTO DATA(lo_filter).
+        data(lv_msg) = lo_filter-&gt;get_text( ) .
+
+    ENDTRY.
+
+  ENDMETHOD.
+ENDCLASS.
+]]></description><link>borealis\sale-order-item\timeline\zcl_sd_get_timelinedetails.html</link><guid isPermaLink="false">Borealis/Sale Order Item/Timeline/ZCL_SD_GET_TIMELINEDETAILS.md</guid><pubDate>Sat, 24 Aug 2024 08:25:12 GMT</pubDate></item><item><title><![CDATA[ZCE_SD_GET_DELIVERY]]></title><description><![CDATA[ 
+ <br>@EndUserText.label: 'Custom Entity to get Delivery Details'
+@ObjectModel.query.implementedBy: 'ABAP:ZCL_SD_GET_DELIVERY'
+define custom entity ZCE_SD_GET_DELIVERY
+{
+    key salesOrganization   : abap.char(4);
+    key SoldToID            : abap.char(10);  
+    key NoOfDaysInPast      : abap.char(18);
+    key shipmentId          : abap.char(20);
+    
+    delivery                : abap.char(10);
+    deliveryItem            : abap.numc(6);
+    orderId                 : abap.char(10);
+    orderLineItemNumber     : abap.numc(6);
+    
+    poNumber                : abap.char(35);
+    complaint               : abap.char(12);
+    invoice                 : abap.char(10);
+    incoterms1              : abap.char(3);
+    incoterms2              : abap.char(28);
+    materialNumber          : abap.char(80);
+    specificationID         : abap.char(12);
+    trade                   : abap.char(132);
+    product                 : abap.char(1); //to be updated
+    packagingCode           : abap.char(2);
+    @Semantics.quantity.unitOfMeasure: 'weightUnit'
+    netWeight               : abap.quan(15,3);
+    weightUnit              : abap.unit(3);
+    
+    variable1               : abap.char(1);
+    variable2               : abap.char(1);
+    variable3               : abap.char(1);
+    variable4               : abap.char(1);
+    variable5               : abap.char(1);
+    
+    Message_Type            : abap.char(1);
+    Message                 : abap.string;
+    
+    getshipment             : association to parent ZCE_SD_GET_SHIPMENT on
+        $projection.salesOrganization   = getshipment.salesOrganization
+    and $projection.SoldToID            = getshipment.SoldToID
+    and $projection.NoOfDaysInPast      = getshipment.NoOfDaysInPast
+    and $projection.shipmentId          = getshipment.shipmentId;
+}
+]]></description><link>borealis\shipment-delivery\delivery\zce_sd_get_delivery.html</link><guid isPermaLink="false">Borealis/Shipment Delivery/Delivery/ZCE_SD_GET_DELIVERY.md</guid><pubDate>Sat, 24 Aug 2024 08:25:48 GMT</pubDate></item><item><title><![CDATA[ZCL_SD_GET_DELIVERY]]></title><description><![CDATA[ 
+ <br>CLASS zcl_sd_get_delivery DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES if_rap_query_provider.
+
+    DATA:
+      lc_obj      TYPE REF TO zcl_sd_shipment_wrapper,
+      lt_delivery TYPE TABLE OF zce_sd_get_delivery,
+      ls_delivery TYPE zce_sd_get_delivery.
+
+    METHODS get_delivery_data
+      IMPORTING
+        im_shipmentnumber TYPE z_tms_doc_nr
+      CHANGING
+        ch_delivery       TYPE zce_sd_get_delivery.
+
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+    CLASS-DATA:
+      gv_vkorg          TYPE z_vkorg,                    "Sales organization
+      gv_kunnr          TYPE z_kunnr,                    "SoldTo ID
+      gv_noofdaysinpast TYPE zzall-value,                "No. of days in Past
+      gv_shipmentNumber TYPE z_tms_doc_nr,                "ShipmentID
+
+*      go_tms_docflow    TYPE REF TO zcl_tms_docflow_data,
+      go_tms_docflow    TYPE REF TO zcl_sd_shipment_wrapper,
+
+      gv_key            TYPE zbobf_conf_key,
+
+      gv_tms_doc_nr     TYPE z_tms_doc_nr,
+      gt_flow           TYPE z_tms_s_doc_flow_scr.
+
+ENDCLASS.
+
+
+
+CLASS zcl_sd_get_delivery IMPLEMENTATION.
+
+
+  METHOD if_rap_query_provider~select.
+
+    CONSTANTS:
+*        lc_sales_order TYPE string VALUE 'Sales Order'.
+      lc_fo_pre_carriage  TYPE string VALUE 'FO Pre Carriage (SO)',
+      lc_fb_main_carriage TYPE string VALUE 'FB Main Carriage (SO)'.
+
+    TYPES: BEGIN OF lty_s_doc_flow_relation,
+             source_key TYPE zbobf_conf_key,
+             target_key TYPE zbobf_conf_key,
+             relshp     TYPE zscmtms_doc_flow_relshp,
+           END OF lty_s_doc_flow_relation,
+
+           lty_ts_doc_flow_relation TYPE SORTED TABLE OF lty_s_doc_flow_relation
+                                      WITH NON-UNIQUE KEY primary_key COMPONENTS source_key target_key
+                                      WITH NON-UNIQUE SORTED KEY target_key COMPONENTS target_key.
+
+    DATA:
+
+      lt_fu_key              TYPE zbobf_t_frw_key,
+      lt_root_table_relation TYPE lty_ts_doc_flow_relation,
+      lt_root_table          TYPE zscmtms_t_doc_flow.
+
+    " ------------------------------------------
+
+    TRY.
+        DATA(lO_paging) = io_request-&gt;get_paging( ).    "Get Paging Information from Request
+        DATA(lv_rows) = lO_paging-&gt;get_page_size( ).    "Get Max Rows
+        DATA(lv_max_rows) = COND #( WHEN lv_rows EQ if_rap_query_paging=&gt;page_size_unlimited THEN 0 ELSE lv_rows ).
+
+        DATA(lv_top)  = io_request-&gt;get_paging( )-&gt;get_page_size( ).
+        DATA(lv_skip) = io_request-&gt;get_paging( )-&gt;get_offset( ).
+
+        "Get Order by string to get top and skip records
+
+        DATA lv_orderby_string TYPE string.
+        DATA(lt_sort) = io_request-&gt;get_sort_elements( ).
+
+        " $order by was called
+
+        IF lt_sort IS NOT INITIAL.
+          CLEAR lv_orderby_string.
+          LOOP AT lt_sort INTO DATA(ls_sort).
+            IF ls_sort-descending = abap_true.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'DESCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ELSE.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'ASCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ENDIF.
+          ENDLOOP.
+        ELSE.
+
+          "If no sorting criteria provided, use Default
+          lv_orderby_string = 'SALESORGANIZATION, SOLDTOID, NOOFDAYSINPAST, SHIPMENTID'.
+        ENDIF.
+
+
+        DATA(filter_condition) = io_request-&gt;get_filter( )-&gt;get_as_ranges( ).
+
+        LOOP AT filter_condition ASSIGNING FIELD-SYMBOL(&lt;lf_cond&gt;).
+          CASE &lt;lf_cond&gt;-name.
+
+            WHEN 'SALESORGANIZATION'.
+              gv_vkorg = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'SOLDTOID'.
+              gv_kunnr = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'NOOFDAYSINPAST'.
+              gv_noofdaysinpast = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'SHIPMENTID'.
+              gv_shipmentNumber = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+              CREATE OBJECT lc_obj.
+
+              lc_obj-&gt;zif_shipment_wrap_conversion~fm_input(
+              EXPORTING
+                lv_var1 = gv_shipmentNumber
+              IMPORTING
+                lv_var2 = gv_shipmentNumber
+            ).
+          ENDCASE.
+        ENDLOOP.
+
+      CATCH cx_rap_query_filter_no_range INTO DATA(lo_range_ex).
+        DATA(lv_error) = lo_range_ex-&gt;get_text(  ).
+
+    ENDTRY.
+
+    " ----------------------------------------------
+
+    IF gv_vkorg IS INITIAL OR gv_kunnr IS INITIAL.
+
+      ls_delivery-Message_Type = TEXT-001. "'E'.
+      ls_delivery-Message = TEXT-002. "'Sales Organization and SoldToID are Mandatory Fields.'.
+
+    ENDIF.
+
+    IF gv_noofdaysinpast IS INITIAL.
+
+      SELECT value FROM zzall
+      WHERE   zzid1 = 'MYB' AND
+              zzid2 = 'SHIPMENTS' AND
+              zzid3 = 'DAYS_PAST'
+          INTO @gv_noofdaysinpast.
+      ENDSELECT.
+
+    ENDIF.
+
+    IF ls_delivery-Message IS INITIAL.
+
+      IF gv_shipmentnumber IS INITIAL.
+
+        DATA: lv_date TYPE sy-datum.
+
+        lv_date = sy-datum - gv_noofdaysinpast.
+
+        SELECT SalesDocument FROM i_salesdocumentitem
+        WHERE   SalesOrganization = @gv_vkorg AND
+                SoldToParty = @gv_kunnr AND
+                zz1_status_sdi IN ( 'CONFIRMED', 'INVOICED', 'SHIPPED' ) AND
+                zz1_requesteddate_sdi &gt; @lv_date
+                INTO TABLE @DATA(lt_sale_order).
+*                INTO @DATA(lv_vbeln).
+*        ENDSELECT.
+
+        CREATE OBJECT lc_obj.
+        LOOP AT lt_sale_order INTO DATA(lv_vbeln).
+
+          lc_obj-&gt;zif_shipment_wrap_conversion~fm_input(
+             EXPORTING
+                 lv_var1 = lv_vbeln
+             IMPORTING
+                 lv_var2 = lv_vbeln
+          ).
+          CLEAR gv_tms_doc_nr.
+          gv_tms_doc_nr = lv_vbeln.
+
+          CLEAR gt_flow.
+
+          lc_obj-&gt;zif_shipment_wrap_conversion~get_data_for_display(
+            EXPORTING
+              lv_doc_nr = gv_tms_doc_nr
+            IMPORTING
+              lt_flow   = gt_flow
+          ).
+
+          LOOP AT gt_flow INTO DATA(ls_flow)
+            WHERE btd_category_name EQ lc_fo_pre_carriage
+            OR btd_category_name EQ lc_fb_main_carriage.
+
+            gv_shipmentnumber = ls_flow-btd_id.
+
+            get_delivery_data(
+              EXPORTING
+                im_shipmentnumber = gv_shipmentnumber
+              CHANGING
+                ch_delivery       = ls_delivery
+            ).
+
+            APPEND ls_delivery TO lt_delivery.
+
+          ENDLOOP.
+        ENDLOOP.
+      ELSE.
+
+        get_delivery_data(
+                    EXPORTING
+                      im_shipmentnumber = gv_shipmentnumber
+                    CHANGING
+                      ch_delivery       = ls_delivery
+                  ).
+
+        APPEND ls_delivery TO lt_delivery.
+
+      ENDIF.
+
+    ENDIF.
+
+    io_response-&gt;set_total_number_of_records( iv_total_number_of_records = lines( lt_delivery ) ).
+    io_response-&gt;set_data( it_data = lt_delivery ).
+
+
+  ENDMETHOD.
+
+  METHOD get_delivery_data.
+
+    TYPES: BEGIN OF lty_s_doc_flow_relation,
+             source_key TYPE zbobf_conf_key,
+             target_key TYPE zbobf_conf_key,
+             relshp     TYPE zscmtms_doc_flow_relshp,
+           END OF lty_s_doc_flow_relation,
+
+           lty_ts_doc_flow_relation TYPE SORTED TABLE OF lty_s_doc_flow_relation
+                                      WITH NON-UNIQUE KEY primary_key COMPONENTS source_key target_key
+                                      WITH NON-UNIQUE SORTED KEY target_key COMPONENTS target_key.
+
+    CONSTANTS:
+      lc_sales_order      TYPE string VALUE 'Sales Order'.
+
+    DATA:
+      lt_fu_key               TYPE zbobf_t_frw_key,
+      lt_root_table_relation  TYPE lty_ts_doc_flow_relation,
+      lt_root_table           TYPE zscmtms_t_doc_flow,
+      lt_root_table_relation1 TYPE TABLE OF lty_s_doc_flow_relation.
+
+    "----------
+
+    ch_delivery-salesOrganization = gv_vkorg.
+    ch_delivery-NoOfDaysInPast = gv_noofdaysinpast.
+    ch_delivery-SoldToID = gv_kunnr.
+
+    SELECT db_key FROM zi_transportationorder
+        WHERE tor_id = @im_shipmentNumber" INTO @DATA(lwa_transportationorder)
+        INTO @gv_key.
+    ENDSELECT.
+
+
+    lt_fu_key   = VALUE #( ( key = gv_key ) ).
+
+    " ------
+
+    CREATE OBJECT lc_obj.
+
+    DATA: lv_shipmentnumber TYPE z_tms_doc_nr.
+
+    lc_obj-&gt;zif_shipment_wrap_conversion~fm_alpha_output(
+      EXPORTING
+        lv_var1 = im_shipmentNumber
+      IMPORTING
+        lv_var2 = lv_shipmentNumber
+    ).
+
+    ch_delivery-shipmentId = lv_shipmentNumber.
+
+    " --- Getting Order Number
+    lc_obj-&gt;zif_shipment_wrap_conversion~get_doc_flow(
+      EXPORTING
+        lt_key  = lt_fu_key
+      CHANGING
+        lt_root = lt_root_table
+    ).
+
+    LOOP AT lt_root_table INTO DATA(ls_root_table).
+      IF ls_root_table-bo_type_descr = lc_sales_order.
+        DATA(lv_ordernr) = ls_root_table-bo_id+25(10).
+      ENDIF.
+    ENDLOOP.
+
+    ch_delivery-orderId = lv_ordernr.
+
+    " --- Getting Order Item
+    SELECT SalesDocumentItem FROM i_salesdocumentitem
+        WHERE SalesDocument = @lv_ordernr
+        INTO @DATA(lv_orderitem).
+    ENDSELECT.
+
+    ch_delivery-orderLineItemNumber = lv_orderitem.
+
+    " --- Getting Delivery
+    SELECT SubsequentDocument FROM ZSD_VBFA_CDS
+        WHERE   PrecedingDocument = @lv_ordernr AND
+                PrecedingDocumentItem = @lv_orderitem AND
+                SubsequentDocumentCategory = 'J'
+                INTO @DATA(lv_delivery).
+    ENDSELECT.
+    ch_delivery-delivery = lv_delivery.
+
+    " --- Getting Delivery Item
+    SELECT SubsequentDocumentItem FROM ZSD_VBFA_CDS
+        WHERE   PrecedingDocument = @lv_ordernr AND
+                PrecedingDocumentItem = @lv_orderitem AND
+                SubsequentDocumentCategory = 'J'
+                INTO @DATA(lv_deliveryitem).
+    ENDSELECT.
+    ch_delivery-deliveryItem = lv_deliveryitem.
+
+    " --- Getting Purchase Order
+    SELECT PurchaseOrderByCustomer AS PurchaseOrder FROM I_SalesDocumentItem
+        WHERE   SalesDocument = @lv_ordernr AND
+                SalesDocumentItem = @lv_orderitem
+                INTO @DATA(lv_purchaseorder).
+    ENDSELECT.
+    ch_delivery-poNumber = lv_purchaseorder.
+
+    " --- Getting Complaint
+    SELECT SINGLE Notification FROM ZI_Notification
+        WHERE   DeliveryDocument = @lv_delivery AND
+                DeliveryDocumentItem = @lv_deliveryitem
+                INTO @DATA(lv_complaint).
+    ch_delivery-complaint = lv_complaint.
+
+    " --- Getting Invoice
+*    Pass order number to VBFA:VBELV and Order item to VBFA:POSNV
+*    Sort in descending with ERDAT and ERZET
+*    For VBTYP_N=M
+*    get VBELN
+    SELECT * FROM ZSD_VBFA_CDS
+        WHERE   PrecedingDocument = @lv_ordernr AND
+                PrecedingDocumentItem = @lv_orderitem AND
+                SubsequentDocumentCategory = 'M'
+                INTO TABLE @DATA(lt_vbfa).
+
+    SORT lt_vbfa DESCENDING BY CreationDate DESCENDING CreationTime DESCENDING.
+
+    LOOP AT lt_vbfa INTO DATA(wa_vbfa).
+        ch_delivery-invoice = wa_vbfa-SubsequentDocument.
+    ENDLOOP.
+
+    " --- Getting IncoTerms 1
+    SELECT IncotermsClassification FROM i_salesdocumentitem
+        WHERE   SalesDocument = @lv_ordernr AND
+                SalesDocumentItem = @lv_orderitem
+                INTO @DATA(lv_inco1).
+    ENDSELECT.
+    ch_delivery-incoterms1 = lv_inco1.
+
+    " --- Getting IncoTerms 2
+    SELECT IncotermsTransferLocation FROM i_salesdocumentitem
+        WHERE   SalesDocument = @lv_ordernr AND
+                SalesDocumentItem = @lv_orderitem
+                INTO @DATA(lv_inco2).
+    ENDSELECT.
+    ch_delivery-incoterms2 = lv_inco2.
+
+    " --- Get Material ID
+    SELECT material FROM i_deliverydocumentitem
+        INTO @DATA(lv_material).
+    ENDSELECT.
+    ch_delivery-materialNumber = lv_material.
+
+    " --- Specification ID
+    SELECT subid FROM zsd_specid
+        WHERE matnr = @lv_material
+        INTO @DATA(lv_specificationID).
+    ENDSELECT.
+    ch_delivery-specificationID = lv_specificationid.
+
+    " --- Trade
+    SELECT Trade FROM zsd_specid
+        WHERE matnr = @lv_material
+        INTO @DATA(lv_trade).
+    ENDSELECT.
+    ch_delivery-trade = lv_trade.
+
+    " --- ZZPACK_CODE
+    DATA(len) = strlen( lv_material ) - 2.
+    DATA(zzpack_code) = lv_material+len(3).
+
+    ch_delivery-packagingCode = zzpack_code.
+
+    " --- Get NetWeight
+    SELECT ItemNetWeight FROM i_deliverydocumentitem
+        INTO @DATA(lv_netweight).
+    ENDSELECT.
+    ch_delivery-netWeight = lv_netweight.
+
+
+    " --- Get ItemWeightUnit
+    SELECT ItemWeightUnit FROM i_deliverydocumentitem
+        INTO @DATA(lv_itemweightunit).
+    ENDSELECT.
+    ch_delivery-weightUnit = lv_itemweightunit.
+
+  ENDMETHOD.
+
+ENDCLASS.
+]]></description><link>borealis\shipment-delivery\delivery\zcl_sd_get_delivery.html</link><guid isPermaLink="false">Borealis/Shipment Delivery/Delivery/ZCL_SD_GET_DELIVERY.md</guid><pubDate>Sat, 24 Aug 2024 08:25:51 GMT</pubDate></item><item><title><![CDATA[ZCE_SD_GET_DOCLIST]]></title><description><![CDATA[ 
+ <br>@EndUserText.label: 'Custom Entity to get Doclist Details'
+@ObjectModel.query.implementedBy: 'ABAP:ZCL_SD_GET_DOCLIST'
+define custom entity ZCE_SD_GET_DOCLIST
+{
+    key SalesOrganization   : abap.char(4);
+    key SoldToID            : abap.char(10);  
+    key NoOfDaysInPast      : abap.char(18);
+    key shipmentId          : abap.char(20);
+    
+    objectType              : abap.char(20);
+    objectId                : abap.char(20);
+    contentType             : abap.char(20);
+    parentName              : abap.char(20);
+    name                    : abap.char(20);
+    id                      : abap.char(20);
+    modifyDate              : abap.char(20);
+    
+    Message_Type            : abap.char(1);
+    Message                 : abap.string;
+    
+    getshipment             : association to parent ZCE_SD_GET_SHIPMENT on
+        $projection.SalesOrganization   = getshipment.salesOrganization
+    and $projection.SoldToID            = getshipment.SoldToID
+    and $projection.NoOfDaysInPast      = getshipment.NoOfDaysInPast
+    and $projection.shipmentId          = getshipment.shipmentId;
+}
+]]></description><link>borealis\shipment-delivery\doclist\zce_sd_get_doclist.html</link><guid isPermaLink="false">Borealis/Shipment Delivery/Doclist/ZCE_SD_GET_DOCLIST.md</guid><pubDate>Sat, 24 Aug 2024 08:25:52 GMT</pubDate></item><item><title><![CDATA[ZCL_SD_GET_DOCLIST]]></title><description><![CDATA[ 
+ <br>CLASS zcl_sd_get_doclist DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES if_rap_query_provider.
+
+    DATA:
+        lc_obj TYPE REF TO zcl_sd_shipment_wrapper,
+        lt_doclist TYPE TABLE OF zce_sd_get_doclist,
+        ls_doclist TYPE zce_sd_get_doclist.
+
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+    CLASS-DATA:
+      gv_vkorg          TYPE z_vkorg,                    "Sales organization
+      gv_kunnr          TYPE z_kunnr,                    "SoldTo ID
+      gv_noofdaysinpast TYPE zzall-value,                "No. of days in Past
+      gv_shipmentNumber TYPE z_tms_doc_nr,                "ShipmentID
+
+*      go_tms_docflow    TYPE REF TO zcl_tms_docflow_data,
+      go_tms_docflow    TYPE REF TO zcl_sd_shipment_wrapper,
+
+      gv_key            TYPE zbobf_conf_key,
+
+      gv_tms_doc_nr     TYPE z_tms_doc_nr,
+      gt_flow           TYPE z_tms_s_doc_flow_scr.
+
+ENDCLASS.
+
+
+CLASS zcl_sd_get_doclist IMPLEMENTATION.
+
+  METHOD if_rap_query_provider~select.
+
+    TRY.
+        DATA(lO_paging) = io_request-&gt;get_paging( ).    "Get Paging Information from Request
+        DATA(lv_rows) = lO_paging-&gt;get_page_size( ).    "Get Max Rows
+        DATA(lv_max_rows) = COND #( WHEN lv_rows EQ if_rap_query_paging=&gt;page_size_unlimited THEN 0 ELSE lv_rows ).
+
+        DATA(lv_top)  = io_request-&gt;get_paging( )-&gt;get_page_size( ).
+        DATA(lv_skip) = io_request-&gt;get_paging( )-&gt;get_offset( ).
+
+        "Get Order by string to get top and skip records
+
+        DATA lv_orderby_string TYPE string.
+        DATA(lt_sort) = io_request-&gt;get_sort_elements( ).
+
+        " $order by was called
+
+        IF lt_sort IS NOT INITIAL.
+          CLEAR lv_orderby_string.
+          LOOP AT lt_sort INTO DATA(ls_sort).
+            IF ls_sort-descending = abap_true.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'DESCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ELSE.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'ASCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ENDIF.
+          ENDLOOP.
+        ELSE.
+
+          "If no sorting criteria provided, use Default
+          lv_orderby_string = 'SALESORGANIZATION, SOLDTOID, NOOFDAYSINPAST, SHIPMENT'.
+        ENDIF.
+
+
+        DATA(filter_condition) = io_request-&gt;get_filter( )-&gt;get_as_ranges( ).
+
+        LOOP AT filter_condition ASSIGNING FIELD-SYMBOL(&lt;lf_cond&gt;).
+          CASE &lt;lf_cond&gt;-name.
+
+            WHEN 'SALESORGANIZATION'.
+              gv_vkorg = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'SOLDTOID'.
+              gv_kunnr = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'NOOFDAYSINPAST'.
+              gv_noofdaysinpast = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'SHIPMENT'.
+              gv_shipmentNumber = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+              CREATE OBJECT lc_obj.
+
+              lc_obj-&gt;zif_shipment_wrap_conversion~fm_input(
+              EXPORTING
+                lv_var1 = gv_shipmentNumber
+              IMPORTING
+                lv_var2 = gv_shipmentNumber
+            ).
+          ENDCASE.
+        ENDLOOP.
+
+      CATCH cx_rap_query_filter_no_range INTO DATA(lo_range_ex).
+        DATA(lv_error) = lo_range_ex-&gt;get_text(  ).
+
+    ENDTRY.
+
+    " ----------------------------------------------
+
+    IF gv_vkorg IS INITIAL OR gv_kunnr IS INITIAL.
+
+      ls_doclist-Message_Type = TEXT-001. "'E'.
+      ls_doclist-Message = TEXT-002. "'Sales Organization and SoldToID are Mandatory Fields.'.
+
+    ENDIF.
+
+    APPEND ls_doclist TO lt_doclist.
+
+    io_response-&gt;set_total_number_of_records( iv_total_number_of_records = lines( lt_doclist ) ).
+    io_response-&gt;set_data( it_data = lt_doclist ).
+
+  ENDMETHOD.
+
+ENDCLASS.
+]]></description><link>borealis\shipment-delivery\doclist\zcl_sd_get_doclist.html</link><guid isPermaLink="false">Borealis/Shipment Delivery/Doclist/ZCL_SD_GET_DOCLIST.md</guid><pubDate>Sat, 24 Aug 2024 08:25:56 GMT</pubDate></item><item><title><![CDATA[ZCE_SD_GET_SHIPMENT]]></title><description><![CDATA[ 
+ <br>@EndUserText.label: 'Custom Entity to Get Shipment Details'
+@ObjectModel.query.implementedBy: 'ABAP:ZCL_SD_GET_SHIPMENT'
+
+define root custom entity ZCE_SD_GET_SHIPMENT 
+{
+    key salesOrganization       : abap.char(4);
+    key SoldToID                : abap.char(10);  
+    key NoOfDaysInPast          : abap.char(18);
+    key shipmentId              : abap.char(20);
+    
+    shippingType                : abap.char(4);
+    departureDateFromPlanned    : abap.char(10);
+    departureDateToPlanned      : abap.char(10);
+    departureTimePlanned        : abap.char(10);
+    departureDateActual         : abap.char(10);
+    departureTimeActual         : abap.char(10);
+    arrivalDatePlanned          : abap.char(10);
+    arrivalTimePlanned          : abap.char(10);
+    arrivalDateActual           : abap.char(10);
+    arrivalTimeActual           : abap.char(10);
+    confirmedDeliveryDate       : abap.char(10);
+    
+    destinationCountry          : abap.char(3);
+    destinationCity             : abap.char(40);
+    
+    shipTo                      : abap.char(10);
+    orderId                     : abap.char(10);
+    orderLineItemNumber         : abap.numc(6);
+    poNumber                    : abap.char(35);
+    status                      : abap.char(1);     //to be checked
+    carrierId                   : abap.char(10);
+    carrierName                 : abap.char(30);
+    tenderStatus                : abap.char(10);
+    
+    // to be checked
+    route                       : abap.char(1);
+    distance                    : abap.char(1);
+    distanceUnit                : abap.char(1);
+    transitDuration             : abap.char(1);
+    transporDuration            : abap.char(1);
+    percentRoad                 : abap.char(1);
+    percentSea                  : abap.char(1);
+    percentRail                 : abap.char(1);
+    dedicated                   : abap.char(10);
+    variable1                   : abap.char(1);
+    variable2                   : abap.char(1);
+    variable3                   : abap.char(1);
+    variable4                   : abap.char(1);
+    variable5                   : abap.char(1);
+    // to be checked
+    
+    Message_Type                : abap.char(1);
+    Message                     : abap.string;
+    
+    getdelivery                 : composition [1..1] of ZCE_SD_GET_DELIVERY;
+    gettimeline                 : composition [1..1] of ZCE_SD_GET_TIMELINE;
+    getdoclist                  : composition [1..1] of ZCE_SD_GET_DOCLIST;
+}
+]]></description><link>borealis\shipment-delivery\shipment\zce_sd_get_shipment.html</link><guid isPermaLink="false">Borealis/Shipment Delivery/Shipment/ZCE_SD_GET_SHIPMENT.md</guid><pubDate>Sat, 24 Aug 2024 08:25:59 GMT</pubDate></item><item><title><![CDATA[ZCL_SD_GET_SHIPMENT]]></title><description><![CDATA[ 
+ <br>CLASS zcl_sd_get_shipment DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES if_rap_query_provider.
+
+    DATA:
+      lc_obj      TYPE REF TO zcl_sd_shipment_wrapper,
+      lt_shipment TYPE TABLE OF zce_sd_get_shipment,
+      ls_shipment TYPE zce_sd_get_shipment.
+
+    METHODS get_shipment_data
+      IMPORTING
+        im_shipmentnumber TYPE z_tms_doc_nr
+      CHANGING
+        ch_shipment       TYPE zce_sd_get_shipment.
+
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+    CLASS-DATA:
+      gv_vkorg          TYPE z_vkorg,                    "Sales organization
+      gv_kunnr          TYPE z_kunnr,                    "SoldTo ID
+      gv_noofdaysinpast TYPE zzall-value,                "No. of days in Past
+      gv_shipmentNumber TYPE z_tms_doc_nr,
+
+      gv_key            TYPE zbobf_conf_key,
+
+      gv_tms_doc_nr     TYPE z_tms_doc_nr,
+      gt_flow           TYPE z_tms_s_doc_flow_scr.
+
+ENDCLASS.
+
+
+CLASS zcl_sd_get_shipment IMPLEMENTATION.
+
+
+  METHOD if_rap_query_provider~select.
+
+    CONSTANTS:
+      lc_fo_pre_carriage  TYPE string VALUE 'FO Pre Carriage (SO)',
+      lc_fb_main_carriage TYPE string VALUE 'FB Main Carriage (SO)'.
+
+    TYPES: BEGIN OF lty_s_doc_flow_relation,
+             source_key TYPE zbobf_conf_key,
+             target_key TYPE zbobf_conf_key,
+             relshp     TYPE zscmtms_doc_flow_relshp,
+           END OF lty_s_doc_flow_relation,
+
+           lty_ts_doc_flow_relation TYPE SORTED TABLE OF lty_s_doc_flow_relation
+                                      WITH NON-UNIQUE KEY primary_key COMPONENTS source_key target_key
+                                      WITH NON-UNIQUE SORTED KEY target_key COMPONENTS target_key.
+
+    " ------------------------------------------
+
+    TRY.
+        DATA(lO_paging) = io_request-&gt;get_paging( ).    "Get Paging Information from Request
+        DATA(lv_rows) = lO_paging-&gt;get_page_size( ).    "Get Max Rows
+        DATA(lv_max_rows) = COND #( WHEN lv_rows EQ if_rap_query_paging=&gt;page_size_unlimited THEN 0 ELSE lv_rows ).
+
+        DATA(lv_top)  = io_request-&gt;get_paging( )-&gt;get_page_size( ).
+        DATA(lv_skip) = io_request-&gt;get_paging( )-&gt;get_offset( ).
+
+        "Get Order by string to get top and skip records
+        DATA lv_orderby_string TYPE string.
+        DATA(lt_sort) = io_request-&gt;get_sort_elements( ).
+
+        " $order by was called
+        IF lt_sort IS NOT INITIAL.
+          CLEAR lv_orderby_string.
+          LOOP AT lt_sort INTO DATA(ls_sort).
+            IF ls_sort-descending = abap_true.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'DESCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ELSE.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'ASCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ENDIF.
+          ENDLOOP.
+        ELSE.
+
+          "If no sorting criteria provided, use Default
+          lv_orderby_string = 'SALESORGANIZATION, SOLDTOID, NOOFDAYSINPAST, SHIPMENTID'.
+        ENDIF.
+
+
+        DATA(filter_condition) = io_request-&gt;get_filter( )-&gt;get_as_ranges( ).
+
+        LOOP AT filter_condition ASSIGNING FIELD-SYMBOL(&lt;lf_cond&gt;).
+          CASE &lt;lf_cond&gt;-name.
+
+            WHEN 'SALESORGANIZATION'.
+              gv_vkorg = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'SOLDTOID'.
+              gv_kunnr = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'NOOFDAYSINPAST'.
+              gv_noofdaysinpast = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'SHIPMENTID'.
+              gv_shipmentNumber = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+              CREATE OBJECT lc_obj.
+
+              lc_obj-&gt;zif_shipment_wrap_conversion~fm_input(
+              EXPORTING
+                lv_var1 = gv_shipmentNumber
+              IMPORTING
+                lv_var2 = gv_shipmentNumber
+            ).
+          ENDCASE.
+        ENDLOOP.
+
+      CATCH cx_rap_query_filter_no_range INTO DATA(lo_range_ex).
+        DATA(lv_error) = lo_range_ex-&gt;get_text( ).
+
+    ENDTRY.
+
+    " ------------------------------------------
+
+    IF gv_vkorg IS INITIAL OR gv_kunnr IS INITIAL.
+
+      ls_shipment-Message_Type = TEXT-001. "'E'.
+      ls_shipment-Message = TEXT-002. "Sales Organization and SoldToID are Mandatory Fields.
+
+    ENDIF.
+
+    IF gv_noofdaysinpast IS INITIAL.
+
+      SELECT SINGLE value FROM zzall
+      WHERE   zzid1 = 'MYB' AND
+              zzid2 = 'SHIPMENTS' AND
+              zzid3 = 'DAYS_PAST'
+          INTO @gv_noofdaysinpast.
+*      ENDSELECT.
+
+    ENDIF.
+    ls_shipment-NoOfDaysInPast = gv_noofdaysinpast.
+
+    " Retrieving Shipment Number using Doc-flow if not given in INPUT.
+    IF ls_shipment-Message IS INITIAL.
+
+      IF gv_shipmentnumber IS INITIAL.
+
+        DATA: lv_date TYPE sy-datum.
+
+        lv_date = sy-datum - gv_noofdaysinpast.
+
+        SELECT SalesDocument FROM i_salesdocumentitem
+        WHERE   salesOrganization = @gv_vkorg AND
+                SoldToParty = @gv_kunnr AND
+                zz1_status_sdi IN ( 'CONFIRMED', 'INVOICED', 'SHIPPED' ) AND
+                zz1_requesteddate_sdi &gt; @lv_date
+                INTO TABLE @DATA(lt_sale_order).
+
+        CREATE OBJECT lc_obj.
+        LOOP AT lt_sale_order INTO DATA(lv_vbeln).
+
+          lc_obj-&gt;zif_shipment_wrap_conversion~fm_input(
+             EXPORTING
+                 lv_var1 = lv_vbeln
+             IMPORTING
+                 lv_var2 = lv_vbeln
+          ).
+          CLEAR gv_tms_doc_nr.
+          gv_tms_doc_nr = lv_vbeln.
+
+          CLEAR gt_flow.
+
+          lc_obj-&gt;zif_shipment_wrap_conversion~get_data_for_display(
+            EXPORTING
+              lv_doc_nr = gv_tms_doc_nr
+            IMPORTING
+              lt_flow   = gt_flow
+          ).
+
+          LOOP AT gt_flow INTO DATA(ls_flow)
+            WHERE btd_category_name EQ lc_fo_pre_carriage
+            OR btd_category_name EQ lc_fb_main_carriage.
+
+            gv_shipmentnumber = ls_flow-btd_id.
+
+            get_shipment_data(
+              EXPORTING
+                im_shipmentnumber = gv_shipmentnumber
+              CHANGING
+                ch_shipment       = ls_shipment
+            ).
+
+            APPEND ls_shipment TO lt_shipment.
+
+          ENDLOOP.
+        ENDLOOP.
+
+      ELSE.
+
+        get_shipment_data(
+                    EXPORTING
+                      im_shipmentnumber = gv_shipmentnumber
+                    CHANGING
+                      ch_shipment       = ls_shipment
+                  ).
+
+        APPEND ls_shipment TO lt_shipment.
+
+      ENDIF.
+
+    ENDIF.
+
+    io_response-&gt;set_total_number_of_records( iv_total_number_of_records = lines( lt_shipment ) ).
+    io_response-&gt;set_data( it_data = lt_shipment ).
+
+  ENDMETHOD.
+
+  METHOD get_shipment_data.
+
+    TYPES: BEGIN OF lty_s_doc_flow_relation,
+             source_key TYPE zbobf_conf_key,
+             target_key TYPE zbobf_conf_key,
+             relshp     TYPE zscmtms_doc_flow_relshp,
+           END OF lty_s_doc_flow_relation,
+
+           lty_ts_doc_flow_relation TYPE SORTED TABLE OF lty_s_doc_flow_relation
+                                      WITH NON-UNIQUE KEY primary_key COMPONENTS source_key target_key
+                                      WITH NON-UNIQUE SORTED KEY target_key COMPONENTS target_key.
+
+    CONSTANTS:
+      lc_sales_order      TYPE string VALUE 'Sales Order'.
+
+    DATA:
+      lt_fu_key     TYPE zbobf_t_frw_key,
+      lt_root_table TYPE zscmtms_t_doc_flow.
+
+    ch_shipment-SoldToID = gv_kunnr.
+
+    " --- Getting Shipment Type
+    IF im_shipmentNumber IS NOT INITIAL.
+
+      ch_shipment-shipmentId = im_shipmentNumber.
+
+      SELECT SINGLE db_key, tor_type, tspid FROM zi_transportationorder
+        WHERE tor_id = @im_shipmentNumber INTO @DATA(lwa_transportationorder). "@&lt;lf_shipment&gt;-ShippingType
+*        UP TO 1 ROWS.
+*      ENDSELECT.
+    ENDIF.
+
+    IF sy-subrc = 0.
+      ch_shipment-shippingType = lwa_transportationorder-tor_type.
+      gv_key = lwa_transportationorder-db_key.
+    ENDIF.
+
+    lt_fu_key   = VALUE #( (  key = gv_key ) ) .
+
+    " ------
+
+    CREATE OBJECT lc_obj.
+
+    DATA: lv_shipmentnumber TYPE z_tms_doc_nr.
+
+    lv_shipmentnumber = im_shipmentnumber.
+    lc_obj-&gt;zif_shipment_wrap_conversion~fm_alpha_output(
+      EXPORTING
+        lv_var1 = lv_shipmentNumber
+      IMPORTING
+        lv_var2 = lv_shipmentnumber
+    ).
+
+    ch_shipment-shipmentId = lv_shipmentNumber.
+
+    " --- Getting Order Number
+    lc_obj-&gt;zif_shipment_wrap_conversion~get_doc_flow(
+      EXPORTING
+        lt_key  = lt_fu_key
+      CHANGING
+        lt_root = lt_root_table
+    ).
+
+    LOOP AT lt_root_table INTO DATA(ls_root_table).
+      IF ls_root_table-bo_type_descr = lc_sales_order.
+        DATA(lv_ordernr) = ls_root_table-bo_id+25(10).
+      ENDIF.
+    ENDLOOP.
+
+    ch_shipment-orderId = lv_ordernr.
+
+    " --- Getting Order Item
+    SELECT SINGLE SalesDocumentItem FROM i_salesdocumentitem
+        WHERE SalesDocument = @lv_ordernr
+        INTO @DATA(lv_orderitem).
+*        UP TO 1 ROWS.
+*    ENDSELECT.
+
+    ch_shipment-orderLineItemNumber = lv_orderitem.
+
+    " --- Getting ShipToParty
+    SELECT SINGLE ShipToParty
+        FROM i_salesdocumentitem AS vbap
+        WHERE   SalesDocument       = @lv_ordernr AND
+                SalesDocumentItem   = @lv_orderitem
+        INTO @ch_shipment-shipTo.
+
+    " --- Getting SalesOrg
+    SELECT SINGLE vbak~SalesOrganization
+        FROM i_salesdocument AS vbak
+        LEFT OUTER JOIN i_salesdocumentitem AS vbap
+        ON vbap~SalesDocument = vbak~SalesDocument
+        INTO @ch_shipment-salesOrganization.
+*        UP TO 1 ROWS.
+*    ENDSELECT.
+
+    " --- Getting Purchase Order
+    SELECT SINGLE PurchaseOrderByCustomer AS PurchaseOrder FROM I_SalesDocumentItem
+        WHERE   SalesDocument = @lv_ordernr AND
+                SalesDocumentItem = @lv_orderitem
+                INTO @DATA(lv_purchaseorder).
+*    ENDSELECT.
+
+    ch_shipment-poNumber = lv_purchaseorder.
+
+    " --- Getting Destination Country
+    SELECT SINGLE adrc~Country
+        FROM zi_address AS adrc
+        LEFT OUTER JOIN i_customer AS kna1
+        ON kna1~AddressID = adrc~AddressID
+        WHERE kna1~Customer = @ch_shipment-shipTo
+        INTO @ch_shipment-destinationCountry.
+*    ENDSELECT.
+
+    " --- Getting Destination City
+    SELECT SINGLE adrc~CityName
+        FROM zi_address AS adrc
+        LEFT OUTER JOIN i_customer AS kna1
+        ON kna1~AddressID = adrc~AddressID
+        WHERE kna1~Customer = @ch_shipment-shipTo
+        INTO @ch_shipment-destinationCity.
+*    ENDSELECT.
+
+    " --- Getting departureDateFromPlanned
+    CREATE OBJECT lc_obj.
+
+    lc_obj-&gt;zif_shipment_wrap_conversion~get_plan_trans_time(
+      EXPORTING
+        it_root_key      = lt_fu_key
+*        io_read          =
+*        io_data_prov     =
+*        iv_before_image  =
+*        iv_trq_read_all  = 'A'
+*        it_item_relevant =
+      IMPORTING
+        et_stop_first    = DATA(lt_stop_first)
+        et_stop_last     = DATA(lt_stop_last)
+    ).
+
+    LOOP AT lt_stop_first INTO DATA(wa_stop_first).
+
+      DATA temp TYPE string.
+      temp = wa_stop_first-plan_trans_time.
+
+      IF temp IS NOT INITIAL.
+        CONCATENATE         temp+6(2) '.'
+                            temp+4(2) '.'
+                            temp+0(4)
+                       INTO ch_shipment-departureDateFromPlanned.
+
+        ch_shipment-departureDateToPlanned = ch_shipment-departureDateFromPlanned. " departureDateToPlanned (same as departureDateFromPlanned)
+
+        CONCATENATE         temp+8(2) ':'
+                            temp+10(2) ':'
+                            temp+12(2)
+                       INTO ch_shipment-departureTimePlanned.   " --- Getting departureTimePlanned
+
+      ENDIF.
+      EXIT.
+    ENDLOOP.
+
+    " --- Getting departureDateActual
+    SELECT SINGLE actual_date FROM ZI_TranspOrdExecution
+        WHERE   parent_key = @lwa_transportationorder-db_key AND
+                event_code = 'DEPARTURE'
+                INTO @DATA(lv_departureDateActual).
+
+    temp = lv_departureDateActual.
+
+    IF temp IS NOT INITIAL.
+        CONCATENATE     temp+6(2) '.'
+                        temp+4(2) '.'
+                        temp+0(4)
+                INTO    ch_shipment-departureDateActual.
+
+    " --- Getting departureTimeActual
+        CONCATENATE     temp+8(2) ':'
+                        temp+10(2) ':'
+                        temp+12(2)
+                INTO    ch_shipment-departureTimeActual.
+    ENDIF.
+
+    " --- Getting arrivalDatePlanned
+    LOOP AT lt_stop_last INTO DATA(wa_stop_last).
+
+      temp = wa_stop_last-plan_trans_time.
+
+      IF temp IS NOT INITIAL.
+        CONCATENATE     temp+6(2) '.'
+                        temp+4(2) '.'
+                        temp+0(4)
+                        INTO ch_shipment-arrivalDatePlanned.
+
+        CONCATENATE         temp+8(2) ':'
+                            temp+10(2) ':'
+                            temp+12(2)
+                       INTO ch_shipment-arrivalTimePlanned. " --- Getting arrivalTimePlanned
+      ENDIF.
+      EXIT.
+
+    ENDLOOP.
+
+    " ---  Getting arrivalDateActual
+    SELECT SINGLE actual_date FROM ZI_TranspOrdExecution
+        WHERE   parent_key = @lwa_transportationorder-db_key AND
+                event_code = 'POD'
+                INTO @DATA(lv_arrivalDateActual).
+
+    temp = lv_arrivaldateactual.
+    IF temp IS NOT INITIAL.
+
+        CONCATENATE     temp+6(2) '.'
+                        temp+4(2) '.'
+                        temp+0(4)
+                INTO    ch_shipment-arrivalDateActual.
+
+    " --- Getting arrivalTimeActual
+        CONCATENATE     temp+8(2) ':'
+                        temp+10(2) ':'
+                        temp+12(2)
+                INTo    ch_shipment-arrivalTimeActual.
+
+    ENDIF.
+    " --- Getting confirmedDeliveryDate
+    ch_shipment-confirmedDeliveryDate = ch_shipment-arrivalDateActual.
+
+    " --- Getting carrierID and carrierName
+    SELECT SINGLE BusinessPartner, OrganizationBPName1, OrganizationBPName2
+            FROM I_BusinessPartner        "but000
+            WHERE BusinessPartner EQ @lwa_transportationorder-tspid
+            INTO @DATA(ls_but000).
+
+    IF sy-subrc EQ 0.
+      CONCATENATE ls_but000-OrganizationBPName1 ls_but000-OrganizationBPName2
+        INTO ch_shipment-carrierName
+        SEPARATED BY space.
+
+      ch_shipment-carrierId = lwa_transportationorder-tspid.
+    ENDIF.
+
+  ENDMETHOD.
+ENDCLASS.
+]]></description><link>borealis\shipment-delivery\shipment\zcl_sd_get_shipment.html</link><guid isPermaLink="false">Borealis/Shipment Delivery/Shipment/ZCL_SD_GET_SHIPMENT.md</guid><pubDate>Sat, 24 Aug 2024 08:26:01 GMT</pubDate></item><item><title><![CDATA[ZCE_SD_GET_TIMELINE]]></title><description><![CDATA[ 
+ <br>@EndUserText.label: 'Custom Entity to get Timeline Details'
+@ObjectModel.query.implementedBy: 'ABAP:ZCL_SD_GET_TIMELINE'
+define custom entity ZCE_SD_GET_TIMELINE
+{
+    key salesOrganization   : abap.char(4);
+    key SoldToID            : abap.char(10);  
+    key NoOfDaysInPast      : abap.char(18);
+    key shipmentId          : abap.char(20);
+    
+    eventType               : abap.char(5);
+    eventDate               : abap.char(10);
+    eventTime               : abap.char(8);
+    variable1               : abap.char(30);
+    variable2               : abap.char(30);
+    variable3               : abap.char(30);
+    variable4               : abap.char(30);
+    variable5               : abap.char(30);
+    variable6               : abap.char(30);
+    
+    Message_Type            : abap.char(1);
+    Message                 : abap.string;
+    
+    getshipment             : association to parent ZCE_SD_GET_SHIPMENT on
+        $projection.salesOrganization   = getshipment.salesOrganization
+    and $projection.SoldToID            = getshipment.SoldToID
+    and $projection.NoOfDaysInPast      = getshipment.NoOfDaysInPast
+    and $projection.shipmentId          = getshipment.shipmentId;
+}
+]]></description><link>borealis\shipment-delivery\timeline\zce_sd_get_timeline.html</link><guid isPermaLink="false">Borealis/Shipment Delivery/Timeline/ZCE_SD_GET_TIMELINE.md</guid><pubDate>Sat, 24 Aug 2024 08:26:03 GMT</pubDate></item><item><title><![CDATA[ZCL_SD_GET_TIMELINE]]></title><description><![CDATA[ 
+ <br>CLASS zcl_sd_get_timeline DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
+
+  PUBLIC SECTION.
+    INTERFACES if_rap_query_provider.
+    DATA:
+      lc_obj      TYPE REF TO zcl_sd_shipment_wrapper,
+      ls_timeline TYPE zce_sd_get_timeline,
+      lt_timeline TYPE TABLE OF zce_sd_get_timeline.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
+ENDCLASS.
+
+
+
+CLASS zcl_sd_get_timeline IMPLEMENTATION.
+
+
+  METHOD if_rap_query_provider~select.
+
+    CONSTANTS:
+        lc_sales_order TYPE string VALUE 'Sales Order'.
+
+    TYPES: BEGIN OF lty_s_doc_flow_relation,
+             source_key TYPE zbobf_conf_key,
+             target_key TYPE zbobf_conf_key,
+             relshp     TYPE zscmtms_doc_flow_relshp,
+           END OF lty_s_doc_flow_relation,
+
+           lty_ts_doc_flow_relation TYPE SORTED TABLE OF lty_s_doc_flow_relation
+                                      WITH NON-UNIQUE KEY primary_key COMPONENTS source_key target_key
+                                      WITH NON-UNIQUE SORTED KEY target_key COMPONENTS target_key.
+
+    DATA: lv_vkorg                TYPE z_vkorg,                     "Sales organization
+          lv_kunnr                TYPE z_kunnr,                     "SoldTo ID
+          lv_noofdaysinpast       TYPE zzall-value,                 "No. of days in Past
+          lv_shipmentNumber       TYPE z_tms_doc_nr,                 "ShipmentID
+
+          lo_tms_docflow          TYPE REF TO zcl_tms_docflow_data,
+
+          lv_key                  TYPE zbobf_conf_key,
+
+          lt_fu_key               TYPE zbobf_t_frw_key,
+          lt_root_table_relation  TYPE lty_ts_doc_flow_relation,
+          lt_root_table           TYPE zscmtms_t_doc_flow,
+          lt_root_table_relation1 TYPE TABLE OF lty_s_doc_flow_relation.
+
+    " -----------------------------------------------------
+
+    TRY.
+
+        DATA(lO_paging) = io_request-&gt;get_paging( ).    "Get Paging Information from Request
+        DATA(lv_rows) = lO_paging-&gt;get_page_size( ).    "Get Max Rows
+
+        DATA(lv_top)    = io_request-&gt;get_paging( )-&gt;get_page_size( ).
+        DATA(lv_skip)   = io_request-&gt;get_paging( )-&gt;get_offset( ).
+
+        "Get ORder by string to get top and skip records
+
+        DATA lv_orderby_string TYPE string.
+        DATA(lt_sort) = io_request-&gt;get_sort_elements( ).
+
+        " $order by was called
+
+        IF lt_sort IS NOT INITIAL.
+          CLEAR lv_orderby_string.
+          LOOP AT lt_sort INTO DATA(ls_sort).
+            IF ls_sort-descending = abap_true.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'DESCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ELSE.
+              CONCATENATE lv_orderby_string ls_sort-element_name 'ASCENDING' INTO lv_orderby_string SEPARATED BY space.
+            ENDIF.
+          ENDLOOP.
+        ELSE.
+
+          "If no sorting criteria provided, use Default
+          lv_orderby_string = 'SALESORGANIZATION, SOLDTOID, NOOFDAYSINPAST, SHIPMENTID'.
+        ENDIF.
+
+
+        DATA(filter_condition) = io_request-&gt;get_filter( )-&gt;get_as_ranges( ).
+
+        LOOP AT filter_condition ASSIGNING FIELD-SYMBOL(&lt;lf_cond&gt;).
+          CASE &lt;lf_cond&gt;-name.
+
+            WHEN 'SALESORGANIZATION'.
+              lv_vkorg = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'SOLDTOID'.
+              lv_kunnr = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'NOOFDAYSINPAST'.
+              lv_noofdaysinpast = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+            WHEN 'SHIPMENTID'.
+              lv_shipmentNumber = &lt;lf_cond&gt;-range[ 1 ]-low.
+
+              CREATE OBJECT lc_obj.
+
+              lc_obj-&gt;zif_shipment_wrap_conversion~fm_input(
+              EXPORTING
+                lv_var1 = lv_shipmentNumber
+              IMPORTING
+                lv_var2 = lv_shipmentNumber
+            ).
+          ENDCASE.
+        ENDLOOP.
+
+      CATCH cx_rap_query_filter_no_range INTO DATA(lo_range_ex).
+        DATA(lv_error) = lo_range_ex-&gt;get_text( ).
+
+    ENDTRY.
+
+    " ----------------------------------------------
+
+
+
+    IF lv_shipmentNumber IS INITIAL.
+
+      APPEND INITIAL LINE TO lt_timeline ASSIGNING FIELD-SYMBOL(&lt;lf_timeline&gt;).
+      &lt;lf_timeline&gt;-Message_Type = TEXT-001. "'E'.
+      &lt;lf_timeline&gt;-Message = TEXT-003. "'Shipment Number is Mandatory Input to get Timeline Details.'.
+
+    ELSEIF lv_vkorg IS INITIAL OR lv_kunnr IS INITIAL.
+
+      APPEND INITIAL LINE TO lt_timeline ASSIGNING &lt;lf_timeline&gt;.
+      &lt;lf_timeline&gt;-Message_Type = TEXT-001. "'E'.
+      &lt;lf_timeline&gt;-Message = TEXT-002. "'Sales Organization and SoldToID are Mandatory Fields.'.
+
+    ELSE.
+*      APPEND INITIAL LINE TO lt_timeline ASSIGNING &lt;lf_timeline&gt;.
+      IF lv_noofdaysinpast IS INITIAL.
+
+        SELECT value FROM zzall
+        WHERE   zzid1 = 'MYB' AND
+                zzid2 = 'SHIPMENTS' AND
+                zzid3 = 'DAYS_PAST'
+            INTO @lv_noofdaysinpast.
+        ENDSELECT.
+
+      ENDIF.
+
+      IF  ls_timeline-Message IS INITIAL.
+
+        SELECT db_key FROM zi_transportationorder
+            WHERE tor_id = @lv_shipmentNumber
+            INTO @lv_key.
+        ENDSELECT.
+
+        lt_fu_key   = VALUE #( ( key = lv_key ) ).
+
+        CREATE OBJECT lc_obj.
+
+        lc_obj-&gt;zif_shipment_wrap_conversion~fm_alpha_output(
+          EXPORTING
+            lv_var1 = lv_shipmentNumber
+          IMPORTING
+            lv_var2 = lv_shipmentNumber
+        ).
+
+        " ---- Getting Event Types
+        SELECT *
+            FROM zsd_myb_ship_tl
+            WHERE zzactive = @abap_true
+            INTO TABLE @DATA(lt_ship_tl).
+        IF sy-subrc = 0.
+          SORT lt_ship_tl BY ZzeventType.
+        ENDIF.
+
+        " --- Getting Order Number
+        lc_obj-&gt;zif_shipment_wrap_conversion~get_doc_flow(
+          EXPORTING
+            lt_key  = lt_fu_key
+          CHANGING
+            lt_root = lt_root_table
+        ).
+
+        LOOP AT lt_root_table INTO DATA(ls_root_table).
+          IF ls_root_table-bo_type_descr = lc_sales_order.
+            DATA(lv_ordernr) = ls_root_table-bo_id+25(10).
+          ENDIF.
+        ENDLOOP.
+
+        " --- Getting Order Item
+        SELECT SalesDocumentItem FROM i_salesdocumentitem
+            WHERE SalesDocument = @lv_ordernr
+            INTO @DATA(lv_orderitem).
+        ENDSELECT.
+
+        " -----------
+        SELECT  SalesDocument,
+                SalesDocumentItem,
+                CreationDate,
+                CreationTime,
+                RequestedDeliveryDate
+                FROM i_salesdocumentitem AS vbap
+                WHERE   SalesDocument       = @lv_ordernr AND
+                        SalesDocumentItem   = @lv_orderitem AND
+                        SalesOrganization   = @lv_vkorg AND
+                        SoldToParty         = @lv_kunnr
+                INTO @DATA(ls_vbap).
+        ENDSELECT.
+
+        " --- for TL001
+        lt_timeline = VALUE #(  BASE lt_timeline
+
+                                FOR lwa_ship_tl IN lt_ship_tl
+                                WHERE ( ZzeventType = |TL001| )
+
+                                (   shipmentId            = lv_shipmentnumber
+                                    SalesOrganization   = lv_vkorg
+                                    NoOfDaysInPast      = lv_noofdaysinpast
+                                    SoldToID = lv_kunnr
+
+                                    eventType         = |TL001|
+                                    eventDate           = |{  ls_vbap-CreationDate+6(2)  &amp;&amp; |.| &amp;&amp;
+                                                              ls_vbap-CreationDate+4(2)  &amp;&amp; |.| &amp;&amp;
+                                                              ls_vbap-CreationDate+0(4)  &amp;&amp; |.| }|
+                                    eventTime           = |{  ls_vbap-CreationTime+0(2)  &amp;&amp; |:| &amp;&amp;
+                                                              ls_vbap-CreationTime+2(2)  &amp;&amp; |:| &amp;&amp;
+                                                              ls_vbap-CreationTime+4(2) }|
+                                    variable2              = ls_vbap-SalesDocument
+                                    variable3              = ls_vbap-SalesDocumentItem
+                                 ) ).
+
+        " --- for TL002
+        DATA lr_objectid       TYPE RANGE OF z_cdobjectv.
+        DATA lt_cdhdr_cdpos TYPE STANDARD TABLE OF zsd_cdhdr_cds.
+
+        SELECT *
+           FROM zsd_cdhdr_cds
+           WHERE ChangeDocObject EQ @lv_ordernr
+           AND ChangeDocObjectClass EQ 'VERKBELEG'
+           AND ChangeDocChangeType EQ 'U'
+           AND DatabaseTable EQ 'VBAP'
+           AND ChangeDocDatabaseTableField EQ 'ZZ1_STATUS_SDI'
+           INTO TABLE @lt_cdhdr_cdpos.
+
+        lt_timeline =  VALUE #( BASE lt_timeline
+                       FOR lwa_ship_tl IN lt_ship_tl
+                       WHERE ( ZzeventType = |TL002| )
+
+                       FOR lwa_cdhdr_cdpos IN lt_cdhdr_cdpos
+                       WHERE ( ChangeDocObject = lv_ordernr AND
+                               ChangeDocObjectClass = |VERKBELEG| AND
+                               DatabaseTable = |VBAP| AND
+                               ChangeDocDatabaseTableField = |ZZ1_STATUS_SDI|
+                       )
+
+                       (   eventType = |TL002|
+                           shipmentId            = lv_shipmentnumber
+                           SalesOrganization   = lv_vkorg
+                           NoOfDaysInPast      = lv_noofdaysinpast
+                           SoldToID = lv_kunnr
+                           eventDate = |{   lwa_cdhdr_cdpos-CreationDate+6(2)  &amp;&amp; |.| &amp;&amp;
+                                            lwa_cdhdr_cdpos-CreationDate+4(2)  &amp;&amp; |.| &amp;&amp;
+                                            lwa_cdhdr_cdpos-CreationDate+0(4)  &amp;&amp; |.| }|
+                           eventTime = |{   lwa_cdhdr_cdpos-CreationTime+0(2)  &amp;&amp; |:| &amp;&amp;
+                                            lwa_cdhdr_cdpos-CreationTime+2(2)  &amp;&amp; |:| &amp;&amp;
+                                            lwa_cdhdr_cdpos-CreationTime+4(2) }|
+                           variable1 = lv_shipmentnumber
+                           variable2 = ls_vbap-SalesDocument
+                           variable3 = ls_vbap-SalesDocumentItem
+                           variable4 = ls_vbap-RequestedDeliveryDate
+
+                       ) ).
+
+        " --- for TL003
+        SELECT plan_trans_time
+        FROM ZI_TransportationOrderStop
+        WHERE   parent_key = @lv_key AND
+                stop_cat = 'O'
+                INTO @DATA(lv_datetime).
+        ENDSELECT.
+
+        "20231013134852 - sample output of plan_trans_time
+        DATA lv_strdatetime TYPE string.
+        lv_strdatetime = lv_datetime.
+
+        CONCATENATE lv_strdatetime+6(2) '.'
+                    lv_strdatetime+4(2) '.'
+                    lv_strdatetime+0(4)
+                    INTO DATA(lv_date).
+
+        CONCATENATE lv_strdatetime+8(2) ':'
+                    lv_strdatetime+10(2) ':'
+                    lv_strdatetime+12(2)
+                    INTO DATA(lv_time).
+
+        lt_timeline = VALUE #( BASE lt_timeline
+                      FOR lwa_ship_tl IN lt_ship_tl
+                      WHERE ( ZzeventType = |TL003| )
+
+                      (   eventType = |TL003|
+                          shipmentId            = lv_shipmentnumber
+                          SalesOrganization   = lv_vkorg
+                          NoOfDaysInPast      = lv_noofdaysinpast
+                          SoldToID = lv_kunnr
+                          eventDate = lv_date
+                          eventTime = lv_time
+                          variable1 = lv_shipmentnumber
+                      ) ).
+
+
+        " --- for TL004
+        SELECT plan_trans_time
+        FROM ZI_TransportationOrderStop
+        WHERE   parent_key = @lv_key AND
+                stop_cat = 'I'
+                INTO @lv_datetime.
+        ENDSELECT.
+
+        lv_strdatetime = lv_datetime.
+
+        CONCATENATE lv_strdatetime+6(2) '.'
+                    lv_strdatetime+4(2) '.'
+                    lv_strdatetime+0(4)
+                    INTO lv_date.
+
+        CONCATENATE lv_strdatetime+8(2) ':'
+                    lv_strdatetime+10(2) ':'
+                    lv_strdatetime+12(2)
+                    INTO lv_time.
+
+        lt_timeline = VALUE #( BASE lt_timeline
+                      FOR lwa_ship_tl IN lt_ship_tl
+                      WHERE ( ZzeventType = |TL004| )
+
+                      (   eventType = |TL004|
+                          shipmentId            = lv_shipmentnumber
+                          SalesOrganization   = lv_vkorg
+                          NoOfDaysInPast      = lv_noofdaysinpast
+                          SoldToID = lv_kunnr
+                          eventDate = lv_date
+                          eventTime = lv_time
+                          variable1 = lv_shipmentnumber
+                      ) ).
+
+        " --- for TL005
+        lt_timeline = VALUE #( BASE lt_timeline
+                      FOR lwa_ship_tl IN lt_ship_tl
+                      WHERE ( zzeventType = |TL005| )
+
+                      FOR lwa_cdhdr_cdpos IN lt_cdhdr_cdpos
+                      WHERE ( ChangeDocObject = lv_ordernr AND
+                              ChangeDocObjectClass = |VERKBELEG| AND
+                              DatabaseTable = |VBEP| AND
+                              ChangeDocDatabaseTableField = |EDATU|
+                      )
+
+                      (   eventType = |TL005|
+                      shipmentId            = lv_shipmentnumber
+                                    SalesOrganization   = lv_vkorg
+                                    NoOfDaysInPast      = lv_noofdaysinpast
+                                    SoldToID = lv_kunnr
+                          eventDate = |{  lwa_cdhdr_cdpos-CreationDate+6(2)  &amp;&amp; |.| &amp;&amp;
+                                          lwa_cdhdr_cdpos-CreationDate+4(2)  &amp;&amp; |.| &amp;&amp;
+                                          lwa_cdhdr_cdpos-CreationDate+0(4)  &amp;&amp; |.| }|
+                          eventTime = |{  lwa_cdhdr_cdpos-CreationTime+0(2)  &amp;&amp; |:| &amp;&amp;
+                                          lwa_cdhdr_cdpos-CreationTime+2(2)  &amp;&amp; |:| &amp;&amp;
+                                          lwa_cdhdr_cdpos-CreationTime+4(2) }|
+                          variable1 = lv_shipmentnumber
+                          variable2 = lv_ordernr
+                          variable3 = lwa_cdhdr_cdpos-ChangeDocTableKey+13(6)
+                          variable4 = lwa_cdhdr_cdpos-ChangeDocPreviousFieldValue
+                          variable5 = lwa_cdhdr_cdpos-ChangeDocNewFieldValue
+                      ) ).
+
+      ENDIF.
+    ENDIF.
+
+    io_response-&gt;set_total_number_of_records( iv_total_number_of_records = lines( lt_timeline ) ).
+    io_response-&gt;set_data( it_data = lt_timeline ).
+
+  ENDMETHOD.
+ENDCLASS.
+]]></description><link>borealis\shipment-delivery\timeline\zcl_sd_get_timeline.html</link><guid isPermaLink="false">Borealis/Shipment Delivery/Timeline/ZCL_SD_GET_TIMELINE.md</guid><pubDate>Sat, 24 Aug 2024 08:26:06 GMT</pubDate></item><item><title><![CDATA[URIs for the Developed Objects]]></title><description><![CDATA[ 
+ <br><br><br>Sales Area Data<br>/sap/opu/odata/sap/ZSD_CUSTOMER_MASTER_SRV/ZCE_SD_GENERALDATA(CUSTOMER='46000047')/tosalesarea?$format=json
+<br>General Data<br>/sap/opu/odata/sap/ZSB_CUSTOMER_MASTER_SRV/ZCE_SD_GENERALDATA(CUSTOMER='46000047')?$format=json
+<br><br><br>Order<br>/sap/opu/odata/sap/ZSD_GET_ORDER_ITEM_SRV/ZCE_SD_GET_ORDER_ITEM?$filter=SalesOrganization eq '1001' and SoldToParty eq '46109001' and SalesDocument eq '1000000378' and SalesDocumentItem eq '10'&amp;$format=json
+<br>Delivery<br>/sap/opu/odata/sap/ZSD_GET_ORDER_ITEM_SRV/ZCE_SD_GET_DELIVERY_DETAILS?$filter=SalesOrganization eq '1001' and SoldToParty eq '46109001' and SalesDocument eq '1000000378' and SalesDocumentItem eq '10'&amp;$format=json
+<br>Timeline<br>/sap/opu/odata/sap/ZSD_GET_ORDER_ITEM_SRV/ZCE_SD_GET_TIMELINE_DETAILS?$filter=SalesOrganization eq '1001' and SoldToParty eq '46109001' and SalesDocument eq '1000000378' and SalesDocumentItem eq '10'&amp;$format=json
+<br><br><br>Shipment<br>/sap/opu/odata/sap/ZSD_SHIPMENT_DELIVERY_SRV/ZCE_SD_GET_SHIPMENT?$filter=salesOrganization eq '1001' and shipmentId eq '6200000294' and SoldToID eq '6AJ0010010'&amp;$format=json
+<br>Delivery<br>/sap/opu/odata/sap/ZSD_SHIPMENT_DELIVERY_SRV/ZCE_SD_GET_DELIVERY?$filter=salesOrganization eq '1001' and shipmentId eq '6200000294' and SoldToID eq '6AJ0010010'&amp;$format=json
+<br>Timeline<br>/sap/opu/odata/sap/ZSD_SHIPMENT_DELIVERY_SRV/ZCE_SD_GET_TIMELINE?$filter=salesOrganization eq '1001' and shipmentId eq '6200000294' and SoldToID eq '6AJ0010010'&amp;$format=json
+<br>Doclist<br>/sap/opu/odata/sap/ZSD_SHIPMENT_DELIVERY_SRV/ZCE_SD_GET_DOCLIST?$format=json
+<br><br><br>/sap/opu/odata4/sap/api_qualitynotification/srvd_a2x/sap/qualitynotification/0001/QualityNotification('200000010')
+]]></description><link>borealis\uris-for-the-developed-objects.html</link><guid isPermaLink="false">Borealis/URIs for the Developed Objects.md</guid><pubDate>Sat, 24 Aug 2024 08:26:55 GMT</pubDate></item><item><title><![CDATA[COO - COAPI]]></title><description><![CDATA[ 
+ <br>CLASS lcl_po_event_handler DEFINITION INHERITING FROM cl_abap_behavior_event_handler.
+
+  PRIVATE SECTION.
+
+    DATA    : lv_coo            TYPE I_ClfnObjectCharcValueBasic-CharcValue,
+              lv_coapi          TYPE I_ClfnObjectCharcValueBasic-CharcValue,
+              lv_coosource      TYPE string,
+              lv_coofield       TYPE string,
+              lv_coapisource    TYPE string,
+              lv_coapifield     TYPE string,
+              coo_flag          TYPE i value 0,
+              coo_relflag       TYPE i value 0,
+              coapi_flag        TYPE i value 0,
+              coapi_relflag     TYPE i value 0,
+              rfc_flag          TYPE i value 0.
+
+    METHODS : po_created FOR ENTITY EVENT Created FOR ProcessOrder~Created,
+              modify_details IMPORTING im_Material     TYPE matnr
+                                       im_Batch        TYPE charg_d
+                                       im_InternalID   TYPE I_ClfnCharacteristic-CharcInternalID
+                                       im_Charcvalue   TYPE I_ClfnObjectCharcValueBasic-CharcValue.
+
+    CONSTANTS : coo_rel   TYPE string VALUE 'COO_RELEVANT',
+                coapi_rel TYPE string VALUE 'COAPI_RELEVANT'.
+
+ENDCLASS.
+
+CLASS lcl_po_event_handler IMPLEMENTATION.
+
+  METHOD po_created.
+
+    "Check if data is maintained in table for Country of Origin / Country of API
+    SELECT * FROM zi_coocoapimaintenance INTO TABLE @DATA(maint_tab).
+    READ TABLE maint_tab INTO DATA(ls_tab) WITH KEY BatchCharToFill = 'COUNTRY_OF_ORIGIN'.
+    IF sy-subrc EQ 0.
+      IF ls_tab-MaterialClassCharvalue = '001'.
+
+        coo_relflag = 1.
+
+        lv_coosource = ls_tab-DataSource.
+        lv_coofield  = ls_tab-FieldName.
+
+      ENDIF.
+    ENDIF.
+    READ TABLE maint_tab INTO ls_tab WITH KEY BatchCharToFill = 'COUNTRY_OF_API'.
+    IF sy-subrc EQ 0.
+      IF ls_tab-MaterialClassCharvalue = '101'.
+
+        coapi_relflag = 1.
+
+        lv_coapisource = ls_tab-DataSource.
+        lv_coapifield  = ls_tab-FieldName.
+
+      ENDIF.
+    ENDIF.
+
+    "If Data is maintained, Proceed with the Update
+    IF coo_relflag = 1 OR coapi_relflag = 1.
+
+      "Get Process Order and Batch related info
+      READ ENTITIES OF R_ProcessOrderTP
+      ENTITY ProcessOrder
+      FIELDS ( ProcessOrder Batch )
+      WITH CORRESPONDING #( created )
+      RESULT DATA(lt_po).
+
+      READ TABLE lt_po INTO DATA(ls_po) INDEX 1.
+      IF sy-subrc EQ 0.
+
+        IF coapi_relflag = 1. "If COAPI is maintained in table, fetch data to update value
+
+          "Get Country of API to update
+*          SELECT SINGLE _address~country
+*                FROM I_plant AS _plant
+*                INNER JOIN I_address_2 WITH PRIVILEGED ACCESS AS _address ON _plant~AddressID = _Address~AddressID
+*                WHERE Plant = @ls_po-ProductionPlant
+*                INTO @lv_coapi.
+
+           SELECT SINGLE (lv_coapifield) FROM (lv_coapisource)
+           WHERE Plant = @ls_po-ProductionPlant
+           INTO @lv_coapi.
+
+          IF sy-subrc IS INITIAL.
+            coapi_flag = 1. "Country of API is to be updated
+          ENDIF.
+
+        ENDIF.
+
+        IF coo_relflag = 1. "If COO is maintained in table, fetch data to update value
+
+          "Get Country of Origin to update
+*          SELECT SINGLE CountryOfOrigin
+*              FROM i_productplantbasic
+*              WHERE Product = @ls_po-Product
+*              AND Plant = @ls_po-ProductionPlant
+*              INTO @lv_coo.
+
+           SELECT SINGLE (lv_coofield) FROM (lv_coosource)
+           WHERE Product = @ls_po-Product
+           and   Plant = @ls_po-ProductionPlant
+           INTO @lv_coo.
+
+          IF sy-subrc IS INITIAL.
+            coo_flag = 1. "Country of Origin is to be updated
+          ENDIF.
+
+        ENDIF.
+
+        " Proceed only if coapi_flag = 1 or coo_flag = 1.
+        IF coo_flag = 1 OR coapi_flag = 1.
+
+          SELECT characteristic, charcinternalid
+            FROM i_clfncharacteristic
+            WHERE characteristic = 'REASON_FOR_CHANGE'
+            OR    characteristic = 'COUNTRY_OF_ORIGIN'
+            OR    characteristic = 'COUNTRY_OF_API'
+            INTO TABLE @DATA(lt_char_val).
+
+          READ TABLE lt_char_val INTO DATA(ls_char_Val) WITH KEY Characteristic = 'REASON_FOR_CHANGE'.
+          IF sy-subrc IS INITIAL.
+
+            modify_details(
+              im_material   = ls_po-Product
+              im_batch      = ls_po-Batch
+              im_internalid = ls_char_val-CharcInternalID
+              im_charcvalue = 'Updated COO / COAPI'
+            ).
+
+            CLEAR ls_char_val.
+
+          ENDIF.
+
+          SELECT clfnobjectid, characteristic, charcvalue, a~CharcInternalID, ClfnCharcValuePositionNumber
+            FROM  i_clfnobjectcharcvaluedex WITH PRIVILEGED ACCESS AS a
+            INNER JOIN i_clfncharacteristic WITH PRIVILEGED ACCESS AS b
+            ON a~charcinternalid = b~charcinternalid
+            WHERE a~clfnobjectid = @ls_po-product
+            AND b~characteristic = @coo_rel OR b~characteristic = @coapi_rel
+            INTO TABLE @DATA(lt_charcvalue).
+
+          IF sy-subrc IS INITIAL.
+
+            IF coo_flag = 1. "Proceed only if we have some value present in COO to update
+
+              READ TABLE lt_charcvalue INTO DATA(ls_charcvalue) WITH KEY Characteristic = coo_rel.
+              IF sy-subrc IS INITIAL AND ls_charcvalue-CharcValue = 'Y'.
+
+                READ TABLE lt_char_val INTO ls_char_Val WITH KEY Characteristic = 'COUNTRY_OF_ORIGIN'.
+                IF sy-subrc IS INITIAL.
+
+                  modify_details(
+                    im_material   = ls_po-Product
+                    im_batch      = ls_po-Batch
+                    im_internalid = ls_char_val-CharcInternalID
+                    im_charcvalue = lv_coo
+                  ).
+
+                  CLEAR ls_char_val.
+
+                ENDIF.
+
+              ENDIF.
+
+            ENDIF.
+
+            IF coapi_flag = 1. "Proceed only if we have some value present in COAPI to update
+
+              READ TABLE lt_charcvalue INTO ls_charcvalue WITH KEY Characteristic = coapi_rel.
+              IF sy-subrc IS INITIAL AND ls_charcvalue-CharcValue = 'Y'.
+
+                READ TABLE lt_char_val INTO ls_char_Val WITH KEY Characteristic = 'COUNTRY_OF_API'.
+                IF sy-subrc IS INITIAL.
+
+                  modify_details(
+                    im_material   = ls_po-Product
+                    im_batch      = ls_po-Batch
+                    im_internalid = ls_char_val-CharcInternalID
+                    im_charcvalue = lv_coapi
+                  ).
+
+                  CLEAR ls_char_val.
+
+                ENDIF.
+
+              ENDIF.
+
+            ENDIF.
+
+          ENDIF.
+
+        ENDIF.
+
+      ENDIF.
+
+    ENDIF.
+
+  ENDMETHOD.
+
+  METHOD modify_details.
+
+          MODIFY ENTITIES OF I_BatchTP_2
+             ENTITY BatchCharacteristic
+             CREATE BY \_BatchCharacteristicValueTP
+             FROM VALUE #( ( Material = im_Material
+                             Batch = im_batch
+                             CharcInternalID = im_internalid
+                             %target = VALUE #( (    %cid = 'C1'
+                                                     Material = im_material
+                                                     Batch = im_batch
+                                                     CharcInternalID = im_internalid
+                                                     CharcValue = im_charcvalue
+                                                     %control-Material = cl_abap_behv=&gt;flag_changed
+                                                     %control-Batch = cl_abap_behv=&gt;flag_changed
+                                                     %control-CharcInternalID = cl_abap_behv=&gt;flag_changed
+                                                     %control-CharcValue = cl_abap_behv=&gt;flag_changed ) )
+                             ) )
+             MAPPED DATA(mapped)
+             FAILED DATA(failed)
+             REPORTED DATA(reported).
+
+  ENDMETHOD.
+
+ENDCLASS.
+]]></description><link>coo-coapi.html</link><guid isPermaLink="false">COO - COAPI.md</guid><pubDate>Thu, 28 Nov 2024 04:58:50 GMT</pubDate></item><item><title><![CDATA[Dependencies]]></title><description><![CDATA[ 
+ <br>PLA-0073
+DEL-0092 | ZI_CUSEXCEL_MATERIAL_VH<br>
+PLA-0019 | ZI_PLAN_DOCUMENTTYPE_VH<br>
+PLA-0019 | ZI_PLAN_FISCALYEAR_VH
+<br>SOU-0036
+DEL-0092 | ZI_CUSEXCEL_MATERIAL_VH<br>
+PLA-0019 | ZI_PLAN_EBAN_WRAPPER<br>
+MAK-1080 | ZI_MAKE_INSP_LOT_RESB
+<br>PLA-0004
+DEL-0092 | ZI_CUSEXCEL_MATERIAL_VH<br>
+DEL-0602 | ZI_PLAN_MATERIAL_VH<br>
+DeL-0602 | ZI_PLAN_PLANT_VH
+<br>DEL-109
+DEL-494 | ZI_CUSEXCEL_AUART_VH<br>
+DEL-092 | ZI_CUSEXCEL_SALESORG_VH<br>
+DEL-092 | ZI_CUSEXCEL_DISTCH_VH<br>
+DEL-092 | ZI_CUSEXCEL_DIVISION_VH<br>
+DEL-092 | ZI_CUSEXCEL_MATERIAL_VH
+]]></description><link>dependencies.html</link><guid isPermaLink="false">Dependencies.md</guid><pubDate>Wed, 04 Dec 2024 04:35:58 GMT</pubDate></item><item><title><![CDATA[SOU-036 Forecast Report]]></title><description><![CDATA[ 
+ <br>@AbapCatalog.sqlViewName: 'ZFORECASTREPORT'
+@AbapCatalog.compiler.compareFilter: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'CDS View for Forecast Report'
+@Metadata.ignorePropagatedAnnotations: true
+@ObjectModel.usageType.serviceQuality : #X
+@ObjectModel.usageType.sizeCategory : #L
+@ObjectModel.usageType.dataClass : #MIXED
+define view ZI_SOU_FORECAST_REPORT
+  as select from    I_PurchaseRequisitionItemAPI01 as _EBAN
+    left outer join ZI_PLAN_EBAN_WRAPPER           as _EBANWRP on   _EBANWRP.banfn      = _EBAN.PurchaseRequisition
+                                                               and  _EBANWRP.bnfpo      = _EBAN.PurchaseRequisitionItem
+    left outer join ZI_MAKE_INSP_LOT_RESB          as _RESB    on   _RESB.Reservation   = _EBAN.Reservation
+    left outer join I_ProductPlantBasic            as _MARC    on   _MARC.Product       = _EBAN.Material
+                                                               and  _MARC.Plant         = _EBAN.Plant
+    left outer join I_Supplier                     as _LFA1    on   _LFA1.Supplier      = _EBAN.FixedSupplier
+    left outer join I_PurgDocumentItemCategoryText as _T163Y   on   _T163Y.PurchasingDocumentItemCategory = _EBAN.PurchasingDocumentItemCategory
+                                                               and  _T163Y.Language     = $session.system_language
+    inner join      I_Language                     as _Language on  _Language.Language  = $session.system_language
+{
+    key _EBAN.PurchaseRequisition            as Purchase_Requisition, // BANFN
+    key _EBAN.PurchaseRequisitionItem        as Requisition_Item,     // BNFPO
+        _EBAN.Material                       as Material,             // MATNR
+        _EBAN.PurchaseRequisitionItemText    as Short_Text,           // TXZ01
+        _EBAN.Plant                          as Plant,                // WERKS
+        @Semantics.unitOfMeasure: true
+        _EBAN.BaseUnit                       as Unit_of_Measure,      // MEINS
+        @Semantics.quantity.unitOfMeasure: 'Unit_Of_Measure'
+        _EBAN.RequestedQuantity              as Quantity_Requested,   // MENGE
+        _EBAN.FixedSupplier                  as Fixed_Vendor,         // FLIEF
+        _EBAN.DeliveryDate                   as Delivery_Date,        // LFDAT
+        _EBAN.DeliveryDate                   as Delivery_Date_From,   // LFDAT
+        _EBAN.DeliveryDate                   as Delivery_Date_To,     // LFDAT
+        _EBANWRP.verid                       as Production_Version,   // VERID
+        _EBAN.PurchasingDocumentItemCategory as Item_Category,        // PSTYP
+        _EBAN.Reservation                    as Reservation,          // RSNUM
+        _RESB.Product                        as Product,              // RESB - Product             
+        _RESB.ReservationItem                as Reservation_Item,     // RSPOS
+        _RESB.BillOfMaterial                 as BOM_Number,           // STLNR
+        _MARC.MRPType                        as MRP_Type,             // MRPTYPE
+        _LFA1.BusinessPartnerName1           as Supplier_Name,        // NAME1
+        _T163Y.PurgDocItemCategoryName       as Plan_Type_ID,         // PTEXT
+        cast ( '' as abap.sstring( 500 ) )   as Components,
+        concat('TIME/', _EBAN.Plant)         as Location_ID,
+        case _EBAN.PurchasingDocumentItemCategory
+        when '3' then
+            concat(
+                _EBANWRP.verid, concat(
+                    '/', concat(
+                        _EBAN.Material, concat(
+                            '/', concat(
+                                _EBAN.Plant, concat( 
+                                    '/TIME/', _EBAN.FixedSupplier
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        else
+            concat(
+                'SU/', concat(
+                    _EBANWRP.verid, concat(
+                        '/', concat(
+                            _EBAN.Material, concat(
+                                '/TIME/', _EBAN.FixedSupplier
+                            )                                
+                        )
+                    )
+                )
+            )
+        end as Process_ID
+}
+where
+  (
+       _EBAN.PurchasingDocumentItemCategory =  '0'
+    or _EBAN.PurchasingDocumentItemCategory =  '3'
+  )
+  and  _EBAN.IsClosed                       &lt;&gt; 'X'
+  and  _EBAN.IsDeleted                      &lt;&gt; 'X'
+
+]]></description><link>sou-036-forecast-report.html</link><guid isPermaLink="false">SOU-036 Forecast Report.md</guid><pubDate>Mon, 23 Dec 2024 06:26:04 GMT</pubDate></item><item><title><![CDATA[TO-DO]]></title><description><![CDATA[ 
+ <br>
+<br>Add field RESB-STLNR in wrapper ZI_MAKE_INSP_LOT_RESB
+<br>Code Review Checklist for PLA-0073
+<br>CREATE A PROGRAM / REPORT WHICH TAKES A TABLE / CDS AS INPUT, PERFORMS A WHERE-USED LIST AND GIVES A LIST OF RELEASED  / UNRELEASED CDS
+<br>Update TD of all remaining objects
+]]></description><link>to-do.html</link><guid isPermaLink="false">TO-DO.md</guid><pubDate>Tue, 24 Dec 2024 14:41:43 GMT</pubDate></item><item><title><![CDATA[Update COO]]></title><description><![CDATA[ 
+ <br>CLASS lcl_po_event_handler DEFINITION INHERITING FROM cl_abap_behavior_event_handler.
+
+*&amp;------------------------------------CREATE------------------------------------*
+*&amp; Class Name            : lcl_po_event_handler                                 *
+*&amp; Created by            : 702476793 (Deepak Malik) (DMalik4)                   *
+*&amp; Created on            : 11/27/2024                                           *
+*&amp; Transport No          : DJSK904736                                           *
+*&amp; Charm                 : 50401203                                             *
+*&amp; RICEF No              : MAK-5095                                             *
+*&amp; Description           : Class to handle events of R_ProcessOrderTP           *
+*&amp; Business Pr.          : MAKE                                                 *
+*&amp;------------------------------------------------------------------------------*
+
+  PRIVATE SECTION.
+
+    DATA    : lv_coo            TYPE c length 70,
+              lv_coapi          TYPE c length 70,
+              lv_coosource      TYPE string,
+              lv_coofield       TYPE string,
+              lv_coapisource    TYPE string,
+              lv_coapifield     TYPE string,
+              coo_flag          TYPE abap_boolean,
+              coapi_flag        TYPE abap_boolean,
+              coo_maint_flag    TYPE abap_boolean,
+              coapi_maint_flag  TYPE abap_boolean.
+
+    TYPES   : ty_internalID     TYPE n length 10.
+
+    METHODS : po_created FOR ENTITY EVENT Created FOR ProcessOrder~Created,
+              po_changed FOR ENTITY EVENT Changed FOR ProcessOrder~Changed,
+              modify_details IMPORTING im_Material     TYPE matnr
+                                       im_Batch        TYPE charg_d
+                                       im_InternalID   TYPE ty_internalid
+                                       im_Charcvalue   LIKE lv_coo.
+
+ENDCLASS.
+
+CLASS lcl_po_event_handler IMPLEMENTATION.
+
+  METHOD po_created.
+
+*&amp;------------------------------------CREATE------------------------------------*
+*&amp; Method Name           : po_created                                           *
+*&amp; Created by            : 702476793 (Deepak Malik) (DMalik4)                   *
+*&amp; Created on            : 11/27/2024                                           *
+*&amp; Transport No          : DJSK904736                                           *
+*&amp; Charm                 : 50401203                                             *
+*&amp; RICEF No              : MAK-5095                                             *
+*&amp; Description           : Method to handle Created Event of R_ProcessOrderTP   *
+*&amp; Business Pr.          : MAKE                                                 *
+*&amp;------------------------------------------------------------------------------*
+
+    "Check if data is maintained in table for Country of Origin / Country of API
+    SELECT * FROM zi_coocoapimaintenance
+    WHERE BatchTriggerIdentifier = 'AFPO'
+    INTO TABLE @DATA(maint_tab).
+
+    READ TABLE maint_tab INTO DATA(ls_tab) WITH KEY BatchCharToFill = TEXT-003.
+    IF sy-subrc EQ 0.
+      IF ls_tab-MaterialClassCharvalue = '001'.
+
+        coo_maint_flag = 1.
+
+        lv_coosource = ls_tab-DataSource.
+        lv_coofield  = ls_tab-FieldName.
+
+      ENDIF.
+    ENDIF.
+
+    READ TABLE maint_tab INTO ls_tab WITH KEY BatchCharToFill = TEXT-004.
+    IF sy-subrc EQ 0.
+      IF ls_tab-MaterialClassCharvalue = '101'.
+
+        coapi_maint_flag = 1.
+
+        lv_coapisource = ls_tab-DataSource.
+        lv_coapifield  = ls_tab-FieldName.
+
+      ENDIF.
+    ENDIF.
+
+    "If Data is maintained, Proceed with the Update
+    IF coo_maint_flag = 1 OR coapi_maint_flag = 1.
+
+      "Get Process Order and Batch related info
+      READ ENTITIES OF R_ProcessOrderTP
+      ENTITY ProcessOrder
+      FIELDS ( ProcessOrder Batch )
+      WITH CORRESPONDING #( created )
+      RESULT DATA(lt_po).
+
+      READ TABLE lt_po INTO DATA(ls_po) INDEX 1.
+      IF sy-subrc EQ 0.
+
+        IF coapi_maint_flag = 1. "If COAPI is maintained in table, fetch data to update value
+
+          "Get Country of API to update
+           SELECT SINGLE (lv_coapifield) FROM (lv_coapisource)
+           WHERE Plant = @ls_po-ProductionPlant
+           and   Product = @ls_po-Product
+           INTO @lv_coapi.
+
+          IF sy-subrc IS INITIAL AND lv_coapi IS NOT INITIAL.
+            coapi_flag = abap_true. "Country of API is to be updated
+          ENDIF.
+
+        ENDIF.
+
+        IF coo_maint_flag = 1. "If COO is maintained in table, fetch data to update value
+
+          "Get Country of Origin to update
+           SELECT SINGLE (lv_coofield) FROM (lv_coosource)
+           WHERE Product = @ls_po-Product
+           and   Plant = @ls_po-ProductionPlant
+           INTO @lv_coo.
+
+          IF sy-subrc IS INITIAL AND lv_coo IS NOT INITIAL.
+            coo_flag = abap_true. "Country of Origin is to be updated
+          ENDIF.
+
+        ENDIF.
+
+        " Proceed only if coapi_flag = 1 or coo_flag = 1.
+        IF coapi_flag = abap_true OR coo_flag = abap_true.
+
+          SELECT characteristic, charcinternalid
+            FROM i_clfncharacteristic
+            WHERE characteristic IN ( @TEXT-003, @TEXT-004, @TEXT-005 )
+            INTO TABLE @DATA(lt_char_val).
+
+          READ TABLE lt_char_val INTO DATA(ls_char_Val) WITH KEY Characteristic = TEXT-005.
+          IF sy-subrc IS INITIAL.
+
+            modify_details(
+              im_material   = ls_po-Product
+              im_batch      = ls_po-Batch
+              im_internalid = ls_char_val-CharcInternalID
+              im_charcvalue = TEXT-006
+            ).
+
+            CLEAR ls_char_val.
+
+          ENDIF.
+
+          SELECT clfnobjectid, characteristic, charcvalue, a~CharcInternalID, ClfnCharcValuePositionNumber
+            FROM  i_clfnobjectcharcvaluedex WITH PRIVILEGED ACCESS AS a
+            INNER JOIN i_clfncharacteristic WITH PRIVILEGED ACCESS AS b
+            ON a~charcinternalid = b~charcinternalid
+            WHERE a~clfnobjectid = @ls_po-product
+            AND b~characteristic = @TEXT-001 OR b~characteristic = @TEXT-002
+            INTO TABLE @DATA(lt_charcvalue).
+
+          IF sy-subrc IS INITIAL.
+
+            IF coo_flag = abap_true. "Proceed only if we have some value present in COO to update
+
+              READ TABLE lt_charcvalue INTO DATA(ls_charcvalue) WITH KEY Characteristic = TEXT-001 clfnobjectid = ls_po-product.
+              IF sy-subrc IS INITIAL AND ls_charcvalue-CharcValue = '001'.
+
+                READ TABLE lt_char_val INTO ls_char_Val WITH KEY Characteristic = TEXT-003.
+                IF sy-subrc IS INITIAL.
+
+                  modify_details(
+                    im_material   = ls_po-Product
+                    im_batch      = ls_po-Batch
+                    im_internalid = ls_char_val-CharcInternalID
+                    im_charcvalue = lv_coo
+                  ).
+
+                  CLEAR ls_char_val.
+
+                ENDIF.
+
+              ENDIF.
+
+            ENDIF.
+
+            IF coapi_flag = abap_true. "Proceed only if we have some value present in COAPI to update
+
+              READ TABLE lt_charcvalue INTO ls_charcvalue WITH KEY Characteristic = TEXT-002 clfnobjectid = ls_po-product.
+              IF sy-subrc IS INITIAL AND ls_charcvalue-CharcValue = '101'.
+
+                READ TABLE lt_char_val INTO ls_char_Val WITH KEY Characteristic = TEXT-004.
+                IF sy-subrc IS INITIAL.
+
+                  modify_details(
+                    im_material   = ls_po-Product
+                    im_batch      = ls_po-Batch
+                    im_internalid = ls_char_val-CharcInternalID
+                    im_charcvalue = lv_coapi
+                  ).
+
+                  CLEAR ls_char_val.
+
+                ENDIF.
+
+              ENDIF.
+
+            ENDIF.
+
+          ENDIF.
+
+        ENDIF.
+
+      ENDIF.
+
+    ENDIF.
+
+  ENDMETHOD.
+
+  METHOD modify_details.
+
+*&amp;------------------------------------CREATE------------------------------------*
+*&amp; Method Name           : modify_details                                       *
+*&amp; Created by            : 702476793 (Deepak Malik) (DMalik4)                   *
+*&amp; Created on            : 11/27/2024                                           *
+*&amp; Transport No          : DJSK904736                                           *
+*&amp; Charm                 : 50401203                                             *
+*&amp; RICEF No              : MAK-5095                                             *
+*&amp; Description           : Method to Update Batch Characteristics               *
+*&amp; Business Pr.          : MAKE                                                 *
+*&amp;------------------------------------------------------------------------------*
+
+      MODIFY ENTITIES OF I_BatchTP_2
+         ENTITY BatchCharacteristic
+         CREATE BY \_BatchCharacteristicValueTP
+         FROM VALUE #( ( Material = im_Material
+                         Batch = im_batch
+                         CharcInternalID = im_internalid
+                         %target = VALUE #( (    %cid = 'C1'
+                                                 Material = im_material
+                                                 Batch = im_batch
+                                                 CharcInternalID = im_internalid
+                                                 CharcValue = im_charcvalue
+                                                 %control-Material = cl_abap_behv=&gt;flag_changed
+                                                 %control-Batch = cl_abap_behv=&gt;flag_changed
+                                                 %control-CharcInternalID = cl_abap_behv=&gt;flag_changed
+                                                 %control-CharcValue = cl_abap_behv=&gt;flag_changed ) )
+                         ) )
+         MAPPED DATA(mapped)
+         FAILED DATA(failed)
+         REPORTED DATA(reported).
+
+  ENDMETHOD.
+
+  METHOD po_changed.
+
+    SELECT * FROM zi_coocoapimaintenance
+    WHERE BatchTriggerIdentifier = 'AFPO'
+    INTO TABLE @DATA(maint_tab).
+
+    READ TABLE maint_tab INTO DATA(ls_tab) WITH KEY BatchCharToFill = TEXT-003.
+    IF sy-subrc EQ 0.
+      IF ls_tab-MaterialClassCharvalue = '001'.
+
+        coo_maint_flag = 1.
+
+        lv_coosource = ls_tab-DataSource.
+        lv_coofield  = ls_tab-FieldName.
+
+      ENDIF.
+    ENDIF.
+
+    READ TABLE maint_tab INTO ls_tab WITH KEY BatchCharToFill = TEXT-004.
+    IF sy-subrc EQ 0.
+      IF ls_tab-MaterialClassCharvalue = '101'.
+
+        coapi_maint_flag = 1.
+
+        lv_coapisource = ls_tab-DataSource.
+        lv_coapifield  = ls_tab-FieldName.
+
+      ENDIF.
+    ENDIF.
+
+    "If Data is maintained, Proceed with the Update
+    IF coo_maint_flag = 1 OR coapi_maint_flag = 1.
+
+      "Get Process Order and Batch related info
+      READ ENTITIES OF R_ProcessOrderTP
+      ENTITY ProcessOrder
+      FIELDS ( ProcessOrder Batch )
+      WITH CORRESPONDING #( changed )
+      RESULT DATA(lt_po).
+
+      READ TABLE lt_po INTO DATA(ls_po) INDEX 1.
+      IF sy-subrc EQ 0.
+
+        IF coapi_maint_flag = 1. "If COAPI is maintained in table, fetch data to update value
+
+          "Get Country of API to update
+           SELECT SINGLE (lv_coapifield) FROM (lv_coapisource)
+           WHERE Plant = @ls_po-ProductionPlant
+           and   Product = @ls_po-Product
+           INTO @lv_coapi.
+
+          IF sy-subrc IS INITIAL AND lv_coapi IS NOT INITIAL.
+            coapi_flag = abap_true. "Country of API is to be updated
+          ENDIF.
+
+        ENDIF.
+
+        IF coo_maint_flag = 1. "If COO is maintained in table, fetch data to update value
+
+          "Get Country of Origin to update
+           SELECT SINGLE (lv_coofield) FROM (lv_coosource)
+           WHERE Product = @ls_po-Product
+           and   Plant = @ls_po-ProductionPlant
+           INTO @lv_coo.
+
+          IF sy-subrc IS INITIAL AND lv_coo IS NOT INITIAL.
+            coo_flag = abap_true. "Country of Origin is to be updated
+          ENDIF.
+
+        ENDIF.
+
+        " Proceed only if coapi_flag = 1 or coo_flag = 1.
+        IF coapi_flag = abap_true OR coo_flag = abap_true.
+
+          SELECT characteristic, charcinternalid
+            FROM i_clfncharacteristic
+            WHERE characteristic IN ( @TEXT-003, @TEXT-004, @TEXT-005 )
+            INTO TABLE @DATA(lt_char_val).
+
+          READ TABLE lt_char_val INTO DATA(ls_char_Val) WITH KEY Characteristic = TEXT-005.
+          IF sy-subrc IS INITIAL.
+
+            modify_details(
+              im_material   = ls_po-Product
+              im_batch      = ls_po-Batch
+              im_internalid = ls_char_val-CharcInternalID
+              im_charcvalue = TEXT-006
+            ).
+
+            CLEAR ls_char_val.
+
+          ENDIF.
+
+          SELECT clfnobjectid, characteristic, charcvalue, a~CharcInternalID, ClfnCharcValuePositionNumber
+            FROM  i_clfnobjectcharcvaluedex WITH PRIVILEGED ACCESS AS a
+            INNER JOIN i_clfncharacteristic WITH PRIVILEGED ACCESS AS b
+            ON a~charcinternalid = b~charcinternalid
+            WHERE a~clfnobjectid = @ls_po-product
+            AND b~characteristic = @TEXT-001 OR b~characteristic = @TEXT-002
+            INTO TABLE @DATA(lt_charcvalue).
+
+          IF sy-subrc IS INITIAL.
+
+            IF coo_flag = abap_true. "Proceed only if we have some value present in COO to update
+
+              READ TABLE lt_charcvalue INTO DATA(ls_charcvalue) WITH KEY Characteristic = TEXT-001 clfnobjectid = ls_po-product.
+              IF sy-subrc IS INITIAL AND ls_charcvalue-CharcValue = '001'.
+
+                READ TABLE lt_char_val INTO ls_char_Val WITH KEY Characteristic = TEXT-003.
+                IF sy-subrc IS INITIAL.
+
+                  modify_details(
+                    im_material   = ls_po-Product
+                    im_batch      = ls_po-Batch
+                    im_internalid = ls_char_val-CharcInternalID
+                    im_charcvalue = lv_coo
+                  ).
+
+                  CLEAR ls_char_val.
+
+                ENDIF.
+
+              ENDIF.
+
+            ENDIF.
+
+            IF coapi_flag = abap_true. "Proceed only if we have some value present in COAPI to update
+
+              READ TABLE lt_charcvalue INTO ls_charcvalue WITH KEY Characteristic = TEXT-002 clfnobjectid = ls_po-product.
+              IF sy-subrc IS INITIAL AND ls_charcvalue-CharcValue = '101'.
+
+                READ TABLE lt_char_val INTO ls_char_Val WITH KEY Characteristic = TEXT-004.
+                IF sy-subrc IS INITIAL.
+
+                  modify_details(
+                    im_material   = ls_po-Product
+                    im_batch      = ls_po-Batch
+                    im_internalid = ls_char_val-CharcInternalID
+                    im_charcvalue = lv_coapi
+                  ).
+
+                  CLEAR ls_char_val.
+
+                ENDIF.
+
+              ENDIF.
+
+            ENDIF.
+
+          ENDIF.
+
+        ENDIF.
+
+      ENDIF.
+
+    ENDIF.
+
+  ENDMETHOD.
+
+ENDCLASS.
+]]></description><link>update-coo.html</link><guid isPermaLink="false">Update COO.md</guid><pubDate>Mon, 09 Dec 2024 09:17:31 GMT</pubDate></item></channel></rss>
